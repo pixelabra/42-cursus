@@ -14,7 +14,7 @@
 
 char	*get_next_line(int fd)
 {
-	static char	buff_ax[OPEN_MAX][BUFFER_SIZE + 1u];
+	static char	buff_ax[1024][BUFFER_SIZE + 1u];
 	char		*line;
 	int			read_var;
 

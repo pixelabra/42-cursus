@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 15:45:49 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/03/06 22:57:16 by a3y3g1           ###   ########.fr       */
+/*   Created: 2024/03/06 22:54:50 by a3y3g1            #+#    #+#             */
+/*   Updated: 2024/03/17 22:01:37 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
-
-# endif
-
+# include <sys/wait.h>
 # include <unistd.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include <limits.h>
 
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *str, int nbr);
-char	*ft_strchr(const char *str, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_memmove(void *dest, const void *src, size_t n);
-char	*ft_appender(char *buff_ax, char *line);
+# include "./libft/libft.h"
 
-#endif
+void	pipex(int fd[2], int argc, char **argv, char **envp);
+void	ft_dup2(int i,  int argc, char **argv, int fd[2]);
+void	check_access(char **arg_vect, char **envp);
+void	getcmdpath(char **arg_vect, char **envp);
+void	ft_error(int error_code);
+char	*px_strjoin(char *s1, char *s2);
+char	**ft_getcmdpaths(char **envp);
+
+# endif
