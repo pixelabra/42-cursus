@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 22:54:50 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/17 22:01:37 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/03/20 23:01:14 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # include <sys/wait.h>
 # include <unistd.h>
-# include <sys/wait.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <sys/types.h>
 
 # include "./libft/libft.h"
 
