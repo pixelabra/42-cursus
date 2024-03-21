@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 00:21:58 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/21 01:20:42 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/03/21 23:19:45 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,17 @@ void	ft_error(int error_code)
 		exit(1);
 }
 
-void	ft_dup2(int i, int argc, char **argv, int fd[2])
+void	exec_cmd(int i, char **envp, char **argv)
+{
+	char	**arg_vect;
+
+	arg_vect = ft_split(argv[i], ' ');
+	check_access(arg_vect, envp);
+	execve(arg_vect[0], arg_vect, envp);
+	ft_error(1);
+}
+
+void	io_dup(int i, int argc, char **argv, int fd[2])
 {
 	int	fd_infile;
 	int	fd_outfile;
@@ -121,7 +131,17 @@ void	ft_dup2(int i, int argc, char **argv, int fd[2])
 		dup2(fd_outfile, STDOUT_FILENO);
 		close(fd_outfile);
 	}
-	else
+}
+
+void	inter_dup(pid_t pid, int fd[2])
+{
+	if (pid)
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+	}
+	else if (!pid)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
@@ -133,10 +153,9 @@ void	pipex(int fd[2], int argc, char **argv, char **envp)
 {
 	int		i;
 	pid_t	pid;
-	char	**arg_vect;
 
 	i = 1;
-	while (++i < argc - 1)	
+	while (++i < argc - 1)
 	{
 		if (pipe(fd) < 0)
 			ft_error(1);
@@ -145,17 +164,13 @@ void	pipex(int fd[2], int argc, char **argv, char **envp)
 			ft_error(1);
 		if (!pid)
 		{
-			ft_dup2(i - 1, argc, argv, fd);
-			arg_vect = ft_split(argv[i], ' ');
-			check_access(arg_vect, envp);
-			execve(arg_vect[0], arg_vect, envp);
-			ft_error(1);
+			if (i == 2 || i == argc - 2)
+				io_dup(i - 1, argc, argv, fd);
+			else
+				inter_dup(pid, fd);
+			exec_cmd(i, envp, argv);
 		}
 		if (i != argc - 2)
-		{
-			dup2(fd[0], STDIN_FILENO);
-			close(fd[0]);
-			close(fd[1]);
-		}
+			inter_dup(pid, fd);
 	}
 }
