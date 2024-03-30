@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 14:27:58 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/30 18:14:02 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/03/30 21:04:42 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	ft_error(int error_code, char *str)
 		perror("dup2");
 	else if (error_code == 5)
 	{
-		perror(str);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return ;
 	}
 	else if (error_code == 6)

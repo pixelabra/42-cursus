@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:59:52 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/30 18:20:32 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/03/30 20:58:53 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	get_input_hdc(char **argv, int fd[2])
 
 	while (1)
 	{
+		ft_putstr_fd("> ", 1);
 		line = get_next_line(0);
 		if (!ft_strncmp(line, argv[2], ft_strlen(argv[2]))
 			&& ft_strlen(line) - 1 == ft_strlen(argv[2]))
@@ -36,9 +37,8 @@ void	io_dup_hdc(int i, int argc, char **argv, int fd[2])
 
 	if (i == 2)
 	{
-		get_input_hdc(argv, fd);
-		close(fd[1]);
-		if (dup_check(fd[0], STDIN_FILENO) < 0)
+		close(fd[0]);
+		if (dup_check(fd[1], STDOUT_FILENO) < 0)
 			ft_error(4, NULL);
 	}
 	else if (i == argc - 3)
@@ -53,9 +53,8 @@ void	io_dup_hdc(int i, int argc, char **argv, int fd[2])
 	}
 }
 
-void	pipex_hdc(int argc, char **argv, char **envp)
+void	pipex_hdc(int argc, char **argv, char **envp, int fd[2])
 {
-	int		fd[2];
 	pid_t	pid;
 	int		i;
 
