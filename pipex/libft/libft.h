@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 23:14:46 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/03/07 00:54:05 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/03/30 14:52:47 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdint.h>
 # include <limits.h>
 # include <stdio.h>
+# include "get_next_line/get_next_line_bonus.h"
 
 typedef struct s_list
 {
