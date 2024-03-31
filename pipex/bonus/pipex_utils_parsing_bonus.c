@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 14:27:58 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/30 21:04:27 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/03/31 17:49:50 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ void	ft_error(int error_code, char *str)
 	}
 	else if (error_code == 6)
 		ft_putstr_fd("No environment\n", 1);
+	else if (error_code == 7)
+	{
+		ft_putstr_fd("Input should be ./pipex here_doc cmd1 cmd2 ... outfile\n", 1);
+		exit(0);
+	}
 	exit(EXIT_FAILURE);
 }
 
