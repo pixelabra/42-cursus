@@ -25,7 +25,7 @@ ${DIR_OBJS}%.o: $(DIR_SRCS)%.c $(DIR_OBJS)
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 ${DIR_OBJS}:
-	mkdir -p ${DIR_OBJS}
+	mkdir -p $@
 
 libs: $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
 	
