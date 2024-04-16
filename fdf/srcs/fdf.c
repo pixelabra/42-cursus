@@ -6,25 +6,15 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/04/16 02:26:07 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/04/17 00:37:59 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	void	*mlx;
-	void	*mlx_win;
-
-	mlx = mlx_init();
-	if (!mlx)
-		return (1);
-	mlx_win = mlx_new_window(mlx, 400, 400, "MLX_WINDOW");
-	if (!mlx_win)
-		return (2);
-	mlx_clear_window(mlx, mlx_win);
-	// mlx_hook(mlx_win, 17, 0, m, mlx);	
-	mlx_loop(mlx);
+	if (argc == 2)
+		printf("the width of the file is: %d\n ", get_width(argv));
 	return (0);
 }
