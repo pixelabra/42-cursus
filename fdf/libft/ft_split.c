@@ -6,13 +6,13 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 23:11:13 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/03/16 18:30:16 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/04/18 01:28:34 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	wordcount(char const *s, char c)
+size_t	wordcount(char const *s, char c)
 {
 	size_t	count;
 
