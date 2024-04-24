@@ -1,5 +1,5 @@
 NAME			:= fdf
-SRCS			:= fdf.c parsing.c
+SRCS			:= fdf.c parsing.c fdf_drawing.c
 OBJS			:= $(SRCS:.c=.o)
 CC				:= cc
 CFLAGS			:= -Wall -Wextra -Werror
@@ -18,7 +18,7 @@ LIBFT_MLX		:= $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS_PFX) libs
+$(NAME): $(OBJS_PFX) $(LIBS)
 	$(CC) $(CFLAGS) $(OBJS_PFX) -o $@ $(LIBS) $(INC)
 
 ${DIR_OBJS}%.o: $(DIR_SRCS)%.c $(DIR_OBJS)
@@ -27,7 +27,7 @@ ${DIR_OBJS}%.o: $(DIR_SRCS)%.c $(DIR_OBJS)
 ${DIR_OBJS}:
 	mkdir -p $@
 
-libs: $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
+$(LIBS): $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
 	
 $(DIR_LIBFT)libft.a:	
 	@make -C $(DIR_LIBFT)
