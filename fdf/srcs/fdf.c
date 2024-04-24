@@ -6,23 +6,30 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/04/25 02:01:59 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/04/25 02:28:23 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int	deal_key(int key, void *data)
+int	deal_key(int key, mlx_data *matrix)
 {
-	mlx_data *matrix;
-
-	matrix = (mlx_data *)data;
-	if (key == 53 || key == 65307) // or 65307 for X11/Linux
+	if (key == 65307) // or 65307 for X11/Linux
 	{
 		mlx_destroy_window(matrix->connection, matrix->win);
 		exit(0);
 	}
-	printf("%d", key);
+	if (key == 65361) //left
+		matrix->shift_x -= 10;
+	if (key == 65362) //up
+		matrix->shift_y += 10;
+	if (key == 65363) //right
+		matrix->shift_x += 10;
+	if (key == 65364) //down
+		matrix->shift_y -= 10;
+	mlx_clear_window(matrix->connection, matrix->win);
+	draw(matrix);
+	printf("%d\n", key);
 	return (0);
 }
 

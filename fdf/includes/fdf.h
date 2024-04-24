@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/04/25 01:58:35 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/04/25 02:22:57 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ typedef struct matrix_data
 	int		colour;
 	void	*connection;
 	void	*win;
+	int		shift_x;
+	int		shift_y;
+	
 }	mlx_data;
 
 void	ft_error(int error_code, char *str);

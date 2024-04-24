@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/04/25 02:06:16 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/04/25 02:29:47 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	bresenham(float x, float y, float x1, float y1, mlx_data* matrix)
 	z = matrix->matrix[(int) x][(int) y];
 	z1 = matrix->matrix[(int) x1][(int) y1];
 
+
 	x *= matrix->zoom;
 	y *= matrix->zoom;
 	z *= matrix->zoom / 5;
@@ -42,7 +43,10 @@ void	bresenham(float x, float y, float x1, float y1, mlx_data* matrix)
 	x1 *= matrix->zoom;
 	z1 *= matrix->zoom / 5;
 
-	matrix->colour = (z) ? 0xe80c0c : 0xffffff; 
+	// x += matrix->shift_x;
+	// y += matrix->shift_y;
+
+	matrix->colour = (z || z1) ? 0xe80c0c : 0xffffff; 
 	isometric(&x, &y, z);
 	isometric(&x1, &y1, z1);
 	x_step = x1 - x;
@@ -52,7 +56,7 @@ void	bresenham(float x, float y, float x1, float y1, mlx_data* matrix)
 	y_step /= max;
 	while ((int) (x - x1) || (int) (y - y1))
 	{
-		mlx_pixel_put(matrix->connection, matrix->win, y + 300, x + 500, matrix->colour);
+		mlx_pixel_put(matrix->connection, matrix->win, y + matrix->shift_y, x + matrix->shift_x, matrix->colour);
 		x += x_step;
 		y += y_step;
 	}
