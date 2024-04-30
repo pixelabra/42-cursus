@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/04/24 23:34:14 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/01 01:26:48 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,29 @@ void	ft_error(int error_code, char *str)
 		perror(str);
 }
 
-int	get_width(char **argv)
+int	get_height(char **argv)
 {
 	int		fd_map;
-	int		width;
+	int		height;
 	char	*line;
 
-	width = 0;
+	height = 0;
 	fd_map = open(argv[1], O_RDONLY);
 	if (fd_map < 0)
 		ft_error(1, argv[1]);
 	line = get_next_line(fd_map);
 	while (line)
 	{
-		width++;
+		height++;
 		free(line);
 		line = get_next_line(fd_map);
 	}
-	if (!width) //check this
-		free(line);
 	close(fd_map);
-	return (width);
+	return (height);
 }
 
-int	get_length(char **argv)
+//What happens when the length is 0? Like \n\n\n\n\n for example
+int	get_width(char **argv)
 {
 	char	*line;
 	int		fd_map;
@@ -50,13 +49,15 @@ int	get_length(char **argv)
 	length = 0;
 	fd_map = open(argv[1], O_RDONLY);
 	line = get_next_line(fd_map);
+	if (line[ft_strlen(line) - 1] == '\n')
+		line[ft_strlen(line) - 1] = ' ';
 	length = (int) ft_wc(line, ' ');
 	free(line);
 	close(fd_map);
 	return (length);
 }
 
-void	pop_matrix(int *row, char *line)
+void	pop_matrix(t_coord *row, char *line, int current_line)
 {
 	int		i;
 	char	**points;
@@ -65,33 +66,43 @@ void	pop_matrix(int *row, char *line)
 	points = ft_split(line, ' ');
 	while (points[i])
 	{
-		row[i] = atoi(points[i]);
+		if (ft_strncmp(points[i], "\n", 1))
+		{
+			row[i].x = i;
+			row[i].y = current_line;
+			row[i].z = ft_atoi(points[i]);
+			//row[i].colour = colour_lab(); create function to create colour
+		}
 		free(points[i]);
 		i++;
 	}
-	free(points);
+	if (points)
+		free(points);
 }
 
-void	build_matrix(mlx_data *mx_var, char **argv)
+	void	build_matrix(t_mlx_data *data, char **argv)
 {
 	int	i;
 	int fd_map;
 	char *line;
 
-	i = 0;
 	fd_map = open(argv[1], O_RDONLY);
-	mx_var->width = get_width(argv);
-	mx_var->length = get_length(argv);
-	mx_var->matrix = malloc(sizeof(int *) * (mx_var->width + 1));
-	while (i < mx_var->width)
-		mx_var->matrix[i++] = malloc(sizeof(int) * mx_var->length + 1);
-	line = get_next_line(fd_map);
+	if (fd_map < 0)
+		ft_error(1, argv[1]);
+	data->height = get_height(argv);
+	data->width = get_width(argv);
+	data->matrix = malloc(sizeof(t_coord *) * data->height + 1);
 	i = 0;
+	while (i < data->height)
+		data->matrix[i++] = malloc(sizeof(t_coord) * data->width);
+	i = 0;
+	line = get_next_line(fd_map);
 	while (line)
 	{
-		pop_matrix(mx_var->matrix[i++], line);
+		pop_matrix(data->matrix[i], line, i + 1);
 		free(line);
 		line = get_next_line(fd_map);
+		i++;
 	}
-	mx_var->matrix[i] = NULL;
+	close(fd_map);
 }
