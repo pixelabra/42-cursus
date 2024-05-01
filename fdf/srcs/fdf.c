@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/01 02:50:43 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/02 00:56:58 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,28 @@ int	deal_key(int key, t_mlx_data *matrix)
 
 int	main(int argc, char **argv)
 {
-	if (argc == 2)
-	{
-		t_mlx_data *data;
-		data = malloc(sizeof(t_mlx_data));
-		build_matrix(data, argv);
-		data->mlx_ptr = mlx_init();
-		data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "FDF");
-		data->img.width = WIN_WIDTH;
-		data->img.height = WIN_HEIGHT;
-		create_image(data);
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr, 0, 0);
-		// data->zoom = 20;
-		// draw(matrix);
-		mlx_key_hook(data->win_ptr, deal_key, data);
-		mlx_loop(data->mlx_ptr);
-	}
+	t_mlx_data *data;
+	t_coord		start;
+	t_coord		end;
+
+	if (argc != 2)
+		return (1);
+	data = malloc(sizeof(t_mlx_data));
+	if (!data)
+		return (0);
+	build_matrix(data, argv);
+	data->mlx_ptr = mlx_init();
+	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "FDF");
+	data->img.width = WIN_WIDTH;
+	data->img.height = WIN_HEIGHT;
+	create_image(data);
+	start.x = 100;
+	start.y = 200;
+	end.x = 700;
+	end.y = 350;
+	bresenham_algo(data, start, end);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr, 0, 0);
+	mlx_key_hook(data->win_ptr, deal_key, data);
+	mlx_loop(data->mlx_ptr);
 	return (0);
 }
