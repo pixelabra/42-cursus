@@ -6,14 +6,11 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/02 01:25:01 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/03 00:57:37 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-#define MOD(a) (a - 2*a*(a < 0))
-#define BIN(a)
 
 // void isometric(float *x, float *y, int z)
 // {
@@ -79,85 +76,107 @@ void	draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour)
 	
 }
 
-void	bresenham_algo(t_mlx_data *data, t_coord start, t_coord end)
+int	bresenham_step(int start, int end)
 {
-	int	x_step;
-	int	y_step;
-	int	error;
-	int	error2;
+	if (start < end)
+		return (1);
+	return (-1);
+}
 
-	x_step = (start.x < end.x) ? 1 : -1;
-	y_step = (start.y < end.y) ? 1 : -1;
-	error = MOD(end.x - start.x) - MOD(end.y - start.y);
-	while (1)
+int	br_abs(int number)
+{
+	if (number < 0)
+		number *= -1;
+	return (number);
+}
+
+t_br_param	bresenham_setup(t_coord start, t_coord end)
+{
+	t_br_param	params;
+
+	params.abs_dx = br_abs(end.x - start.x);
+	params.abs_dy = -br_abs(end.y - start.y);
+	params.x_step = bresenham_step(start.x, end.x);
+	params.y_step = bresenham_step(start.y, end.y);
+	params.decision = params.abs_dx + params.abs_dy;
+	return (params);
+}
+
+void bresenham_algo(t_mlx_data *data, t_coord start, t_coord end)
+{
+	t_br_param	params;
+    int 		decision2x;
+
+	params = bresenham_setup(start, end);
+    while (1)
 	{
-		draw_pixel_to_image(data, start, colour(start, end));
-		if (start.x == end.x  && start.y == end.y)
+        draw_pixel_to_image(data, start, colour(start, end));
+        if (start.x == end.x && start.y == end.y)
 			break ;
-		error2 = 2 * error;
-		if (error2 >= -MOD(end.y - start.y))
+		decision2x = 2 * params.decision;
+        if (decision2x >= params.abs_dy)
 		{
-			error += -MOD(end.y - start.y);
-			start.x += x_step;
-		}	
-		if (error2 <= MOD(end.x - start.x))
+			params.decision += params.abs_dy;
+			start.x += params.x_step;
+        }
+        if (decision2x < params.abs_dx)
 		{
-			error += MOD(end.x - start.x);
-			start.y += y_step;
+			params.decision += params.abs_dx;
+			start.y += params.y_step;
+        }
+    }
+}
+
+void	transform_points(t_mlx_data *data)
+{
+	int	i;
+	int	j;
+
+	j = -1;
+	while (++j < data->height)
+	{
+		i = -1;
+		while (++i < data->width)
+		{
+			zoomer(&data->matrix[j][i]);
+			isometric(&data->matrix[j][i]);
 		}
 	}
 }
 
-// void	bresenham(float x, float y, float x1, float y1, t_mlx_data *matrix)
-// {
-// 	float	x_step;
-// 	float	y_step;
-// 	int		max;
-// 	int		z;
-// 	int		z1;
+void	zoomer(t_coord *coord)
+{
+	coord->x *= 10;
+	coord->y *= 10;
+}
 
-// 	z = matrix->matrix[(int) x][(int) y];
-// 	z1 = matrix->matrix[(int) x1][(int) y1];
+void	isometric(t_coord *coord)
+{
+	int	initial_x;
+	int	initial_y;
 
-// 	x *= matrix->zoom;
-// 	y *= matrix->zoom;
-// 	z *= matrix->zoom / 2;
-// 	y1 *= matrix->zoom;
-// 	x1 *= matrix->zoom;
-// 	z1 *= matrix->zoom / 2;	
+	initial_x = coord->x;
+	initial_y = coord->y;
+	coord->x = 400 + (initial_x - initial_y) * cos(3.14 / 6);
+	coord->y = 200 + (initial_x + initial_y) * sin(3.14 / 6 ) - 25 * coord->z;
+}
 
-// 	isometric(&x, &y, z);
-// 	isometric(&x1, &y1, z1);
-// 	x_step = x1 - x;
-// 	y_step = y1 - y;
-// 	max = MAX(MOD(x_step), MOD(y_step));
-// 	x_step /= max;
-// 	y_step /= max;
-// 	while ((int) (x - x1) || (int) (y - y1))
-// 	{
-// 		mlx_pixel_put(matrix->mlx_ptr, matrix->win_ptr, y + matrix->shift_y, x + matrix->shift_x, 0xffffff);
-// 		x += x_step;
-// 		y += y_step;
-// 	}
-// }
+void	draw(t_mlx_data *data)
+{
+	int	i;
+	int	j;
 
-// void draw(t_mlx_data *matrix)
-// {
-//     int x;
-//     int y;
-
-//     y = 0;
-//     while (y < matrix->width)
-//     {
-//         x = 0;
-//         while (x < matrix->height)
-//         {
-// 			if (x < matrix->height - 1)
-//             	bresenham(x, y, x + 1, y, matrix);
-// 			if (y < matrix->width - 1)
-//             	bresenham(x, y, x, y + 1, matrix);
-//             x++;
-//         }
-//         y++;
-//     }
-// }
+	j = -1;
+	transform_points(data);
+	while (++j < data->height)
+	{
+		i = -1;
+		while (++i < data->width)
+		{
+			if (i < data->width - 1)
+				bresenham_algo(data, data->matrix[j][i], data->matrix[j][i + 1]);
+			if (j < data->height - 1)
+				bresenham_algo(data, data->matrix[j][i], data->matrix[j + 1][i]);
+		}
+	}
+}

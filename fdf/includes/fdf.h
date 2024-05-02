@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/02 00:58:33 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/03 00:34:54 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 // 3D coordinate
 typedef struct s_coord
 {
-	int			x;
-	int			y;
+	int				x;
+	int				y;
 	int				z;
 	unsigned int	colour;
 }	t_coord;
@@ -45,6 +45,14 @@ typedef struct s_image
 	int		height;
 }	t_image;
 
+typedef struct s_br_param
+{
+	int	x_step;
+	int	y_step;
+	int	decision;
+	int	abs_dx;
+	int	abs_dy;
+}	t_br_param;
 
 // MLX instance, window, image, matrix information
 typedef struct s_mlx_data
@@ -55,22 +63,26 @@ typedef struct s_mlx_data
 	t_coord	**matrix;
 	int		width;
 	int		height;
-	float	zoom;
+	int		zoom;
 	int		shift_x;
 	int		shift_y;
 }	t_mlx_data;
 
-void	ft_error(int error_code, char *str);
-int		get_height(char **argv);
-int		get_width(char **argv);
-void	build_matrix(t_mlx_data *mx_var, char **argv);
-void	pop_matrix(t_coord *row, char *line, int current_line);
-void	create_image(t_mlx_data *data);
+void			ft_error(int error_code, char *str);
+int				get_height(char **argv);
+int				get_width(char **argv);
+void			build_matrix(t_mlx_data *mx_var, char **argv);
+void			pop_matrix(t_coord *row, char *line, int current_line);
+void			create_image(t_mlx_data *data);
 unsigned int	colour(t_coord start, t_coord end);
-void	draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour);
-void	bresenham_algo(t_mlx_data *data, t_coord start, t_coord end);
-// int		calculate_colour(int i,int j, int img_width, int img_height);
-// void	bresenham(float x, float y, float x1, float y1, t_mlx_data *matrix);
-// void	draw(t_mlx_data *matrix);
+void			draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour);
+void			bresenham_algo(t_mlx_data *data, t_coord start, t_coord end);
+t_br_param		bresenham_setup(t_coord start, t_coord end);
+int				bresenham_step(int start, int end);
+int				br_abs(int number);
+void			draw(t_mlx_data *data);
+void			zoomer(t_coord *coord);
+void			isometric(t_coord *coord);
+// int			calculate_colour(int i,int j, int img_width, int img_height);
 // void	isometric(float *x, float *y, int z);
 #endif

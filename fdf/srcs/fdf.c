@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/02 00:56:58 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/02 23:48:48 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	deal_key(int key, t_mlx_data *matrix)
 int	main(int argc, char **argv)
 {
 	t_mlx_data *data;
-	t_coord		start;
-	t_coord		end;
 
 	if (argc != 2)
 		return (1);
@@ -50,11 +48,7 @@ int	main(int argc, char **argv)
 	data->img.width = WIN_WIDTH;
 	data->img.height = WIN_HEIGHT;
 	create_image(data);
-	start.x = 100;
-	start.y = 200;
-	end.x = 700;
-	end.y = 350;
-	bresenham_algo(data, start, end);
+	draw(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr, 0, 0);
 	mlx_key_hook(data->win_ptr, deal_key, data);
 	mlx_loop(data->mlx_ptr);
