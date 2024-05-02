@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 01:18:29 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/31 17:38:03 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/02 20:31:19 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	pipex(int argc, char **argv, char **envp)
 				inter_dup(pid, fd);
 			exec_cmd(i, envp, argv);
 		}
-		if (i != argc - 2)
-			inter_dup(pid, fd);
+		inter_dup(pid, fd);
 	}
 	termination_check(pid);
 }
