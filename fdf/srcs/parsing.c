@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/01 01:26:48 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/05 23:24:00 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	ft_error(int error_code, char *str)
 {
 	if (error_code == 1)
 		perror(str);
+	if (error_code == 2)
+	{
+		ft_putendl_fd("Map file should end in fdf.", 2);
+		exit(0);
+	}
 }
 
 int	get_height(char **argv)
@@ -71,7 +76,7 @@ void	pop_matrix(t_coord *row, char *line, int current_line)
 			row[i].x = i;
 			row[i].y = current_line;
 			row[i].z = ft_atoi(points[i]);
-			//row[i].colour = colour_lab(); create function to create colour
+			row[i].colour = 0xFFFFFF;
 		}
 		free(points[i]);
 		i++;

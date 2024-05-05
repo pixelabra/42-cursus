@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/03 00:34:54 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:58:45 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,25 @@ typedef struct s_br_param
 }	t_br_param;
 
 // MLX instance, window, image, matrix information
+typedef struct s_mlx_camera
+{
+	int	shift_x;
+	int	shift_y;
+	int	max_z;
+	int	zoom;
+}	t_mlx_camera;
+
 typedef struct s_mlx_data
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_image	img;
-	t_coord	**matrix;
-	int		width;
-	int		height;
-	int		zoom;
-	int		shift_x;
-	int		shift_y;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	t_image			img;
+	t_coord			**matrix;
+	t_mlx_camera	*config;
+	int				width;
+	int				height;
 }	t_mlx_data;
+
 
 void			ft_error(int error_code, char *str);
 int				get_height(char **argv);
@@ -81,8 +88,15 @@ t_br_param		bresenham_setup(t_coord start, t_coord end);
 int				bresenham_step(int start, int end);
 int				br_abs(int number);
 void			draw(t_mlx_data *data);
-void			zoomer(t_coord *coord);
-void			isometric(t_coord *coord);
+void			zoomer(t_coord *coord, t_mlx_data *data);
+int				max_z(t_mlx_data *data);
+void			isometric(t_coord *coord, t_mlx_camera *config);
+t_mlx_data		*init_mlx_data();
+int				close_window(t_mlx_data *data);
+void			free_data(t_mlx_data *data);
+void			transform_points(t_mlx_data *data);
+
+
 // int			calculate_colour(int i,int j, int img_width, int img_height);
 // void	isometric(float *x, float *y, int z);
 #endif
