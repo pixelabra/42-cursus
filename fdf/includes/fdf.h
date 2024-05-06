@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/05 22:58:45 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/07 00:55:21 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ t_mlx_data		*init_mlx_data();
 int				close_window(t_mlx_data *data);
 void			free_data(t_mlx_data *data);
 void			transform_points(t_mlx_data *data);
+void			file_checker(char **argv);
+void			check_map_formatting(int fd_map, int exp_width, char **argv);
+int				read_first_line(int fd_map, char **line);
+void			check_file_ext(char *file_name);
 
 
 // int			calculate_colour(int i,int j, int img_width, int img_height);

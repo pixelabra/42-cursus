@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/05 23:07:02 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/07 01:11:32 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int	deal_key(int keycode, t_mlx_data *data)
 {	
+	printf("NOTHING");
 	if (keycode == 65307)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		free_data(data);
+		// free_data(data);
 		exit(0);
 	}
     if (keycode == 65362)
@@ -30,8 +31,6 @@ int	deal_key(int keycode, t_mlx_data *data)
         data->config->shift_y -= 10;
 	else
 		printf("NOTHING");
-	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
-	// mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	create_image(data);
 	draw(data);
 	printf("Key event: %d\n", keycode);
@@ -65,12 +64,19 @@ int	close_window(t_mlx_data *data)
 	exit(0);
 }
 
+int	handle_no_event(void *data)
+{
+    (void) data;
+    return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_mlx_data 		*data;
 
 	if (argc != 2)
 		return (1);
+	file_checker(argv);
 	data = init_mlx_data();
 	build_matrix(data, argv);
 	draw(data);
@@ -78,6 +84,9 @@ int	main(int argc, char **argv)
 	
 	mlx_hook(data->win_ptr, 2, 1L>>0, deal_key, data);
 	mlx_hook(data->win_ptr, 17, 0, close_window, data);
+	mlx_loop_hook(data->mlx_ptr, &handle_no_event, &data);
 	mlx_loop(data->mlx_ptr);
+	mlx_destroy_display(data->mlx_ptr);
+	free(data->mlx_ptr);
 	return (0);
 }

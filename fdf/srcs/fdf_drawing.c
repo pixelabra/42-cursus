@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/05 23:06:38 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/07 01:36:18 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ void	create_image(t_mlx_data *data)
 
 	// colour = 0x000000;
 	if (data->img.img_ptr)
+	{
+		printf("2\n");
 		mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
+		printf("3\n");
+		data->img.img_ptr = NULL;
+	}
 	data->img.img_ptr = mlx_new_image(data->mlx_ptr, data->img.width, data->img.height);
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
 	// j = -1;
@@ -64,7 +69,7 @@ void	draw(t_mlx_data *data)
 
 	j = -1;
 	create_image(data);
-	transform_points(data);
+	transform_points(data); //change!
 	while (++j < data->height)
 	{
 		i = -1;
