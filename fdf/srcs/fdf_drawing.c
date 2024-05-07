@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/07 01:36:18 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/07 23:17:48 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,54 @@ void	create_image(t_mlx_data *data)
 	// }
 }
 
-void	draw(t_mlx_data *data)
+t_coord			**create_temp_matrix(t_coord **original_matrix, int width, int height)
 {
-	printf("start drawing\n");
 	int	i;
 	int	j;
+	t_coord	**temp_matrix;
+
+	temp_matrix = malloc(sizeof(t_coord *) * height);
+	if (!temp_matrix)
+		return (NULL);
+	j = -1;
+	while (++j < height)
+	{
+		temp_matrix[j] = malloc(sizeof(t_coord) * width);
+		if (!temp_matrix[j])
+		{
+			free_matrix(temp_matrix, height);
+			return (NULL);
+		}
+		i = -1;
+		while (++i < width)
+			temp_matrix[j][i] = original_matrix[j][i];
+	}
+	return (temp_matrix);
+}
+
+void	draw(t_mlx_data *data)
+{
+	int	i;
+	int	j;
+	t_coord	**temp_matrix;
 
 	j = -1;
+	temp_matrix = create_temp_matrix(data->matrix, data->width, data->height);
+	if (!temp_matrix)
+		free_data(data);
 	create_image(data);
-	transform_points(data); //change!
+	transform_points(data, temp_matrix); //change!
 	while (++j < data->height)
 	{
 		i = -1;
 		while (++i < data->width)
 		{
 			if (i < data->width - 1)
-				bresenham_algo(data, data->matrix[j][i], data->matrix[j][i + 1]);
+				bresenham_algo(data, temp_matrix[j][i], temp_matrix[j][i + 1]);
 			if (j < data->height - 1)
-				bresenham_algo(data, data->matrix[j][i], data->matrix[j + 1][i]);
+				bresenham_algo(data, temp_matrix[j][i], temp_matrix[j + 1][i]);
 		}
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img_ptr, 0, 0);
-	printf("finish drawing\n");
+	free_matrix(temp_matrix, data->height);
 }

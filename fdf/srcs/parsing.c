@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/07 00:18:56 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:22:22 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	pop_matrix(t_coord *row, char *line, int current_line)
 		free(points);
 }
 
-	void	build_matrix(t_mlx_data *data, char **argv)
+void	build_matrix(t_mlx_data *data, char **argv)
 {
 	int	i;
 	int fd_map;

@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/07 01:11:32 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/07 23:39:48 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,17 @@ int	deal_key(int keycode, t_mlx_data *data)
 		exit(0);
 	}
     if (keycode == 65362)
-        data->config->shift_x -= 10;
+        data->config->shift_y -= 5;
 	else if (keycode == 65363)
-        data->config->shift_y += 10;
+        data->config->shift_x += 5;
 	else if (keycode == 65364)
-		data->config->shift_x += 10;
+		data->config->shift_y += 5;
 	else if (keycode == 65361) // Left arrow
-        data->config->shift_y -= 10;
+        data->config->shift_x -= 5;
+	else if (keycode == 61)
+		data->config->zoom += 2;
+	else if (keycode == 45)
+		data->config->zoom -= 2;
 	else
 		printf("NOTHING");
 	create_image(data);
@@ -54,7 +58,7 @@ t_mlx_data	*init_mlx_data()
 	data->config->shift_x = 300;
 	data->config->shift_y = 400;
 	data->config->max_z = 1;
-	data->config->zoom = 1;
+	data->config->zoom = 20;
 	return (data);
 }
 

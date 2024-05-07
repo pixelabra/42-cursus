@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 22:42:19 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/05 23:00:43 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/07 22:58:39 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,18 @@ void	free_data(t_mlx_data *data)
 	if (data->win_ptr)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	free(data);
+}
+
+void	free_matrix(t_coord **row, int height)
+{
+	int	j;
+
+	j = -1;
+	while (++j < height)
+	{
+		if (row[j])
+			free(row[j]);
+	}
+	if (row)
+		free(row);
 }
