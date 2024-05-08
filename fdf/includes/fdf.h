@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/08 00:23:16 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/09 01:34:43 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@
 
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 1000
+# define KEY_ESC 65307
+# define KEY_UP 65362
+# define KEY_RIGHT 65363
+# define KEY_DOWN 65364
+# define KEY_LEFT 65361
+# define KEY_PLUS 61
+# define KEY_MINUS 45
+# define KEY_Q 113
+# define KEY_A 97
+# define KEY_W 119
+# define KEY_S 115
+# define KEY_E 101
+# define KEY_D 100
 
 // 3D coordinate
 typedef struct s_coord
@@ -111,6 +124,14 @@ void			free_matrix(t_coord **matrix, int height);
 void			rotation_x(t_coord *coord, t_mlx_camera *config);
 void			rotation_y(t_coord *coord, t_mlx_camera *config);
 void			rotation_z(t_coord *coord, t_mlx_camera *config);
+
+void			handle_movement(int	keycode, t_mlx_data *data);
+void			handle_projection(int keycode, t_mlx_data *data);
+void			handle_rotation(int	keycode, t_mlx_data *data);
+void			handle_features(int	keycode, t_mlx_data *data);
+int				deal_key(int keycode, t_mlx_data *data);
+void			free_array(char **point);
+
 
 
 // int			calculate_colour(int i,int j, int img_width, int img_height);

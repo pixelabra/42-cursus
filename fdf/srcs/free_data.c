@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 22:42:19 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/08 00:25:57 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/09 01:34:22 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ void	free_matrix(t_coord **row, int height)
 	}
 	if (row)
 		free(row);
+}
+
+void	free_array(char **point)
+{
+	int	i;
+
+	i = -1;
+	while (point)
+		free(point[++i]);
+	free(point);
 }

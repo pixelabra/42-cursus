@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/07 14:22:22 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/09 01:35:04 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	pop_matrix(t_coord *row, char *line, int current_line)
 {
 	int		i;
 	char	**points;
+	char	**point;
 
 	i = 0;
 	points = ft_split(line, ' ');
@@ -78,11 +79,16 @@ void	pop_matrix(t_coord *row, char *line, int current_line)
 	{
 		if (ft_strncmp(points[i], "\n", 1))
 		{
+			point = ft_split(point[i], ',');
 			row[i].x = i;
 			row[i].y = current_line;
-			row[i].z = ft_atoi(points[i]);
-			row[i].colour = 0xFFFFFF;
+			row[i].z = ft_atoi(point[0]);
+			if (point[1])
+				row[i].colour = point[1];
+			else
+				row[i].colour = 0xFFFFFF;
 		}
+		free_array(point);
 		free(points[i]);
 		i++;
 	}

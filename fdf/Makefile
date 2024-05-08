@@ -1,5 +1,6 @@
 NAME			:= fdf
-SRCS			:= fdf.c parsing.c fdf_drawing.c transformations.c bresenham.c free_data.c map_checker.c
+SRCS			:= fdf.c parsing.c fdf_drawing.c transformations.c bresenham.c free_data.c map_checker.c \
+					hooks.c
 OBJS			:= $(SRCS:.c=.o)
 CC				:= cc
 CFLAGS			:= -Wall -Wextra -Werror

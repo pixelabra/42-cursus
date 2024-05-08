@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/08 00:07:10 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/09 01:17:24 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ unsigned int	colour(t_coord start, t_coord end)
 {
 	(void) start;
 	(void) end;
-	return (0xFF0000);
+	return (0xFFFFFF);
 }
 
 void	create_image(t_mlx_data *data)

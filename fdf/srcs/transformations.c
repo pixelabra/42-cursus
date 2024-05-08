@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 22:35:07 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/08 00:39:11 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/09 01:03:36 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,16 @@ void	transform_points(t_mlx_data *data, t_coord **temp_matrix)
 		i = -1;
 		while (++i < data->width)
 		{
+			if (data->config->apply_rotx)
+				rotation_x(&temp_matrix[j][i], data->config);
 			if (data->config->apply_roty)
 				rotation_y(&temp_matrix[j][i], data->config);
+			if (data->config->apply_rotz)
+				rotation_z(&temp_matrix[j][i], data->config);
 			zoomer(&temp_matrix[j][i], data->config);	
 			isometric(&temp_matrix[j][i], data->config);
 		}
 	}
-	data->config->apply_roty = 0;
 }
 
 int	max_z(t_mlx_data *data)
