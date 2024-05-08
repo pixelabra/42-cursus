@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/07 23:17:48 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/08 00:07:10 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void	create_image(t_mlx_data *data)
 	// colour = 0x000000;
 	if (data->img.img_ptr)
 	{
-		printf("2\n");
 		mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
-		printf("3\n");
 		data->img.img_ptr = NULL;
 	}
 	data->img.img_ptr = mlx_new_image(data->mlx_ptr, data->img.width, data->img.height);

@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/07 23:25:27 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/08 00:23:16 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,13 @@ typedef struct s_mlx_camera
 	int	shift_x;
 	int	shift_y;
 	int	max_z;
-	int	zoom;
+	int		zoom;
+	double	angle_x;
+	double	angle_y;
+	double	angle_z;
+	int		apply_rotx;
+	int		apply_roty;
+	int		apply_rotz;
 }	t_mlx_camera;
 
 typedef struct s_mlx_data
@@ -101,6 +107,10 @@ int				read_first_line(int fd_map, char **line);
 void			check_file_ext(char *file_name);
 t_coord			**create_temp_matrix(t_coord **original_matrix, int width, int height);
 void			free_matrix(t_coord **matrix, int height);
+
+void			rotation_x(t_coord *coord, t_mlx_camera *config);
+void			rotation_y(t_coord *coord, t_mlx_camera *config);
+void			rotation_z(t_coord *coord, t_mlx_camera *config);
 
 
 // int			calculate_colour(int i,int j, int img_width, int img_height);

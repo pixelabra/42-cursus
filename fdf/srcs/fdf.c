@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/07 23:39:48 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/08 00:38:40 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	deal_key(int keycode, t_mlx_data *data)
 {	
-	printf("NOTHING");
 	if (keycode == 65307)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
@@ -29,12 +28,22 @@ int	deal_key(int keycode, t_mlx_data *data)
 		data->config->shift_y += 5;
 	else if (keycode == 65361) // Left arrow
         data->config->shift_x -= 5;
-	else if (keycode == 61)
+	else if (keycode == 61) // +
 		data->config->zoom += 2;
-	else if (keycode == 45)
+	else if (keycode == 45) // -
 		data->config->zoom -= 2;
+	else if (keycode == 121) // y
+	{
+		data->config->angle_y += 0.03;
+		data->config->apply_roty = 1;
+	}
+	else if (keycode == 104) // h
+	{
+		data->config->angle_y -= 0.03;
+		data->config->apply_roty = 1;
+	}
 	else
-		printf("NOTHING");
+		printf("\n");
 	create_image(data);
 	draw(data);
 	printf("Key event: %d\n", keycode);
@@ -59,6 +68,12 @@ t_mlx_data	*init_mlx_data()
 	data->config->shift_y = 400;
 	data->config->max_z = 1;
 	data->config->zoom = 20;
+	data->config->angle_x = 3.14 / 6;
+	data->config->angle_y = 3.14 / 6;
+	data->config->angle_z = 3.14 / 6;
+	data->config->apply_rotx = 0;
+	data->config->apply_roty = 0;
+	data->config->apply_rotz = 0;
 	return (data);
 }
 
