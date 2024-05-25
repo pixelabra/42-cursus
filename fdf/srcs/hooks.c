@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:24:24 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/09 00:51:44 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/25 23:13:55 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	handle_movement(int	keycode, t_mlx_data *data)
 
 void	handle_projection(int keycode, t_mlx_data *data)
 {
-	(void) keycode;
-	(void) data;
+	if (keycode == KEY_P)
+		data->config->projection = PARALLEL;
+	if (keycode == KEY_I)
+		data->config->projection = ISOMETRIC;
 }
 
 void	handle_rotation(int keycode, t_mlx_data *data)
@@ -44,12 +46,6 @@ void	handle_rotation(int keycode, t_mlx_data *data)
 		data->config->angle_z += 0.03;
 	else if (keycode == KEY_D)
 		data->config->angle_z -= 0.03;
-	if (keycode == KEY_Q || keycode == KEY_A)
-		data->config->apply_rotx = 1;
-	else if (keycode == KEY_W || keycode == KEY_S)
-		data->config->apply_roty = 1;
-	else if (keycode == KEY_E || keycode == KEY_D)
-		data->config->apply_rotz = 1;
 }
 
 void	handle_features(int keycode, t_mlx_data *data)
@@ -64,6 +60,12 @@ void	handle_features(int keycode, t_mlx_data *data)
 		data->config->zoom += 2;
 	else if (keycode == KEY_MINUS)
 		data->config->zoom -= 2;
+	else if (keycode == KEY_Z)
+		data->config->inc_z += 2;
+	else if (keycode == KEY_X)
+		data->config->inc_z -= 2;
+	else if (keycode == KEY_R)
+		reset(data->config, data->init_config);
 	else
 	{
 		handle_movement(keycode, data);
@@ -76,7 +78,6 @@ int	deal_key(int keycode, t_mlx_data *data)
 {
 	printf("Key event: %d\n", keycode);
 	handle_features(keycode, data);
-	create_image(data);
 	draw(data);
 	return (0);
 }

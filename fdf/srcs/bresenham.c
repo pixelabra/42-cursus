@@ -6,20 +6,20 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 22:36:50 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/05 22:37:42 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/25 22:18:02 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int	bresenham_step(int start, int end)
+float	bresenham_step(float start, float end)
 {
 	if (start < end)
 		return (1);
 	return (-1);
 }
 
-int	br_abs(int number)
+float	br_abs(int number)
 {
 	if (number < 0)
 		number *= -1;
@@ -33,7 +33,7 @@ void	draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour)
 	if (start.x < 0 || start.x >= data->img.width 
 		|| start.y < 0 || start.y >= data->img.height)
 			return ;
-	pixel_addr = data->img.addr + (start.y * data->img.line_length + start.x * (data->img.bits_per_pixel / 8));
+	pixel_addr = data->img.addr + ((int) start.y * data->img.line_length + (int) start.x * (data->img.bits_per_pixel / 8));
 	*(unsigned int *) pixel_addr = mlx_get_color_value(data->mlx_ptr, colour); 
 	
 }
@@ -59,7 +59,7 @@ void bresenham_algo(t_mlx_data *data, t_coord start, t_coord end)
     while (1)
 	{
         draw_pixel_to_image(data, start, colour(start, end));
-        if (start.x == end.x && start.y == end.y)
+        if (br_abs(start.x - end.x) <= 1 && br_abs(start.y - end.y) <= 1)
 			break ;
 		decision2x = 2 * params.decision;
         if (decision2x >= params.abs_dy)

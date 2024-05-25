@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/09 01:17:24 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:32:16 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,32 @@
 //     brightness = MAX(0, MIN(brightness, 255)); // Ensure within bounds
 //     return (brightness << 16) | (brightness << 8) | brightness; // RGB grayscale
 // }
+
+int	ft_htoi(char *str)
+{
+	int	i;
+	int	value;
+	int	result;
+
+	result = 0;
+	value = 0;
+	if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+		i = 2;
+	while (str[i])
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			value = (int) str[i] - '0' + 10;
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			value = (int) str[i] - 'a' + 10;
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			value = (int) str[i] - 'A' + 10;
+		else
+			break ;
+		result = (result * 16) + value;
+		i++;
+	}
+	return (result);
+}
 
 unsigned int	colour(t_coord start, t_coord end)
 {
