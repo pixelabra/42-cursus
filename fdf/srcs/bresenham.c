@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 22:36:50 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/25 22:18:02 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:50:00 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ float	br_abs(int number)
 	return (number);
 }
 
+int	br_max(float abs_dx, float abs_dy)
+{
+	if (abs_dx >= abs_dy)
+		return ((int) abs_dx);
+	return ((int) abs_dy);
+}
+
 void	draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour)
 {
 	char	*pixel_addr;
@@ -35,7 +42,6 @@ void	draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour)
 			return ;
 	pixel_addr = data->img.addr + ((int) start.y * data->img.line_length + (int) start.x * (data->img.bits_per_pixel / 8));
 	*(unsigned int *) pixel_addr = mlx_get_color_value(data->mlx_ptr, colour); 
-	
 }
 
 t_br_param	bresenham_setup(t_coord start, t_coord end)
@@ -47,18 +53,34 @@ t_br_param	bresenham_setup(t_coord start, t_coord end)
 	params.x_step = bresenham_step(start.x, end.x);
 	params.y_step = bresenham_step(start.y, end.y);
 	params.decision = params.abs_dx + params.abs_dy;
+	params.curr_step = 0;
+	params.total_steps = br_max(params.abs_dx, -params.abs_dy);
+	if (params.total_steps == 0)
+		params.total_steps = 1;
 	return (params);
 }
 
 void bresenham_algo(t_mlx_data *data, t_coord start, t_coord end)
 {
+	float	t;
+	t_rgb	start_rgb;
+	t_rgb	end_rgb;
 	t_br_param	params;
     int 		decision2x;
 
+	start_rgb = get_rgb(start.colour);
+	end_rgb = get_rgb(end.colour);
+	// printf("start_rgb.r: %u\n", start_rgb.r);
+	// printf("start_rgb.g: %u\n", start_rgb.g);
+	// printf("start_rgb.b: %u\n", start_rgb.b);
+	// printf("start_rgb.a: %u\n", start_rgb.a);
 	params = bresenham_setup(start, end);
     while (1)
 	{
-        draw_pixel_to_image(data, start, colour(start, end));
+		t = (float) params.curr_step / (float) params.total_steps;
+		if (t > 1.0)
+			t = 1.0;
+		draw_pixel_to_image(data, start, interpolate_colour(start_rgb, end_rgb, t));
         if (br_abs(start.x - end.x) <= 1 && br_abs(start.y - end.y) <= 1)
 			break ;
 		decision2x = 2 * params.decision;
@@ -72,5 +94,6 @@ void bresenham_algo(t_mlx_data *data, t_coord start, t_coord end)
 			params.decision += params.abs_dx;
 			start.y += params.y_step;
         }
+		params.curr_step++;
     }
 }

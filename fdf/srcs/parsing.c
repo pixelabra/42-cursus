@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/09 22:41:16 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:47:35 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,11 @@ void	pop_matrix(t_coord *row, char *line, int current_line)
 			coord = ft_split(points[i], ',');
 			row[i].x = i;
 			row[i].y = current_line;
-			// row[i].z = ft_atoi(points[i]);
 			row[i].z = ft_atoi(coord[0]);
 			if (coord[1])
 				row[i].colour = ft_htoi(coord[1]);
 			else
-				row[i].colour = 0xFFFFFF;
+				row[i].colour = 0xFFFFFFFF;
 			free(coord[0]);
 			if (coord[1])
 				free(coord[1]);

@@ -6,13 +6,13 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/25 23:08:34 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/26 21:41:16 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-t_mlx_data	*init_mlx_data()
+t_mlx_data	*init_mlx_data(void)
 {
 	t_mlx_data	*data;
 

@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/25 23:13:00 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/26 21:41:03 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,34 @@
 # define KEY_R 114
 # define KEY_P 112
 # define KEY_I 105
+# define KEY_R_PLUS 49
+# define KEY_R_MINUS 50
+# define KEY_G_PLUS 51
+# define KEY_G_MINUS 52
+# define KEY_B_PLUS 53
+# define KEY_B_MINUS 54
 
 typedef enum e_projection
 {
 	ISOMETRIC,
-	PARALLEL
+	PARALLEL,
+	CONIC
 }	t_projection;
+
+typedef enum e_colour
+{
+	R,
+	G,
+	B
+}	t_colour;
+
+typedef	struct	s_rgb
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+	unsigned char	a;
+}	t_rgb;
 
 // 3D coordinate
 typedef struct s_coord
@@ -76,6 +98,8 @@ typedef struct s_br_param
 	float	decision;
 	float	abs_dx;
 	float	abs_dy;
+	int		curr_step;
+	int		total_steps;
 }	t_br_param;
 
 // MLX instance, window, image, matrix information
@@ -108,19 +132,25 @@ int				get_height(char **argv);
 int				get_width(char **argv);
 void			build_matrix(t_mlx_data *mx_var, char **argv);
 void			pop_matrix(t_coord *row, char *line, int current_line);
-void			create_image(t_mlx_data *data);
-unsigned int	colour(t_coord start, t_coord end);
-void			draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour);
+
+int				br_max(float abs_dx, float abs_dy);
+t_rgb			get_rgb(unsigned int colour);
+unsigned int	interpolate_colour(t_rgb start_rgb, t_rgb end_rgb, float t);
+
+float			br_abs(int number);
 void			bresenham_algo(t_mlx_data *data, t_coord start, t_coord end);
 t_br_param		bresenham_setup(t_coord start, t_coord end);
 float			bresenham_step(float start, float end);
-float			br_abs(int number);
-void			draw(t_mlx_data *data);
 void			zoomer(t_coord *coord, t_mlx_camera *config);
-// int				max_z(t_mlx_data *data);
+
+void			create_image(t_mlx_data *data);
+void			draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour);
+void			draw(t_mlx_data *data);
+
 void			isometric(t_coord *coord, t_mlx_camera *config);
 void			parallel(t_coord *coord, t_mlx_camera *config);
-t_mlx_data		*init_mlx_data();
+
+t_mlx_data		*init_mlx_data(void);
 int				close_window(t_mlx_data *data);
 void			free_data(t_mlx_data *data);
 void			transform_points(t_mlx_data *data, t_coord **temp_matrix);
@@ -136,6 +166,8 @@ void			reset(t_mlx_camera *config, t_mlx_camera *init_config);
 void			rotation_x(t_coord *coord, t_mlx_camera *config);
 void			rotation_y(t_coord *coord, t_mlx_camera *config);
 void			rotation_z(t_coord *coord, t_mlx_camera *config);
+
+void			adjust_colours(t_mlx_data *data, t_colour colour_change, int increment);
 
 void			handle_movement(int	keycode, t_mlx_data *data);
 void			handle_projection(int keycode, t_mlx_data *data);
