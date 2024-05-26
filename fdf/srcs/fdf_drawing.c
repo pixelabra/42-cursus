@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/26 21:51:37 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:00:40 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,17 @@ void	adjust_colours(t_mlx_data *data, t_colour colour_change, int increment)
 		i = -1;
 		while (++i < data->width)
 		{
-			rgb = get_rgb(data->matrix[j][i].colour);
-			if (colour_change == R)
-				rgb.r = (rgb.r + increment) % 256;
-			if (colour_change == G)
-				rgb.g = (rgb.g + increment) % 256;
-			if (colour_change == B)
-				rgb.b = (rgb.b + increment) % 256;
-			data->matrix[j][i].colour = ((rgb.a << 24) | (rgb.r << 16) | (rgb.g << 8) | (rgb.b << 0));
+			if (data->matrix[j][i].z != 0)
+			{
+				rgb = get_rgb(data->matrix[j][i].colour);
+				if (colour_change == R)
+					rgb.r = (rgb.r + increment) % 256;
+				if (colour_change == G)
+					rgb.g = (rgb.g + increment) % 256;
+				if (colour_change == B)
+					rgb.b = (rgb.b + increment) % 256;
+				data->matrix[j][i].colour = ((rgb.a << 24) | (rgb.r << 16) | (rgb.g << 8) | (rgb.b << 0));
+			}
 		}
 	}
 }
