@@ -1,5 +1,5 @@
 NAME			:= push_swap
-SRCS			:= push_swap.c
+SRCS			:= push_swap.c parsing.c free.c
 
 OBJS			:= $(SRCS:.c=.o)
 CC				:= cc
@@ -13,10 +13,13 @@ DIR_INC			:= includes/
 SRCS_PFX		:= $(addprefix $(DIR_SRCS), $(SRCS))
 OBJS_PFX		:= $(addprefix $(DIR_OBJS), $(OBJS))
 INC				:= -I$(DIR_INC) -I$(DIR_LIBFT)
-LIBS			:= -L$(DIR_LIBFT)
+LIBS			:= -L$(DIR_LIBFT) -lft
 LIBFT			:= $(DIR_LIBFT)libft.a
 
 all: $(NAME)
+
+$(LIBFT):
+	make -C $(DIR_LIBFT)
 
 $(NAME): $(OBJS_PFX) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS_PFX) -o $@ $(LIBS) $(INC)
@@ -26,9 +29,6 @@ $(DIR_OBJS)%.o: $(DIR_SRCS)%.c | $(DIR_OBJS)
 
 $(DIR_OBJS):
 	mkdir -p $@
-
-$(LIBFT):
-	make -C $(DIR_LIBFT)
 
 clean:
 	make clean -C $(DIR_LIBFT)
