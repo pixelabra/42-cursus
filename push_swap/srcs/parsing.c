@@ -6,21 +6,11 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 23:18:53 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/30 02:12:45 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/30 22:31:50 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-void	ps_error(char *ptr, char **dblptr)
-{
-	if (ptr)
-		free(ptr);
-	if (dblptr)
-		free_dblptr(dblptr);
-	ft_putendl_fd("Error\n", 2);
-	exit(EXIT_FAILURE);
-}
 
 char	*ps_join_arg(int ac, char **av)
 {
@@ -49,7 +39,7 @@ char	*ps_join_arg(int ac, char **av)
 	return (joined_arg);
 }
 
-int	validate_numb(char *sep_arg)
+void	isvalidnbr(char *sep_arg, char **sep_args)
 {
 	int		i;
 
@@ -57,21 +47,50 @@ int	validate_numb(char *sep_arg)
 	if (sep_arg[i] == '-' || sep_arg[i] == '+')
 		i++;
 	if (!sep_arg[i])
-		return (0);
+		ps_error(NULL, sep_args);
 	while (sep_arg[i])
 	{
 		if (!ft_isdigit(sep_arg[i]))
-			return (0);
+			ps_error(NULL, sep_args);
 		i++;
 	}
-	return (1);
+}
+
+long	ps_atol(char *sep_arg, char **sep_args)
+{
+	int			i;
+	long		sign;
+	long long	nbr;
+
+	i = 0;
+	nbr = 0;
+	sign = 1;
+	if (sep_arg[i] == '-' || sep_arg[i] == '+')
+	{
+		if (sep_arg[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (sep_arg[i] && sep_arg[i] >= '0' && sep_arg[i] <= '9')
+	{
+		if ((nbr > LONG_MAX / 10)
+			|| (nbr == LONG_MAX / 10 && sep_arg[i] > '7'))
+			ps_error(NULL, sep_args);
+		nbr = (nbr * 10) + (sep_arg[i++] - '0');
+	}
+	nbr *= sign;
+	if (nbr > INT_MAX || nbr < INT_MIN)
+		ps_error(NULL, sep_args);
+	return (nbr);
 }
 
 void	ps_stack_init(int ac, char **av, t_node **a)
 {
 	int		i;
+	long	nbr;
 	char	*joined_arg;
 	char	**sep_args;
+	t_node	*new_node;
 
 	joined_arg = ps_join_arg(ac, av);
 	sep_args = ft_split(joined_arg, ' ');
@@ -81,11 +100,12 @@ void	ps_stack_init(int ac, char **av, t_node **a)
 	i = -1;
 	while (sep_args[++i])
 	{
-		if (!validate_numb(sep_args[i]))
-			ps_error(NULL, sep_args);
+		isvalidnbr(sep_args[i], sep_args);
+		nbr = ps_atol(sep_args[i], sep_args);
+		printf("%ld\n", nbr);
 	}
 	free_dblptr(sep_args);
-
 	printf("GOOD\n");
 	(void) a;
+	(void) new_node;
 }

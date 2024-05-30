@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:18:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/30 02:09:19 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/30 22:28:21 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ char	*ps_join_arg(int ac, char **av);
 
 // error handling
 void	ps_error(char *ptr, char **dblptr);
-int		validate_numb(char *sep_arg);
+void	isvalidnbr(char *sep_arg, char **sep_args);
+long	ps_atol(char *sep_arg, char **sep_args);
 
 // free stuff
 void	free_dblptr(char **dblptr);
