@@ -1,5 +1,6 @@
 NAME			:= push_swap
-SRCS			:= push_swap.c parsing.c free.c
+SRCS			:= push_swap.c parsing.c free.c lst_utils.c ps_arithmetic.c ps_arithmetic2.c \
+					finder.c
 
 OBJS			:= $(SRCS:.c=.o)
 CC				:= cc

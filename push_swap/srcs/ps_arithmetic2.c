@@ -1,35 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ps_arithmetic2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 22:14:50 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/02 22:30:02 by a3y3g1           ###   ########.fr       */
+/*   Created: 2024/06/02 19:56:03 by a3y3g1            #+#    #+#             */
+/*   Updated: 2024/06/02 23:08:56 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-int	main(int ac, char **av)
+int	max_nbr(int nbr1, int nbr2)
 {
-	t_node	*a;
-	t_node	*b;
-	
+	if (nbr1 > nbr2)
+		return (nbr1);
+	return (nbr2);
+}
+
+void	refresh_index(t_node **stack)
+{
+	int		i;
 	t_node	*temp;
 
-	a = NULL;
-	b = NULL;
-	(void) b;
-	if (ac < 2 || (ac == 2 && !(*av[1])))
-		ps_error(NULL, NULL);
-	ps_stack_init(ac, av, &a);
-	print_lst(a);
-	
-	temp = next_big(&a, -2147483648);
-	printf("%d\n", temp->nbr);
-	
-	ps_lstclear(&a);
-	return (0);
+	i = 1;
+	temp = *stack;
+	while (temp)
+	{
+		temp->index = i;
+		temp = temp->next;
+		i++;
+	}
+}
+
+t_node	*pop(t_node **stack)
+{
+	t_node	*temp;
+
+	if (!(*stack))
+		return (NULL);
+	temp = *stack;
+	*stack = temp->next;
+	temp->next = NULL;
+	(*stack)->prev = NULL;
+	refresh_index(stack);
+	return (temp);
 }

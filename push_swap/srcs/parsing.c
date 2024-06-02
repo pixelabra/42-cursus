@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 23:18:53 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/30 22:31:50 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/02 20:16:57 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,27 @@ void	isvalidnbr(char *sep_arg, char **sep_args)
 	}
 }
 
+void	isduplicate(t_node *lst)
+{
+	t_node	*temp_fast;
+	t_node	*temp_slow;
+
+	if (!lst)
+		ps_error_lst(&lst, NULL);
+	temp_slow = lst;
+	while (temp_slow)
+	{
+		temp_fast = temp_slow->next;
+		while (temp_fast)
+		{
+			if (temp_slow->nbr == temp_fast->nbr)
+				ps_error_lst(&lst, NULL);
+			temp_fast = temp_fast->next;
+		}
+		temp_slow = temp_slow->next;
+	}
+}
+
 long	ps_atol(char *sep_arg, char **sep_args)
 {
 	int			i;
@@ -102,10 +123,11 @@ void	ps_stack_init(int ac, char **av, t_node **a)
 	{
 		isvalidnbr(sep_args[i], sep_args);
 		nbr = ps_atol(sep_args[i], sep_args);
-		printf("%ld\n", nbr);
+		new_node = ps_lstnew(nbr, i);
+		if (!new_node)
+			ps_error(NULL, sep_args);
+		ps_lstadd_back(a, new_node);
 	}
 	free_dblptr(sep_args);
-	printf("GOOD\n");
-	(void) a;
-	(void) new_node;
+	isduplicate(*a);
 }
