@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:14:50 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/04 10:12:20 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:14:40 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	// push(&b, &a);
 	print_lst(a);
 	print_lst(b);
-	// set_target_cost(&a, &b);
+
 	// temp = next_big(&a, -553);
 	// printf("%d\n", temp->nbr);
 	

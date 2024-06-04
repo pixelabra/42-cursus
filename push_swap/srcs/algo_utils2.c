@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:52:40 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/04 10:18:13 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/04 10:22:16 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	first_push(t_node **stack1, t_node **stack2)
 	size1 = ps_lstsize(*stack1);
 	while (size1-- > 3)
 	{
+		print_lst(*stack2);
 		set_target_cost(stack1, stack2);
 		algo_moves(stack1, stack2);
 	}

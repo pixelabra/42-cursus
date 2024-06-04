@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:37:41 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/03 23:43:45 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:07:48 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,95 +14,70 @@
 
 void	rot_rot(t_node *node, t_node **stack1, t_node **stack2)
 {
-	while (node->index > 0 && node->target->index > 0)
+	while (node->index && node->target->index)
 	{
 		rotate(stack1);
 		rotate(stack2);
 		printf("rr\n");
-		node->index--;
-		node->target->index--;
 	}
-	while (node->index > 0)
+	while (node->index)
 	{
 		rotate(stack1);
 		printf("ra\n");
-		node->index--;
 	}
-	while (node->target->index > 0)
+	while (node->target->index)
 	{
 		rotate(stack2);
 		printf("rb\n");
-		node->target->index--;
 	}
 }
 
 void	rev_rev(t_node *node, t_node **stack1, t_node **stack2)
 {
-	int	size1;
-	int	size2;
-
-	size1 = ps_lstsize(*stack1);
-	size2 = ps_lstsize(*stack2);
-	while (node->index < size1 && node->target->index < size2)
+	while (node->index && node->target->index)
 	{
 		reverse(stack1);
 		reverse(stack2);
 		printf("rrr\n");
-		node->index++;
-		node->target->index++;
 	}
-	while (node->index < size1)
+	while (node->index)
 	{
 		reverse(stack1);
-		printf("ra\n");
-		node->index++;
+		printf("rra\n");
 	}
-	while (node->target->index < size2)
+	while (node->target->index)
 	{
 		reverse(stack2);
-		printf("rb\n");
-		node->target->index++;
+		printf("rrb\n");
 	}
 }
 
 void	rot_rev(t_node *node, t_node **stack1, t_node **stack2, int size2)
 {
-	while (node->index > 0)
+	while (node->index)
 	{
 		rotate(stack1);
 		printf("ra\n");
-		node->index--;
 	}
-	while (node->target->index < size2)
-	{
-		reverse(stack2);
-		printf("rrb\n");
-		node->target->index++;
-	}
-	if (node ->target->index == size2)
+	while (node->target->index)
 	{
 		reverse(stack2);
 		printf("rrb\n");
 	}
+	(void) size2;
 }
 
 void	rev_rot(t_node *node, t_node **stack1, t_node **stack2, int size1)
 {
-	while (node->target->index > 0)
+	while (node->target->index)
 	{
 		rotate(stack2);
 		printf("rb\n");
-		node->target->index--;
 	}
-	while (node->index < size1)
-	{
-		reverse(stack1);
-		printf("rra\n");
-		node->index++;
-	}
-	if (node->index == size1)
+	while (node->index)
 	{
 		reverse(stack1);
 		printf("rra\n");
 	}
+	(void) size1;
 }
