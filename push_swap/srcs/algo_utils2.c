@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:52:40 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/03 20:22:41 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/03 21:15:30 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	algo_moves(t_node **stack1, t_node **stack2)
 	if (node->flag == RotRot)
 		rot_rot(node, stack1, stack2);
 	else if (node->flag == RotRev)
-		rev_rot(node, stack1, stack2, size1);
-	else if (node->flag == RevRot)
 		rot_rev(node, stack1, stack2, size2);
+	else if (node->flag == RevRot)
+		rev_rot(node, stack1, stack2, size1);
 	else if (node->flag == RevRev)
 		rev_rev(node, stack1, stack2);
 	push(stack2, stack1);
