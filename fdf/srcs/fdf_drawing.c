@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/26 22:00:40 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/29 22:32:16 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ unsigned int	interpolate_colour(t_rgb start_rgb, t_rgb end_rgb, float t)
 	return (colour);
 }
 
-void	adjust_colours(t_mlx_data *data, t_colour colour_change, int increment)
+void	adj_colours(t_mlx_data *data, t_colour colour_change, int incr)
 {
 	int		i;
 	int		j;
@@ -77,11 +77,11 @@ void	adjust_colours(t_mlx_data *data, t_colour colour_change, int increment)
 			{
 				rgb = get_rgb(data->matrix[j][i].colour);
 				if (colour_change == R)
-					rgb.r = (rgb.r + increment) % 256;
+					rgb.r = (rgb.r + incr) % 256;
 				if (colour_change == G)
-					rgb.g = (rgb.g + increment) % 256;
+					rgb.g = (rgb.g + incr) % 256;
 				if (colour_change == B)
-					rgb.b = (rgb.b + increment) % 256;
+					rgb.b = (rgb.b + incr) % 256;
 				data->matrix[j][i].colour = ((rgb.a << 24) | (rgb.r << 16) | (rgb.g << 8) | (rgb.b << 0));
 			}
 		}
@@ -99,7 +99,7 @@ void	create_image(t_mlx_data *data)
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
 }
 
-t_coord			**create_temp_matrix(t_coord **original_matrix, int width, int height)
+t_coord			**create_tmp_matrix(t_coord **og_matrix, int width, int height)
 {
 	int	i;
 	int	j;
@@ -119,7 +119,7 @@ t_coord			**create_temp_matrix(t_coord **original_matrix, int width, int height)
 		}
 		i = -1;
 		while (++i < width)
-			temp_matrix[j][i] = original_matrix[j][i];
+			temp_matrix[j][i] = og_matrix[j][i];
 	}
 	return (temp_matrix);
 }
@@ -131,7 +131,7 @@ void	draw(t_mlx_data *data)
 	t_coord	**temp_matrix;
 
 	j = -1;
-	temp_matrix = create_temp_matrix(data->matrix, data->width, data->height);
+	temp_matrix = create_tmp_matrix(data->matrix, data->width, data->height);
 	if (!temp_matrix)
 		free_data(data);
 	create_image(data);

@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/26 21:41:03 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/29 22:34:18 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef enum e_colour
 	B
 }	t_colour;
 
-typedef	struct	s_rgb
+typedef struct s_rgb
 {
 	unsigned char	r;
 	unsigned char	g;
@@ -144,7 +144,7 @@ float			bresenham_step(float start, float end);
 void			zoomer(t_coord *coord, t_mlx_camera *config);
 
 void			create_image(t_mlx_data *data);
-void			draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour);
+void			drawpximg(t_mlx_data *data, t_coord start, unsigned int colour);
 void			draw(t_mlx_data *data);
 
 void			isometric(t_coord *coord, t_mlx_camera *config);
@@ -158,7 +158,7 @@ void			file_checker(char **argv);
 void			check_map_formatting(int fd_map, int exp_width, char **argv);
 int				read_first_line(int fd_map, char **line);
 void			check_file_ext(char *file_name);
-t_coord			**create_temp_matrix(t_coord **original_matrix, int width, int height);
+t_coord			**create_tmp_matrix(t_coord **og_matrix, int width, int height);
 void			free_matrix(t_coord **matrix, int height);
 void			init_config(t_mlx_camera *config, t_mlx_camera *init_config);
 void			reset(t_mlx_camera *config, t_mlx_camera *init_config);
@@ -167,18 +167,14 @@ void			rotation_x(t_coord *coord, t_mlx_camera *config);
 void			rotation_y(t_coord *coord, t_mlx_camera *config);
 void			rotation_z(t_coord *coord, t_mlx_camera *config);
 
-void			adjust_colours(t_mlx_data *data, t_colour colour_change, int increment);
+void			adj_colours(t_mlx_data *data, t_colour colour_change, int incr);
 
-void			handle_movement(int	keycode, t_mlx_data *data);
+void			handle_movement(int keycode, t_mlx_data *data);
 void			handle_projection(int keycode, t_mlx_data *data);
-void			handle_rotation(int	keycode, t_mlx_data *data);
-void			handle_features(int	keycode, t_mlx_data *data);
+void			handle_rotation(int keycode, t_mlx_data *data);
+void			handle_features(int keycode, t_mlx_data *data);
 int				deal_key(int keycode, t_mlx_data *data);
 void			free_array(char **point);
 int				ft_htoi(char *str);
 
-
-
-// int			calculate_colour(int i,int j, int img_width, int img_height);
-// void	isometric(float *x, float *y, int z);
 #endif

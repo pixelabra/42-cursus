@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 19:56:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/02 23:08:56 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:51:58 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	max_nbr(int nbr1, int nbr2)
 {
-	if (nbr1 > nbr2)
+	if (nbr1 >= nbr2)
 		return (nbr1);
 	return (nbr2);
 }
@@ -24,7 +24,7 @@ void	refresh_index(t_node **stack)
 	int		i;
 	t_node	*temp;
 
-	i = 1;
+	i = 0;
 	temp = *stack;
 	while (temp)
 	{

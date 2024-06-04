@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   finder.c                                           :+:      :+:    :+:   */
+/*   algo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 20:18:31 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/02 23:35:23 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/03 19:51:04 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+#include <time.h>
 
 t_node	*abs_min(t_node **stack)
 {
@@ -117,8 +118,8 @@ void	set_target_cost(t_node **stack1, t_node **stack2)
 	if (!(*stack1) || !(*stack2))
 		return ;
 	temp = *stack1;
-	stack1_size = ps_lstsize(stack1);
-	stack2_size = ps_lstsize(stack2);
+	stack1_size = ps_lstsize(*stack1);
+	stack2_size = ps_lstsize(*stack2);
 	while (temp)
 	{
 		temp->target = next_small(stack2, temp->nbr);
@@ -126,54 +127,3 @@ void	set_target_cost(t_node **stack1, t_node **stack2)
 		temp = temp->next;
 	}
 }
-
-void	set_cost(t_node *node, int size1, int size2)
-{
-	if (!node)
-		return ;
-	if (node->target->index < size2 / 2 && node->index < size1 / 2)
-	{
-		node->cost = max(node->target->index, node->index);
-		node->flag = RotRot;
-	}
-	if (node->target->index < size2 / 2 && node->index >= size1 / 2)
-	{
-		node->cost = node->target->index + (size1 - node->index);
-		node->flag = RevRot;
-	}
-	if (node->target->index >= size2 / 2 && node->index < size1 / 2)
-	{
-		node->cost = (size2 - node->target->index) + node->index;
-		node->flag = RotRev;
-	}
-	if (node->target->index >= size2 / 2 && node->index >= size1 / 2)
-	{
-		node->cost = max(node->target->index, node->index);
-		node->flag = RevRev;
-	}
-}
-
-t_node	*cheapest_node(t_node **stack)
-{
-	t_node	*temp;
-	t_node	*return_node;
-	int		min_cost;
-
-	if (!(*stack))
-		return (NULL);
-	return_node = *stack;
-	temp = *stack;
-	min_cost = temp->cost;
-	while (temp)
-	{
-		if (temp->cost < min_cost)
-		{
-			return_node = temp;
-			min_cost = temp->cost;
-		}
-		temp = temp->next;
-	}
-	return (return_node);
-}
-
-// void	algo_moves()

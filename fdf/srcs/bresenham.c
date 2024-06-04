@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 22:36:50 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/26 20:50:00 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/29 22:34:18 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	br_max(float abs_dx, float abs_dy)
 	return ((int) abs_dy);
 }
 
-void	draw_pixel_to_image(t_mlx_data *data, t_coord start, unsigned int colour)
+void	drawpximg(t_mlx_data *data, t_coord start, unsigned int colour)
 {
 	char	*pixel_addr;
 
@@ -80,7 +80,7 @@ void bresenham_algo(t_mlx_data *data, t_coord start, t_coord end)
 		t = (float) params.curr_step / (float) params.total_steps;
 		if (t > 1.0)
 			t = 1.0;
-		draw_pixel_to_image(data, start, interpolate_colour(start_rgb, end_rgb, t));
+		drawpximg(data, start, interpolate_colour(start_rgb, end_rgb, t));
         if (br_abs(start.x - end.x) <= 1 && br_abs(start.y - end.y) <= 1)
 			break ;
 		decision2x = 2 * params.decision;

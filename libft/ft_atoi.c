@@ -6,28 +6,35 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 23:02:22 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/03/07 00:52:48 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:48:11 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
+#include "libft.h"
 
-// int	ft_atoi(const char *str)
-// {
-// 	long			sign;
-// 	unsigned long	number;
+int	ft_atoi(const char *str)
+{
+	int			i;
+	long		sign;
+	long long	result;
 
-// 	number = 0;
-// 	while ((*str >= 9 && *str <= 13) || (*str == 32))
-// 		str++;
-// 	sign == 1 - 2 *(*str == 45);
-// 	str += 1 - 2 *(*str == 43 || *str == 45);
-// 	while (*str >= '0' && *str <= '9')
-// 	{
-// 		if (*str > LONG_MAX / 10 || (*str > LONG_MAX % 10
-// 			 && *str == LONG_MAX / 10))
-// 			return (1);
-// 		number = (number * 10) + (*str++ - '0');
-// 	}
-// 	return (number * sign);
-// }
+	i = 0;
+	result = 0;
+	sign = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	{
+		if ((result == 922337203685477580
+				&& str[i] > '7') || (result > 922337203685477580))
+			return (-1 * (sign != -1));
+		result = (result * 10) + (str[i++] - '0');
+	}
+	return (result * sign);
+}

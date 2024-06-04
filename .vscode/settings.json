@@ -1,0 +1,15 @@
+{
+	"files.associations": {
+		"atomic": "c",
+		"unistd.h": "c",
+		"types.h": "c",
+		"pipex_bonus.h": "c",
+		"fdf.h": "c",
+		"random": "c",
+		"mlx.h": "c",
+		"math.h": "c",
+		"push_swap.h": "c",
+		"stdio.h": "c",
+		"functional": "c"
+	}
+}

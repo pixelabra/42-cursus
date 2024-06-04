@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:24:24 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/26 21:37:23 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/05/29 22:27:34 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ int	deal_key(int keycode, t_mlx_data *data)
 {
 	printf("%d\n", keycode);
 	if (keycode == KEY_R_PLUS)
-		adjust_colours(data, R, 10);
+		adj_colours(data, R, 10);
     else if (keycode == KEY_R_MINUS)
-		adjust_colours(data, R, -10);
+		adj_colours(data, R, -10);
     else if (keycode == KEY_G_PLUS)
-		adjust_colours(data, G, 10);
+		adj_colours(data, G, 10);
     else if (keycode == KEY_G_MINUS)
-		adjust_colours(data, G, -10);
+		adj_colours(data, G, -10);
     else if (keycode == KEY_B_PLUS)
-		adjust_colours(data, B, 10);
+		adj_colours(data, B, 10);
 	else if (keycode == KEY_B_MINUS)
-		adjust_colours(data, B, -10);
+		adj_colours(data, B, -10);
 	handle_features(keycode, data);
 	draw(data);
 	return (0);

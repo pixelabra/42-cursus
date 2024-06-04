@@ -1,6 +1,7 @@
 NAME			:= fdf
 SRCS			:= fdf.c parsing.c fdf_drawing.c transformations.c bresenham.c free_data.c map_checker.c \
 					hooks.c
+
 OBJS			:= $(SRCS:.c=.o)
 CC				:= cc
 CFLAGS			:= -Wall -Wextra -Werror
@@ -19,32 +20,28 @@ LIBFT_MLX		:= $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS_PFX) $(LIBS)
+$(NAME): $(OBJS_PFX) $(LIBFT_MLX)
 	$(CC) $(CFLAGS) $(OBJS_PFX) -o $@ $(LIBS) $(INC)
 
-${DIR_OBJS}%.o: $(DIR_SRCS)%.c $(DIR_OBJS)
+${DIR_OBJS}%.o: $(DIR_SRCS)%.c | $(DIR_OBJS)
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
-${DIR_OBJS}:
+$(DIR_OBJS):
 	mkdir -p $@
 
-$(LIBS): $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
-	
-$(DIR_LIBFT)libft.a:	
-	@make -C $(DIR_LIBFT)
-
-$(DIR_MLX)libmlx.a:
-	@make -C $(DIR_MLX)
+$(LIBFT_MLX):
+	make -C $(DIR_LIBFT)
+	make -C $(DIR_MLX)
 
 clean:
-	@make clean -C $(DIR_LIBFT)
-	@make clean -C $(DIR_MLX)
-	@rm -rf $(DIR_OBJS)
+	make clean -C $(DIR_LIBFT)
+	make clean -C $(DIR_MLX)
+	rm -rf $(DIR_OBJS)
 
 fclean: clean
-	@make fclean -C $(DIR_LIBFT)
-	@make clean -C $(DIR_MLX)
-	@rm -f $(NAME)
+	make fclean -C $(DIR_LIBFT)
+	make clean -C $(DIR_MLX)
+	rm -f $(NAME)
 
 re: fclean all
 
