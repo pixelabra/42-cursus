@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 20:18:31 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/03 19:51:04 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/04 22:27:10 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_node	*next_big(t_node **stack, int nbr)
 	return (ret_node);
 }
 
-void	set_target_cost(t_node **stack1, t_node **stack2)
+void	set_target_cost(t_node **stack1, t_node **stack2, int flag)
 {
 	t_node	*temp;
 	int		stack1_size;
@@ -122,8 +122,14 @@ void	set_target_cost(t_node **stack1, t_node **stack2)
 	stack2_size = ps_lstsize(*stack2);
 	while (temp)
 	{
-		temp->target = next_small(stack2, temp->nbr);
-		set_cost(temp, stack1_size, stack2_size);
+		if (flag)
+			temp->target = next_small(stack2, temp->nbr);
+		else if (!flag)
+			temp->target = next_big(stack2, temp->nbr);
+		if (flag)
+			set_cost(temp, stack1_size, stack2_size);
+		else if (!flag)
+			set_cost(temp, stack2_size, stack1_size);
 		temp = temp->next;
 	}
 }

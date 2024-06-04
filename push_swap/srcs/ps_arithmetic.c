@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 02:49:46 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/03 23:09:20 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/04 21:21:14 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,33 +63,3 @@ void	reverse(t_node **stack)
 	ps_lstadd_front(stack, temp);
 	refresh_index(stack);
 }
-
-// void rotate(t_node **stack) {
-//     t_node *temp;
-
-//     if (!(*stack) || ps_lstsize(*stack) < 2)
-//         return ;
-//     temp = *stack;
-//     *stack = temp->next;
-//     (*stack)->prev = NULL;
-
-//     temp->next = NULL;
-//     t_node *last = ps_lstlast(*stack);
-//     last->next = temp;
-//     temp->prev = last;
-//     refresh_index(stack);
-// }
-
-// void reverse(t_node **stack) {
-//     t_node *temp;
-
-//     if (!(*stack) || ps_lstsize(*stack) < 2)
-//         return ;
-//     temp = ps_lstlast(*stack);
-//     temp->prev->next = NULL;
-//     temp->prev = NULL;
-//     temp->next = *stack;
-//     (*stack)->prev = temp;
-//     *stack = temp;
-//     refresh_index(stack);
-// }
