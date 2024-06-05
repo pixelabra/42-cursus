@@ -1,44 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo_utils2.c                                      :+:      :+:    :+:   */
+/*   algorithm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:52:40 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/06 01:07:26 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 02:30:05 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	set_cost(t_node *node, int size1, int size2)
+void	final_order(t_node **stack)
 {
-	// printf("Node: %d, Target: %d, Node Index: %d, Target Index: %d, Size1: %d, Size2: %d\n",
-        //    node->nbr, node->target->nbr, node->index, node->target->index, size1, size2);
-	if (!node)
+	t_node	*temp;
+	int		size1;
+
+	temp = abs_min(stack);
+	size1 = ps_lstsize(*stack);
+	if (issorted(stack))
 		return ;
-	if (node->target->index < size2 / 2 && node->index < size1 / 2)
+	while (temp->index)
 	{
-		node->cost = max_nbr(node->target->index, node->index);
-		node->flag = RotRot;
+		if (temp->index < size1 / 2)
+		{
+			rotate(stack);
+			ft_putendl_fd("ra", 1);
+		}
+		else if (temp->index >= size1 / 2)
+		{
+			reverse(stack);
+			ft_putendl_fd("rra", 1);
+		}
 	}
-	else if (node->target->index < size2 / 2 && node->index >= size1 / 2)
-	{
-		node->cost = node->target->index + (size1 - node->index);
-		node->flag = RevRot;
-	}
-	else if (node->target->index >= size2 / 2 && node->index < size1 / 2)
-	{
-		node->cost = (size2 - node->target->index) + node->index;
-		node->flag = RotRev;
-	}
-	else if (node->target->index >= size2 / 2 && node->index >= size1 / 2)
-	{
-		node->cost = max_nbr(size2 - node->target->index, size1 - node->index);
-		node->flag = RevRev;
-	}
-	// printf("Assigned Cost: %d, Flag: %d\n", node->cost, node->flag);
 }
 
 t_node	*cheapest_node(t_node **stack)
@@ -98,7 +93,7 @@ void	push_push(t_node **stack1, t_node **stack2)
 {
 	int	size1;
 	int	size2;
-
+	
 	push(stack2, stack1);
 	ft_putendl_fd("pb", 1);
 	push(stack2, stack1);
@@ -111,11 +106,10 @@ void	push_push(t_node **stack1, t_node **stack2)
 	}
 	sort_three(stack1);
 	size2 = ps_lstsize(*stack2);
-	// while (size2-- > 0)
-	// {
-	// 	set_target_cost(stack2, stack1, 0);
-	// 	algo_moves(stack2, stack1, 0);
-	// }
-	push_back(stack1, stack2);
-	(void) size2;
+	while (size2-- > 0)
+	{
+		set_target_cost_back(stack1, stack2);
+		algo_moves(stack1, stack2, 0);
+	}
+	final_order(stack1);
 }

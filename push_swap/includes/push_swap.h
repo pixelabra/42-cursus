@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:18:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/06 01:30:56 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 02:21:39 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_node
 void	ps_stack_init(int ac, char **av, t_node **a);
 char	*ps_join_arg(int ac, char **av);
 
-// error handling
+// error handling for parsing
 void	ps_error(char *ptr, char **dblptr);
 void	isvalidnbr(char *sep_arg, char **sep_args);
 long	ps_atol(char *sep_arg, char **sep_args);
@@ -93,10 +93,8 @@ void	rot_rev(t_node *node, t_node **stack1, t_node **stack2, int flag);
 void	rev_rot(t_node *node, t_node **stack1, t_node **stack2, int flag);
 
 // algo back
-void	push_back(t_node **stack1, t_node **stack2);
 void	set_target_cost_back(t_node **stack1, t_node **stack2);
 void	set_cost_back(t_node *node, int size1, int size2);
-
-void print_lst2(t_node *lst);
+void	final_order(t_node **stack);
 
 #endif
