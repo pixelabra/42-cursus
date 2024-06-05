@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:18:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/04 20:31:58 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 01:30:56 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,14 @@ void	sort_three(t_node **stack);
 // moves
 void	rot_rot(t_node *node, t_node **stack1, t_node **stack2);
 void	rev_rev(t_node *node, t_node **stack1, t_node **stack2);
-void	rot_rev(t_node *node, t_node **stack1, t_node **stack2, int size2);
-void	rev_rot(t_node *node, t_node **stack1, t_node **stack2, int size1);
+void	rot_rev(t_node *node, t_node **stack1, t_node **stack2, int flag);
+void	rev_rot(t_node *node, t_node **stack1, t_node **stack2, int flag);
+
+// algo back
+void	push_back(t_node **stack1, t_node **stack2);
+void	set_target_cost_back(t_node **stack1, t_node **stack2);
+void	set_cost_back(t_node *node, int size1, int size2);
+
+void print_lst2(t_node *lst);
 
 #endif

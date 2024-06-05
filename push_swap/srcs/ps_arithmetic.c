@@ -6,27 +6,31 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 02:49:46 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/04 21:21:14 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 01:39:42 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	swap(t_node **stack)
+void swap(t_node **stack)
 {
 	t_node	*temp1;
 	t_node	*temp2;
 
 	if (ps_lstsize(*stack) <= 1)
-		return ;
+		return;
+
 	temp1 = *stack;
 	temp2 = (*stack)->next;
-	temp1->prev = temp1->next;
+
+	if (temp2->next)
+		temp2->next->prev = temp1;
 	temp1->next = temp2->next;
-	*stack = temp2;
 	temp2->next = temp1;
-	temp2->prev = NULL;
-	refresh_index(stack);
+	temp2->prev = temp1->prev;
+	temp1->prev = temp2;
+	*stack = temp2;
+    refresh_index(stack);
 }
 
 void	push(t_node **pushee, t_node **pusher)

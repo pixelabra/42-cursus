@@ -1,6 +1,6 @@
 NAME			:= push_swap
 SRCS			:= push_swap.c parsing.c free.c lst_utils.c ps_arithmetic.c ps_arithmetic2.c \
-					algo_utils.c algo_utils2.c moves1.c
+					algo_utils.c algo_utils2.c moves1.c algo2.c
 
 OBJS			:= $(SRCS:.c=.o)
 CC				:= cc

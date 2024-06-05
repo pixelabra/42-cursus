@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:37:41 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/04 22:16:24 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 01:42:14 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,36 +52,64 @@ void	rev_rev(t_node *node, t_node **stack1, t_node **stack2)
 	}
 }
 
-void	rot_rev(t_node *node, t_node **stack1, t_node **stack2, int size2)
+void	rot_rev(t_node *node, t_node **stack1, t_node **stack2, int flag)
 {
-	while (node->index)
+	if (flag)
 	{
-		rotate(stack1);
-		ft_putendl_fd("ra", 1);
+		while (node->index)
+		{
+			rotate(stack1);
+			ft_putendl_fd("ra", 1);
+		}
+		while (node->target->index)
+		{
+			reverse(stack2);
+			ft_putendl_fd("rrb", 1);
+		}
 	}
-	while (node->target->index)
+	if (!flag)
 	{
-		reverse(stack2);
-		ft_putendl_fd("rrb", 1);
-		// printf("%d\n", node->target->index);
+		while (node->target->index)
+		{
+			rotate(stack1);
+			ft_putendl_fd("ra", 1);
+		}
+		while (node->index)
+		{
+			reverse(stack2);
+			ft_putendl_fd("rrb", 1);
+		}
 	}
-	(void) size2;
-	(void) stack2;
 }
 
-void	rev_rot(t_node *node, t_node **stack1, t_node **stack2, int size1)
+void	rev_rot(t_node *node, t_node **stack1, t_node **stack2, int flag)
 {
-	while (node->target->index)
-	{
-		rotate(stack2);
-		ft_putendl_fd("rb", 1);
+	if (flag)
+	{	
+		while (node->index)
+		{
+			reverse(stack1);
+			ft_putendl_fd("rra", 1);
+		}
+		while (node->target->index)
+		{
+			rotate(stack2);
+			ft_putendl_fd("rb", 1);
+		}
 	}
-	while (node->index)
-	{
-		reverse(stack1);
-		ft_putendl_fd("rra", 1);
+	if (!flag)
+	{	
+		while (node->target->index)
+		{
+			reverse(stack1);
+			ft_putendl_fd("rra", 1);
+		}
+		while (node->index)
+		{
+			rotate(stack2);
+			ft_putendl_fd("rb", 1);
+		}
 	}
-	(void) size1;
 }
 
 void	sort_three(t_node **stack)
