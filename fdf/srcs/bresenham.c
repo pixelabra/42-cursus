@@ -6,27 +6,27 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 22:36:50 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/29 22:34:18 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 23:20:20 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-float	bresenham_step(float start, float end)
+int	bresenham_step(int start, int end)
 {
 	if (start < end)
 		return (1);
 	return (-1);
 }
 
-float	br_abs(int number)
+int	br_abs(int number)
 {
 	if (number < 0)
 		number *= -1;
 	return (number);
 }
 
-int	br_max(float abs_dx, float abs_dy)
+int	br_max(int abs_dx, int abs_dy)
 {
 	if (abs_dx >= abs_dy)
 		return ((int) abs_dx);
@@ -70,10 +70,6 @@ void bresenham_algo(t_mlx_data *data, t_coord start, t_coord end)
 
 	start_rgb = get_rgb(start.colour);
 	end_rgb = get_rgb(end.colour);
-	// printf("start_rgb.r: %u\n", start_rgb.r);
-	// printf("start_rgb.g: %u\n", start_rgb.g);
-	// printf("start_rgb.b: %u\n", start_rgb.b);
-	// printf("start_rgb.a: %u\n", start_rgb.a);
 	params = bresenham_setup(start, end);
     while (1)
 	{

@@ -6,25 +6,11 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/26 20:47:35 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/07 02:59:00 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-void	ft_error(int error_code, char *line)
-{
-	if (error_code == 1)
-		ft_putendl_fd("Map file should end in '.fdf'.", 2);
-	if (error_code == 2)
-		ft_putendl_fd("Unable to read the file or file empty.", 2);
-	if (error_code == 3)
-	{
-		free(line);
-		ft_putendl_fd("Unable to read the file or file empty", 2);
-	}
-	exit(0);
-}
 
 int	get_height(char **argv)
 {
@@ -35,7 +21,7 @@ int	get_height(char **argv)
 	height = 0;
 	fd_map = open(argv[1], O_RDONLY);
 	if (fd_map < 0)
-		ft_error(1, NULL); //these need to be changed
+		ft_error(2, NULL, -1);
 	line = get_next_line(fd_map);
 	while (line)
 	{
@@ -47,7 +33,6 @@ int	get_height(char **argv)
 	return (height);
 }
 
-//What happens when the length is 0?
 int	get_width(char **argv)
 {
 	char	*line;
@@ -57,8 +42,10 @@ int	get_width(char **argv)
 	length = 0;
 	fd_map = open(argv[1], O_RDONLY);
 	if (fd_map < 0)
-		ft_error(1, NULL); //these need to be changed
+		ft_error(1, NULL, -1);
 	line = get_next_line(fd_map);
+	if (!line || !(*line))
+			ft_error(2, line, fd_map);
 	if (line[ft_strlen(line) - 1] == '\n')
 		line[ft_strlen(line) - 1] = ' ';
 	length = (int) ft_wc(line, ' ');
@@ -98,6 +85,31 @@ void	pop_matrix(t_coord *row, char *line, int current_line)
 	free(points);
 }
 
+void	alloc_matrix(t_mlx_data *data, char **argv, int fd_map)
+{
+	int	i;
+
+	data->height = get_height(argv);
+	data->width = get_width(argv);
+	data->matrix = malloc(sizeof(t_coord *) * data->height);
+	if (!data->matrix)
+	{
+		close(fd_map);
+		free_init(data);
+	}
+	i = 0;
+	while (i < data->height)
+	{
+		data->matrix[i] = malloc(sizeof(t_coord) * data->width);
+		if (!data->matrix[i])
+		{
+			close(fd_map);
+			free_init(data);
+		}
+		i++;
+	}
+}
+
 void	build_matrix(t_mlx_data *data, char **argv)
 {
 	int	i;
@@ -106,13 +118,8 @@ void	build_matrix(t_mlx_data *data, char **argv)
 
 	fd_map = open(argv[1], O_RDONLY);
 	if (fd_map < 0)
-		ft_error(1, NULL);
-	data->height = get_height(argv);
-	data->width = get_width(argv);
-	data->matrix = malloc(sizeof(t_coord *) * data->height + 1);
-	i = 0;
-	while (i < data->height)
-		data->matrix[i++] = malloc(sizeof(t_coord) * data->width);
+		ft_error(1, NULL, -1);
+	alloc_matrix(data, argv, fd_map);
 	i = 0;
 	line = get_next_line(fd_map);
 	while (line)

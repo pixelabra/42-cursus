@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:24:24 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/29 22:27:34 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 22:53:41 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	handle_features(int keycode, t_mlx_data *data)
 
 int	deal_key(int keycode, t_mlx_data *data)
 {
-	printf("%d\n", keycode);
 	if (keycode == KEY_R_PLUS)
 		adj_colours(data, R, 10);
     else if (keycode == KEY_R_MINUS)

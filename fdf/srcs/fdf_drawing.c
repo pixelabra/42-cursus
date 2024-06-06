@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/29 22:32:16 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/06 22:44:11 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ t_rgb	get_rgb(unsigned int colour)
 
 unsigned int	interpolate_colour(t_rgb start_rgb, t_rgb end_rgb, float t)
 {
-	t_rgb	rgb;
+	t_rgb			rgb;
+	unsigned int	colour;
 
 	rgb.r = (unsigned char) (start_rgb.r + t * (end_rgb.r - start_rgb.r));
 	rgb.g = (unsigned char) (start_rgb.g + t * (end_rgb.g - start_rgb.g));
 	rgb.b = (unsigned char) (start_rgb.b + t * (end_rgb.b - start_rgb.b));
 	rgb.a = (unsigned char) (start_rgb.a + t * (end_rgb.a - start_rgb.a));
-	unsigned int colour = ((rgb.a << 24) | (rgb.r << 16) | (rgb.g << 8) | (rgb.b << 0));
+	colour = ((rgb.a << 24) | (rgb.r << 16) | (rgb.g << 8) | (rgb.b << 0));
 	return (colour);
 }
 

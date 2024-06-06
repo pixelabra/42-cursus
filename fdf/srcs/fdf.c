@@ -6,11 +6,22 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:40:35 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/26 21:41:16 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/07 02:47:07 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+void	init_null(t_mlx_data *data)
+{
+	data->mlx_ptr = NULL;
+	data->win_ptr = NULL;
+	data->matrix = NULL;
+	data->config = NULL;
+	data->init_config = NULL;
+	data->img.img_ptr = NULL;
+	data->img.addr = NULL;
+}
 
 t_mlx_data	*init_mlx_data(void)
 {
@@ -19,14 +30,19 @@ t_mlx_data	*init_mlx_data(void)
 	data = malloc(sizeof(t_mlx_data));
 	if (!data)
 		exit(0);
+	init_null(data);
 	data->config = malloc(sizeof(t_mlx_camera));
-	if (!data->config) //free data
-		exit(0);
+	if (!data->config)
+		free_init(data);
 	data->init_config = malloc(sizeof(t_mlx_camera));
 	if (!data->init_config)
-		exit(0);
+		free_init(data);
 	data->mlx_ptr = mlx_init();
+	if (!data->mlx_ptr)
+		free_init(data);
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "FDF");
+	if (!data->win_ptr)
+		free_init(data);
 	data->img.width = WIN_WIDTH;
 	data->img.height = WIN_HEIGHT;
 	init_config(data->config, data->init_config);
@@ -70,19 +86,13 @@ int	close_window(t_mlx_data *data)
 	exit(0);
 }
 
-int	handle_no_event(void *data)
-{
-    (void) data;
-    return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_mlx_data 		*data;
 
 	if (argc != 2)
-		return (1);
-	// file_checker(argv);
+		ft_error(5, NULL, -1);
+	file_checker(argv);
 	data = init_mlx_data();
 	build_matrix(data, argv);
 	draw(data);

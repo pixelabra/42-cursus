@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/29 22:34:18 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/07 02:34:19 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,33 @@ typedef struct s_rgb
 // 3D coordinate
 typedef struct s_coord
 {
-	float			x;
-	float			y;
-	float			z;
+	int				x;
+	int				y;
+	int				z;
 	unsigned int	colour;
 }	t_coord;
 
 // Image specific details
 typedef struct s_image
 {
-	void	*img_ptr;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		width;
-	int		height;
+	void			*img_ptr;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+	int				width;
+	int				height;
 }	t_image;
 
 typedef struct s_br_param
 {
-	float	x_step;
-	float	y_step;
-	float	decision;
-	float	abs_dx;
-	float	abs_dy;
-	int		curr_step;
-	int		total_steps;
+	int				x_step;
+	int				y_step;
+	int				decision;
+	int				abs_dx;
+	int				abs_dy;
+	int				curr_step;
+	int				total_steps;
 }	t_br_param;
 
 // MLX instance, window, image, matrix information
@@ -127,20 +127,20 @@ typedef struct s_mlx_data
 	int				height;	
 }	t_mlx_data;
 
-void			ft_error(int error_code, char *str);
+void			ft_error(int error_code, char *str, int fd_map);
 int				get_height(char **argv);
 int				get_width(char **argv);
 void			build_matrix(t_mlx_data *mx_var, char **argv);
 void			pop_matrix(t_coord *row, char *line, int current_line);
 
-int				br_max(float abs_dx, float abs_dy);
+int				br_max(int abs_dx, int abs_dy);
 t_rgb			get_rgb(unsigned int colour);
 unsigned int	interpolate_colour(t_rgb start_rgb, t_rgb end_rgb, float t);
 
-float			br_abs(int number);
+int				br_abs(int number);
 void			bresenham_algo(t_mlx_data *data, t_coord start, t_coord end);
 t_br_param		bresenham_setup(t_coord start, t_coord end);
-float			bresenham_step(float start, float end);
+int				bresenham_step(int start, int end);
 void			zoomer(t_coord *coord, t_mlx_camera *config);
 
 void			create_image(t_mlx_data *data);
@@ -176,5 +176,9 @@ void			handle_features(int keycode, t_mlx_data *data);
 int				deal_key(int keycode, t_mlx_data *data);
 void			free_array(char **point);
 int				ft_htoi(char *str);
+
+void			init_null(t_mlx_data *data);
+void			free_init(t_mlx_data *data);
+void			alloc_matrix(t_mlx_data *data, char **argv, int fd_map);
 
 #endif
