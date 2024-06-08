@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/07 02:59:00 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:07:27 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,24 @@ int	get_width(char **argv)
 	return (length);
 }
 
-void	pop_matrix(t_coord *row, char *line, int current_line)
+int	pop_matrix(t_coord *row, char *line, int current_line, int i)
 {
-	int		i;
 	char	**points;
 	char	**coord;
 
-	i = 0;
 	points = ft_split(line, ' ');
+	if (!points)
+		return (1);
 	while (points[i])
 	{
 		if (ft_strncmp(points[i], "\n", 1))
 		{
 			coord = ft_split(points[i], ',');
+			if (!coord)
+			{
+				free_array(points);
+				return (1);
+			}
 			row[i].x = i;
 			row[i].y = current_line;
 			row[i].z = ft_atoi(coord[0]);
@@ -74,15 +79,13 @@ void	pop_matrix(t_coord *row, char *line, int current_line)
 				row[i].colour = ft_htoi(coord[1]);
 			else
 				row[i].colour = 0xFFFFFFFF;
-			free(coord[0]);
-			if (coord[1])
-				free(coord[1]);
-			free(coord);
+			free_array(coord);
 		}
 		free(points[i]);
 		i++;
 	}
 	free(points);
+	return (0);
 }
 
 void	alloc_matrix(t_mlx_data *data, char **argv, int fd_map)
@@ -124,7 +127,11 @@ void	build_matrix(t_mlx_data *data, char **argv)
 	line = get_next_line(fd_map);
 	while (line)
 	{
-		pop_matrix(data->matrix[i], line, i + 1);
+		if (pop_matrix(data->matrix[i], line, i + 1, 0))
+		{
+			free(line);
+			free_init(data);
+		}
 		free(line);
 		line = get_next_line(fd_map);
 		i++;

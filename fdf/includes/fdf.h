@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/07 02:34:19 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 14:51:41 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void			ft_error(int error_code, char *str, int fd_map);
 int				get_height(char **argv);
 int				get_width(char **argv);
 void			build_matrix(t_mlx_data *mx_var, char **argv);
-void			pop_matrix(t_coord *row, char *line, int current_line);
+int				pop_matrix(t_coord *row, char *line, int current_line, int i);
 
 int				br_max(int abs_dx, int abs_dy);
 t_rgb			get_rgb(unsigned int colour);

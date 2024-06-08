@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:37:54 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/06 22:44:11 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:39:22 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	create_image(t_mlx_data *data)
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
 }
 
-t_coord			**create_tmp_matrix(t_coord **og_matrix, int width, int height)
+t_coord	**create_tmp_matrix(t_coord **og_matrix, int width, int height)
 {
 	int	i;
 	int	j;
