@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/08 17:34:27 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 22:32:25 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	pop_colour(t_coord *row, char *points, int i)
 	j = 0;
 	while (points[j])
 	{
+		if (!ft_strncmp(points, "\n", 1))
+			return ;
 		if (points[j] == ',')
 		{
 			row[i].z = ft_atoi(points);
@@ -28,7 +30,7 @@ void	pop_colour(t_coord *row, char *points, int i)
 		j++;
 	}
 	row[i].z = ft_atoi(points);
-	row[i].colour = 0xFFFFFFFF;
+	row[i].colour = 0x00FFFFFF;
 }
 
 int	pop_matrix(t_coord *row, char *line, int current_line, int i)
@@ -45,8 +47,8 @@ int	pop_matrix(t_coord *row, char *line, int current_line, int i)
 			row[i].x = i;
 			row[i].y = current_line;
 			pop_colour(row, points[i], i);
-			i++;
 		}
+		i++;
 	}
 	free_array(points);
 	return (0);

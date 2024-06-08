@@ -9,25 +9,33 @@ CFLAGS			:= -Wall -Wextra -Werror
 DIR_LIBFT		:= libft/
 DIR_SRCS		:= srcs/
 DIR_OBJS		:= objs/
-DIR_MLX			:= minilibx_PxAb/
 DIR_INC			:= includes/
 
 SRCS_PFX		:= $(addprefix $(DIR_SRCS), $(SRCS))
 OBJS_PFX		:= $(addprefix $(DIR_OBJS), $(OBJS))
-INC				:= -I$(DIR_INC) -I$(DIR_LIBFT) -I$(DIR_MLX)
-LIBS			:= -L$(DIR_LIBFT) -L$(DIR_MLX) -lft -lmlx -lX11 -lXext -lm
-LIBFT_MLX		:= $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
 
-all: $(NAME)
+OS := $(shell uname)
+ifeq ($(OS),Linux)
+LIBS			:= -L$(DIR_LIBFT) -L$(DIR_MLX) -lmlx -lX11 -lXext -lm -lz
+DIR_MLX			:= minilibx_linux/
+else
+DIR_MLX			:= minilibx_macos/
+LIBS			:= -L$(DIR_LIBFT) -L$(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
+endif
+
+LIBFT_MLX		:= $(DIR_LIBFT)libft.a $(DIR_MLX)libmlx.a
+INC				:= -I$(DIR_INC) -I$(DIR_LIBFT) -I$(DIR_MLX)
+
+all: $(LIBFT_MLX) $(NAME)
 
 $(NAME): $(OBJS_PFX) $(LIBFT_MLX)
-	$(CC) $(CFLAGS) $(OBJS_PFX) -o $@ $(LIBS) $(INC)
-
-${DIR_OBJS}%.o: $(DIR_SRCS)%.c | $(DIR_OBJS)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	$(CC) $(CFLAGS) $(LIBS) $(LIBFT_MLX) $(OBJS_PFX) -o $@ $(INC)
 
 $(DIR_OBJS):
 	mkdir -p $@
+
+${DIR_OBJS}%.o: $(DIR_SRCS)%.c | $(DIR_OBJS)
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(LIBFT_MLX):
 	make -C $(DIR_LIBFT)
@@ -44,7 +52,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-push:
-	git add .
-	git commit -m "finalised makefile"

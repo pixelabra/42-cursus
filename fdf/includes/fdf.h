@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/08 17:28:03 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 20:33:06 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,64 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
-# include "../minilibx_PxAb/mlx.h"
+# include "../minilibx_macos/mlx.h"
 # include "../libft/libft.h"
 
-# define WIN_WIDTH 1000
-# define WIN_HEIGHT 1000
-# define KEY_ESC 65307
-# define KEY_UP 65362
-# define KEY_RIGHT 65363
-# define KEY_DOWN 65364
-# define KEY_LEFT 65361
-# define KEY_PLUS 61
-# define KEY_MINUS 45
-# define KEY_Q 113
-# define KEY_A 97
-# define KEY_W 119
-# define KEY_S 115
-# define KEY_E 101
-# define KEY_D 100
-# define KEY_Z 122
-# define KEY_X 120
-# define KEY_R 114
-# define KEY_P 112
-# define KEY_I 105
-# define KEY_R_PLUS 49
-# define KEY_R_MINUS 50
-# define KEY_G_PLUS 51
-# define KEY_G_MINUS 52
-# define KEY_B_PLUS 53
-# define KEY_B_MINUS 54
+# ifdef __APPLE__
+#  define WIN_WIDTH 1000
+#  define WIN_HEIGHT 1000
+#  define KEY_ESC 53
+#  define KEY_UP 126
+#  define KEY_RIGHT 124
+#  define KEY_DOWN 125
+#  define KEY_LEFT 123
+#  define KEY_PLUS 24
+#  define KEY_MINUS 27
+#  define KEY_Q 12
+#  define KEY_A 0
+#  define KEY_W 13
+#  define KEY_S 1
+#  define KEY_E 14
+#  define KEY_D 2
+#  define KEY_Z 6
+#  define KEY_X 7
+#  define KEY_R 15
+#  define KEY_P 35
+#  define KEY_I 34
+#  define KEY_R_PLUS 18
+#  define KEY_R_MINUS 19
+#  define KEY_G_PLUS 20
+#  define KEY_G_MINUS 21
+#  define KEY_B_PLUS 23
+#  define KEY_B_MINUS 22
+# else
+#  define WIN_WIDTH 1000
+#  define WIN_HEIGHT 1000
+#  define KEY_ESC 65307
+#  define KEY_UP 65362
+#  define KEY_RIGHT 65363
+#  define KEY_DOWN 65364
+#  define KEY_LEFT 65361
+#  define KEY_PLUS 61
+#  define KEY_MINUS 45
+#  define KEY_Q 113
+#  define KEY_A 97
+#  define KEY_W 119
+#  define KEY_S 115
+#  define KEY_E 101
+#  define KEY_D 100
+#  define KEY_Z 122
+#  define KEY_X 120
+#  define KEY_R 114
+#  define KEY_P 112
+#  define KEY_I 105
+#  define KEY_R_PLUS 49
+#  define KEY_R_MINUS 50
+#  define KEY_G_PLUS 51
+#  define KEY_G_MINUS 52
+#  define KEY_B_PLUS 53
+#  define KEY_B_MINUS 54
+# endif
 
 typedef enum e_projection
 {
