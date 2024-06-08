@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 23:51:56 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/08 14:51:41 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:28:03 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,10 @@ t_rgb			get_rgb(unsigned int colour);
 unsigned int	interpolate_colour(t_rgb start_rgb, t_rgb end_rgb, float t);
 
 int				br_abs(int number);
-void			bresenham_algo(t_mlx_data *data, t_coord start, t_coord end);
-t_br_param		bresenham_setup(t_coord start, t_coord end);
-int				bresenham_step(int start, int end);
+void			br_algo(t_mlx_data *data, t_coord start, t_coord end);
+void			br_inc(t_coord *start, t_br_param *params, int decision2x);
+t_br_param		br_setup(t_coord start, t_coord end);
+int				br_step(int start, int end);
 void			zoomer(t_coord *coord, t_mlx_camera *config);
 
 void			create_image(t_mlx_data *data);
@@ -174,8 +175,9 @@ void			handle_projection(int keycode, t_mlx_data *data);
 void			handle_rotation(int keycode, t_mlx_data *data);
 void			handle_features(int keycode, t_mlx_data *data);
 int				deal_key(int keycode, t_mlx_data *data);
-void			free_array(char **point);
+int				free_array(char **point);
 int				ft_htoi(char *str);
+void			pop_colour(t_coord *row, char *points, int i);
 
 void			init_null(t_mlx_data *data);
 void			free_init(t_mlx_data *data);

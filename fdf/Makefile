@@ -1,6 +1,6 @@
 NAME			:= fdf
 SRCS			:= fdf.c parsing.c fdf_drawing.c transformations.c bresenham.c free_data.c map_checker.c \
-					hooks.c
+					hooks.c br_utils.c init.c get_dimensions.c rotations.c colour.c
 
 OBJS			:= $(SRCS:.c=.o)
 CC				:= cc

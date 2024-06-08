@@ -6,22 +6,22 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 23:24:24 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/06 22:53:41 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 18:12:34 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void	handle_movement(int	keycode, t_mlx_data *data)
+void	handle_movement(int keycode, t_mlx_data *data)
 {
 	if (keycode == KEY_UP)
-        data->config->shift_y -= 5;
+		data->config->shift_y -= 5;
 	else if (keycode == KEY_RIGHT)
-        data->config->shift_x += 5;
+		data->config->shift_x += 5;
 	else if (keycode == KEY_DOWN)
 		data->config->shift_y += 5;
 	else if (keycode == KEY_LEFT)
-        data->config->shift_x -= 5;
+		data->config->shift_x -= 5;
 }
 
 void	handle_projection(int keycode, t_mlx_data *data)
@@ -52,8 +52,7 @@ void	handle_features(int keycode, t_mlx_data *data)
 {
 	if (keycode == KEY_ESC)
 	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		// free_data(data);
+		free_data(data);
 		exit(0);
 	}
 	else if (keycode == KEY_PLUS)
@@ -78,13 +77,13 @@ int	deal_key(int keycode, t_mlx_data *data)
 {
 	if (keycode == KEY_R_PLUS)
 		adj_colours(data, R, 10);
-    else if (keycode == KEY_R_MINUS)
+	else if (keycode == KEY_R_MINUS)
 		adj_colours(data, R, -10);
-    else if (keycode == KEY_G_PLUS)
+	else if (keycode == KEY_G_PLUS)
 		adj_colours(data, G, 10);
-    else if (keycode == KEY_G_MINUS)
+	else if (keycode == KEY_G_MINUS)
 		adj_colours(data, G, -10);
-    else if (keycode == KEY_B_PLUS)
+	else if (keycode == KEY_B_PLUS)
 		adj_colours(data, B, 10);
 	else if (keycode == KEY_B_MINUS)
 		adj_colours(data, B, -10);

@@ -6,58 +6,34 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 23:51:06 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/08 15:07:27 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:34:27 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int	get_height(char **argv)
+void	pop_colour(t_coord *row, char *points, int i)
 {
-	int		fd_map;
-	int		height;
-	char	*line;
+	int		j;
 
-	height = 0;
-	fd_map = open(argv[1], O_RDONLY);
-	if (fd_map < 0)
-		ft_error(2, NULL, -1);
-	line = get_next_line(fd_map);
-	while (line)
+	j = 0;
+	while (points[j])
 	{
-		height++;
-		free(line);
-		line = get_next_line(fd_map);
+		if (points[j] == ',')
+		{
+			row[i].z = ft_atoi(points);
+			row[i].colour = ft_htoi(points + j + 1);
+			return ;
+		}
+		j++;
 	}
-	close(fd_map);
-	return (height);
-}
-
-int	get_width(char **argv)
-{
-	char	*line;
-	int		fd_map;
-	int		length;
-
-	length = 0;
-	fd_map = open(argv[1], O_RDONLY);
-	if (fd_map < 0)
-		ft_error(1, NULL, -1);
-	line = get_next_line(fd_map);
-	if (!line || !(*line))
-			ft_error(2, line, fd_map);
-	if (line[ft_strlen(line) - 1] == '\n')
-		line[ft_strlen(line) - 1] = ' ';
-	length = (int) ft_wc(line, ' ');
-	free(line);
-	close(fd_map);
-	return (length);
+	row[i].z = ft_atoi(points);
+	row[i].colour = 0xFFFFFFFF;
 }
 
 int	pop_matrix(t_coord *row, char *line, int current_line, int i)
 {
 	char	**points;
-	char	**coord;
 
 	points = ft_split(line, ' ');
 	if (!points)
@@ -66,25 +42,13 @@ int	pop_matrix(t_coord *row, char *line, int current_line, int i)
 	{
 		if (ft_strncmp(points[i], "\n", 1))
 		{
-			coord = ft_split(points[i], ',');
-			if (!coord)
-			{
-				free_array(points);
-				return (1);
-			}
 			row[i].x = i;
 			row[i].y = current_line;
-			row[i].z = ft_atoi(coord[0]);
-			if (coord[1])
-				row[i].colour = ft_htoi(coord[1]);
-			else
-				row[i].colour = 0xFFFFFFFF;
-			free_array(coord);
+			pop_colour(row, points[i], i);
+			i++;
 		}
-		free(points[i]);
-		i++;
 	}
-	free(points);
+	free_array(points);
 	return (0);
 }
 
@@ -115,9 +79,9 @@ void	alloc_matrix(t_mlx_data *data, char **argv, int fd_map)
 
 void	build_matrix(t_mlx_data *data, char **argv)
 {
-	int	i;
-	int fd_map;
-	char *line;
+	int		i;
+	int		fd_map;
+	char	*line;
 
 	fd_map = open(argv[1], O_RDONLY);
 	if (fd_map < 0)
