@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 14:27:58 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/31 17:36:21 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:04:31 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,23 @@ void	ft_error(int error_code, char *str)
 	exit(EXIT_FAILURE);
 }
 
-void	termination_check(pid_t pid)
+void	termination_check(pid_t last_pid)
 {
 	pid_t	temp;
 	int		status;
-	int		wstatus;
+	int		last_status;
 
-	status = 0;
+	last_status = 0;
 	while (1)
 	{
-		temp = wait(&wstatus);
-		if (temp == pid)
-		{
-			status = wstatus;
+		temp = wait(&status);
+		if (temp <= 0)
 			break ;
-		}
+		if (temp == last_pid)
+			last_status = status;
 	}
-	if (WIFEXITED(status))
-		exit(WEXITSTATUS(status));
+	if (WIFEXITED(last_status))
+		exit(WEXITSTATUS(last_status));
+	else
+		exit(EXIT_FAILURE);
 }

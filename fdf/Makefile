@@ -16,8 +16,8 @@ OBJS_PFX		:= $(addprefix $(DIR_OBJS), $(OBJS))
 
 OS := $(shell uname)
 ifeq ($(OS),Linux)
-LIBS			:= -L$(DIR_LIBFT) -L$(DIR_MLX) -lmlx -lX11 -lXext -lm -lz
 DIR_MLX			:= minilibx_linux/
+LIBS			:= -L$(DIR_LIBFT) -L$(DIR_MLX) -lmlx -lX11 -lXext -lm -lz
 else
 DIR_MLX			:= minilibx_macos/
 LIBS			:= -L$(DIR_LIBFT) -L$(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
@@ -29,7 +29,7 @@ INC				:= -I$(DIR_INC) -I$(DIR_LIBFT) -I$(DIR_MLX)
 all: $(LIBFT_MLX) $(NAME)
 
 $(NAME): $(OBJS_PFX) $(LIBFT_MLX)
-	$(CC) $(CFLAGS) $(LIBS) $(LIBFT_MLX) $(OBJS_PFX) -o $@ $(INC)
+	$(CC) $(CFLAGS) $(OBJS_PFX) $(LIBS) $(LIBFT_MLX) -o $@ $(INC)
 
 $(DIR_OBJS):
 	mkdir -p $@

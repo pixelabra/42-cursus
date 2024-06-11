@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 01:18:29 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/05/02 20:31:40 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:06:53 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc >= 5)
 	{
 		if (!ft_strncmp(argv[1], "here_doc", 9))
-		{	
+		{
 			if (argc < 6)
 				ft_error(7, NULL);
 			here_doc(argc, argv, envp);

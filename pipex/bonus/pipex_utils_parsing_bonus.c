@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 14:27:58 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/03/31 17:49:50 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:06:41 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,28 +98,30 @@ void	ft_error(int error_code, char *str)
 		ft_putstr_fd("No environment\n", 1);
 	else if (error_code == 7)
 	{
-		ft_putstr_fd("Input should be ./pipex here_doc cmd1 cmd2 ... outfile\n", 1);
+		ft_putstr_fd
+			("Input should be./pipex here_doc cmd1 cmd2 ... outfile\n", 1);
 		exit(0);
 	}
 	exit(EXIT_FAILURE);
 }
 
-void	termination_check(pid_t pid)
+void	termination_check(pid_t last_pid)
 {
 	pid_t	temp;
 	int		status;
-	int		wstatus;
+	int		last_status;
 
-	status = 0;
+	last_status = 0;
 	while (1)
 	{
-		temp = wait(&wstatus);
-		if (temp == pid)
-		{
-			status = wstatus;
+		temp = wait(&status);
+		if (temp <= 0)
 			break ;
-		}
+		if (temp == last_pid)
+			last_status = status;
 	}
-	if (WIFEXITED(status))
-		exit(WEXITSTATUS(status));
+	if (WIFEXITED(last_status))
+		exit(WEXITSTATUS(last_status));
+	else
+		exit(EXIT_FAILURE);
 }
