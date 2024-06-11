@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 23:18:53 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/03 19:53:37 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/09 17:16:18 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,17 @@ void	isvalidnbr(char *sep_arg, char **sep_args)
 	if (sep_arg[i] == '-' || sep_arg[i] == '+')
 		i++;
 	if (!sep_arg[i])
+	{
+		free_dblptr(sep_args);
 		ps_error(NULL, sep_args);
+	}
 	while (sep_arg[i])
 	{
 		if (!ft_isdigit(sep_arg[i]))
+		{
+			// free_dblptr(sep_args);
 			ps_error(NULL, sep_args);
+		}
 		i++;
 	}
 }

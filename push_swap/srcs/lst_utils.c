@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 22:33:23 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/06 01:09:39 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/09 16:43:31 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_node	*ps_lstnew(int nbr, int i)
 	return (new_node);
 }
 
-t_node *ps_lstlast(t_node *lst)
+t_node	*ps_lstlast(t_node *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -82,18 +82,4 @@ int	ps_lstsize(t_node *lst)
 		temp = temp->next;
 	}
 	return (size);
-}
-
-// temp function
-void	print_lst(t_node *lst)
-{
-	t_node	*temp;
-
-	temp = lst;
-	while (temp)
-	{
-	   printf("index [%d] nbr[%d] && cost[%d] && flag[%d]\n", temp->index, temp->nbr, temp->cost, temp->flag);
-		temp = temp->next;
-	}
-	printf("\n");
 }

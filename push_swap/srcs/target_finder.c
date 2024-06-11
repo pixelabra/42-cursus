@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo_utils.c                                       :+:      :+:    :+:   */
+/*   target_finder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 20:18:31 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/06 02:00:06 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/09 16:44:12 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_node	*next_small(t_node **stack, int nbr)
 	temp = *stack;
 	ret_node = NULL;
 	min = INT_MIN;
-	while(temp)
+	while (temp)
 	{
 		if (temp->nbr < nbr && temp->nbr >= min)
 		{
@@ -95,7 +95,7 @@ t_node	*next_big(t_node **stack, int nbr)
 	temp = *stack;
 	ret_node = NULL;
 	max = INT_MAX;
-	while(temp)
+	while (temp)
 	{
 		if (temp->nbr > nbr && temp->nbr <= max)
 		{

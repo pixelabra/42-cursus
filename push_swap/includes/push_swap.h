@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:18:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/06 02:21:39 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/09 16:28:48 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,31 @@ t_node	*next_small(t_node **stack, int nbr);
 t_node	*next_big(t_node **stack, int nbr);
 
 // algo utils
-void	set_target_cost(t_node **stack1, t_node **stack2, int flag);
-void	set_cost(t_node *stack, int size1, int size2);
-void	algo_moves(t_node **stack1, t_node **stack2, int flag);
 void	push_push(t_node **stack1, t_node **stack2);
 int		issorted(t_node **stack);
 void	sort_three(t_node **stack);
 
 // moves
+void	algo_moves(t_node **stack1, t_node **stack2);
+void	set_cost(t_node *stack, int size1, int size2);
+void	set_target_cost(t_node **stack1, t_node **stack2, int flag);
+
 void	rot_rot(t_node *node, t_node **stack1, t_node **stack2);
 void	rev_rev(t_node *node, t_node **stack1, t_node **stack2);
-void	rot_rev(t_node *node, t_node **stack1, t_node **stack2, int flag);
-void	rev_rot(t_node *node, t_node **stack1, t_node **stack2, int flag);
+void	rot_rev(t_node *node, t_node **stack1, t_node **stack2);
+void	rev_rot(t_node *node, t_node **stack1, t_node **stack2);
+
+// moves_back
+void	algo_moves_back(t_node **stack1, t_node **stack2);
+void	set_cost_back(t_node *node, int size1, int size2);
+void	set_target_cost_back(t_node **stack1, t_node **stack2);
+
+void	rot_rot_back(t_node *node, t_node **stack1, t_node **stack2);
+void	rev_rev_back(t_node *node, t_node **stack1, t_node **stack2);
+void	rot_rev_back(t_node *node, t_node **stack1, t_node **stack2);
+void	rev_rot_back(t_node *node, t_node **stack1, t_node **stack2);
 
 // algo back
-void	set_target_cost_back(t_node **stack1, t_node **stack2);
-void	set_cost_back(t_node *node, int size1, int size2);
 void	final_order(t_node **stack);
 
 #endif

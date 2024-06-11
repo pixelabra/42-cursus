@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 01:55:45 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/02 15:01:51 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/09 17:05:46 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	free_dblptr(char **dblptr)
 {
 	int	i;
 
-	i = -1;
-	while (dblptr[++i])
-		free(dblptr[i]);
+	i = 0;
+	while (dblptr[i])
+		free(dblptr[i++]);
 	free(dblptr);
 }
 
