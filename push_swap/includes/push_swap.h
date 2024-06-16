@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:18:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/09 16:28:48 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/16 21:44:17 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ps_error_lst(t_node **a, t_node **b);
 
 // lst utils
 t_node	*ps_lstnew(int nbr, int i);
-t_node *ps_lstlast(t_node *lst);
+t_node	*ps_lstlast(t_node *lst);
 void	ps_lstadd_back(t_node **lst, t_node *new);
 void	ps_lstadd_front(t_node **lst, t_node *new);
 int		ps_lstsize(t_node *lst);
