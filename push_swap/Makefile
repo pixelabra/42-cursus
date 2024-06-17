@@ -1,8 +1,9 @@
 NAME			:= push_swap
 NAME_BONUS		:= checker
-SRCS			:= parsing.c free.c lst_utils.c ps_arithmetics.c ps_arithmetics2.c \
+SRCS			:= push_swap.c parsing.c free.c lst_utils.c ps_arithmetics.c ps_arithmetics2.c \
 					target_finder.c algorithm.c moves.c algorithm_utils.c moves_back.c
-SRCS_BONUS		:= checker.c
+SRCS_BONUS		:= checker.c parsing.c free.c lst_utils.c ps_arithmetics.c ps_arithmetics2.c \
+					target_finder.c algorithm.c moves.c algorithm_utils.c moves_back.c
 OBJS			:= $(SRCS:.c=.o)
 OBJS_BONUS		:= $(SRCS_BONUS:.c=.o)
 CC				:= cc
@@ -13,7 +14,7 @@ DIR_SRCS		:= srcs/
 DIR_OBJS		:= objs/
 DIR_INC			:= includes/
 
-SRCS_PFX		:= $(addprefix $(DIR_SRCS), $(SRCS)) srcs/push_swap.c
+SRCS_PFX		:= $(addprefix $(DIR_SRCS), $(SRCS))
 OBJS_PFX		:= $(addprefix $(DIR_OBJS), $(OBJS))
 OBJS_PFX_BONUS	:= $(addprefix $(DIR_OBJS), $(OBJS_BONUS))
 INC				:= -I$(DIR_INC) -I$(DIR_LIBFT)
@@ -36,8 +37,8 @@ $(DIR_OBJS):
 
 bonus: $(NAME_BONUS)
 
-$(NAME_BONUS): $(OBJS_PFX_BONUS) $(OBJS_PFX) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS_PFX_BONUS) $(OBJS_PFX) -o $@ $(LIBS) $(INC)
+$(NAME_BONUS): $(OBJS_PFX_BONUS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS_PFX_BONUS) -o $@ $(LIBS) $(INC)
 
 clean:
 	make clean -C $(DIR_LIBFT)

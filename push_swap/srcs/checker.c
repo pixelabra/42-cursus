@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 16:14:43 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/06/16 21:42:23 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:54:01 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ int	moves(t_node **a, t_node **b, char *line)
 		swap(a);
 	else if (!ft_strncmp(line, "sb\n", 3))
 		swap(b);
-	else if (!ft_strncmp(line, "rra\n", 3))
+	else if (!ft_strncmp(line, "rra\n", 4))
 		reverse(a);
-	else if (!ft_strncmp(line, "rrb\n", 3))
+	else if (!ft_strncmp(line, "rrb\n", 4))
 		reverse(b);
 	else
 		return (moves_cntnd(a, b, line));
-	return (1);
+	return (0);
 }
 
 void	apply_moves(t_node **a, t_node **b, char *line)
@@ -80,9 +80,9 @@ int	main(int ac, char **av)
 	line = get_next_line(STDIN_FILENO);
 	apply_moves(&a, &b, line);
 	if (!issorted(&a))
-		ft_putendl_fd("KO\n", 2);
+		ft_putendl_fd("KO", 2);
 	else if (issorted(&a))
-		ft_putendl_fd("OK\n", 1);
+		ft_putendl_fd("OK", 1);
 	ps_lstclear(&a);
 	ps_lstclear(&b);
 	return (0);
