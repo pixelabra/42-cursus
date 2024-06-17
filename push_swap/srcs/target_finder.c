@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   target_finder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/02 20:18:31 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/09 16:44:12 by a3y3g1           ###   ########.fr       */
+/*   Created: 2024/06/17 16:26:41 by agodeanu          #+#    #+#             */
+/*   Updated: 2024/06/17 16:26:58 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-#include <time.h>
 
 t_node	*abs_min(t_node **stack)
 {

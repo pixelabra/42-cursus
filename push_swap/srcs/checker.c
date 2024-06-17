@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 16:14:43 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/06/17 14:33:55 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:21:05 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ int	moves_cntnd(t_node **a, t_node **b, char *line)
 	{
 		reverse(a);
 		reverse(b);
+	}
+	else if (!ft_strncmp(line, "ss\n", 3))
+	{
+		swap(a);
+		swap(b);
 	}
 	else
 		return (1);
