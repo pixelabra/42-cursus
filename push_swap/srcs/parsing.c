@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 23:18:53 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/16 21:44:29 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:41:32 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,25 @@ char	*ps_join_arg(int ac, char **av)
 	return (joined_arg);
 }
 
-void	isvalidnbr(char *sep_arg, char **sep_args)
+void	isvalidnbr(char *sep_arg, char **sep_args, t_node *node)
 {
 	int		i;
+	t_node	*temp;
 
 	i = 0;
+	temp = node;
 	if (sep_arg[i] == '-' || sep_arg[i] == '+')
 		i++;
 	if (!sep_arg[i])
 	{
-		free_dblptr(sep_args);
+		ps_lstclear(&temp);
 		ps_error(NULL, sep_args);
 	}
 	while (sep_arg[i])
 	{
 		if (!ft_isdigit(sep_arg[i]))
 		{
-			// free_dblptr(sep_args);
+			ps_lstclear(&temp);
 			ps_error(NULL, sep_args);
 		}
 		i++;
@@ -127,12 +129,12 @@ void	ps_stack_init(int ac, char **av, t_node **a)
 	i = -1;
 	while (sep_args[++i])
 	{
-		isvalidnbr(sep_args[i], sep_args);
 		nbr = ps_atol(sep_args[i], sep_args);
 		new_node = ps_lstnew(nbr, i);
 		if (!new_node)
 			ps_error(NULL, sep_args);
 		ps_lstadd_back(a, new_node);
+		isvalidnbr(sep_args[i], sep_args, *a);
 	}
 	free_dblptr(sep_args);
 	isduplicate(*a);
