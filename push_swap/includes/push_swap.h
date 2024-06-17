@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:18:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/17 13:58:28 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:05:21 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_node
 // parsing & init
 void	ps_stack_init(int ac, char **av, t_node **a);
 char	*ps_join_arg(int ac, char **av);
+void	isemptyargs(int ac, char **av);
 
 // error handling for parsing
 void	ps_error(char *ptr, char **dblptr, t_node **a);

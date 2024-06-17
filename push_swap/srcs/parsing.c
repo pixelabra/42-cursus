@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 23:18:53 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/17 13:57:11 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:05:27 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void	ps_stack_init(int ac, char **av, t_node **a)
 	char	**sep_args;
 	t_node	*new_node;
 
+	isemptyargs(ac, av);
 	joined_arg = ps_join_arg(ac, av);
 	sep_args = ft_split(joined_arg, ' ');
 	free(joined_arg);

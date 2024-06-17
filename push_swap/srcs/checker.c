@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 16:14:43 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/06/17 13:55:13 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:33:55 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	moves_cntnd(t_node **a, t_node **b, char *line)
 int	moves(t_node **a, t_node **b, char *line)
 {
 	if (!ft_strncmp(line, "pa\n", 3))
-		push(b, a);
-	else if (!ft_strncmp(line, "pb\n", 3))
 		push(a, b);
+	else if (!ft_strncmp(line, "pb\n", 3))
+		push(b, a);
 	else if (!ft_strncmp(line, "ra\n", 3))
 		rotate(a);
 	else if (!ft_strncmp(line, "rb\n", 3))
@@ -79,9 +79,9 @@ int	main(int ac, char **av)
 	ps_stack_init(ac, av, &a);
 	line = get_next_line(STDIN_FILENO);
 	apply_moves(&a, &b, line);
-	if (!issorted(&a))
+	if (!issorted(&a) || ps_lstsize(b))
 		ft_putendl_fd("KO", 2);
-	else if (issorted(&a))
+	else if (issorted(&a) && !ps_lstsize(b))
 		ft_putendl_fd("OK", 1);
 	ps_lstclear(&a);
 	ps_lstclear(&b);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 01:55:45 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/17 13:55:46 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:01:32 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,28 @@ void	ps_error_lst(t_node **a, t_node **b)
 	if (b && *b)
 		ps_lstclear(b);
 	ps_error(NULL, NULL, NULL);
+}
+
+void	isemptyargs(int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	if (!av)
+		ps_error(NULL, NULL, NULL);
+	i = 0;
+	while (++i < ac)
+	{
+		j = 0;
+		if (!av[i][j])
+			ps_error(NULL, NULL, NULL);
+		while (av[i][j])
+		{
+			if (av[i][j] != ' ')
+				break ;
+			if (j == (int)ft_strlen(av[i]) - 1)
+				ps_error(NULL, NULL, NULL);
+			j++;
+		}
+	}
 }
