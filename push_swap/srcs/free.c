@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 01:55:45 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/17 13:37:34 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/17 13:55:46 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void	free_dblptr(char **dblptr)
 	free(dblptr);
 }
 
-void	ps_error(char *ptr, char **dblptr)
+void	ps_error(char *ptr, char **dblptr, t_node **a)
 {
 	if (ptr)
 		free(ptr);
 	if (dblptr)
 		free_dblptr(dblptr);
+	if (a && *a)
+		ps_lstclear(a);
 	ft_putendl_fd("Error", 2);
 	exit(EXIT_FAILURE);
 }
@@ -55,5 +57,5 @@ void	ps_error_lst(t_node **a, t_node **b)
 		ps_lstclear(a);
 	if (b && *b)
 		ps_lstclear(b);
-	ps_error(NULL, NULL);
+	ps_error(NULL, NULL, NULL);
 }

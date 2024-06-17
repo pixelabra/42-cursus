@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 23:18:53 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/17 13:41:32 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/17 13:57:11 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ps_join_arg(int ac, char **av)
 		length += ft_strlen(av[i]) + 1;
 	joined_arg = malloc(sizeof(char) * length);
 	if (!joined_arg)
-		ps_error(NULL, NULL);
+		ps_error(NULL, NULL, NULL);
 	i = 0;
 	temp = joined_arg;
 	while (++i < ac)
@@ -51,14 +51,14 @@ void	isvalidnbr(char *sep_arg, char **sep_args, t_node *node)
 	if (!sep_arg[i])
 	{
 		ps_lstclear(&temp);
-		ps_error(NULL, sep_args);
+		ps_error(NULL, sep_args, NULL);
 	}
 	while (sep_arg[i])
 	{
 		if (!ft_isdigit(sep_arg[i]))
 		{
 			ps_lstclear(&temp);
-			ps_error(NULL, sep_args);
+			ps_error(NULL, sep_args, NULL);
 		}
 		i++;
 	}
@@ -85,7 +85,7 @@ void	isduplicate(t_node *lst)
 	}
 }
 
-long	ps_atol(char *sep_arg, char **sep_args)
+long	ps_atol(char *sep_arg, char **sep_args, t_node **a)
 {
 	int			i;
 	long		sign;
@@ -104,12 +104,12 @@ long	ps_atol(char *sep_arg, char **sep_args)
 	{
 		if ((nbr > LONG_MAX / 10)
 			|| (nbr == LONG_MAX / 10 && sep_arg[i] > '7'))
-			ps_error(NULL, sep_args);
+			ps_error(NULL, sep_args, a);
 		nbr = (nbr * 10) + (sep_arg[i++] - '0');
 	}
 	nbr *= sign;
 	if (nbr > INT_MAX || nbr < INT_MIN)
-		ps_error(NULL, sep_args);
+		ps_error(NULL, sep_args, a);
 	return (nbr);
 }
 
@@ -125,14 +125,14 @@ void	ps_stack_init(int ac, char **av, t_node **a)
 	sep_args = ft_split(joined_arg, ' ');
 	free(joined_arg);
 	if (!sep_args)
-		ps_error(NULL, NULL);
+		ps_error(NULL, NULL, NULL);
 	i = -1;
 	while (sep_args[++i])
 	{
-		nbr = ps_atol(sep_args[i], sep_args);
+		nbr = ps_atol(sep_args[i], sep_args, a);
 		new_node = ps_lstnew(nbr, i);
 		if (!new_node)
-			ps_error(NULL, sep_args);
+			ps_error(NULL, sep_args, NULL);
 		ps_lstadd_back(a, new_node);
 		isvalidnbr(sep_args[i], sep_args, *a);
 	}

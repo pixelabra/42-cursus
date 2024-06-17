@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 16:14:43 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/06/17 11:54:01 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:55:13 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	apply_moves(t_node **a, t_node **b, char *line)
 		{
 			ps_lstclear(a);
 			ps_lstclear(b);
-			ps_error(line, NULL);
+			ps_error(line, NULL, NULL);
 		}
 		line = get_next_line(STDIN_FILENO);
 	}

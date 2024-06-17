@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 22:18:03 by a3y3g1            #+#    #+#             */
-/*   Updated: 2024/06/17 13:01:30 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/06/17 13:58:28 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	ps_stack_init(int ac, char **av, t_node **a);
 char	*ps_join_arg(int ac, char **av);
 
 // error handling for parsing
-void	ps_error(char *ptr, char **dblptr);
+void	ps_error(char *ptr, char **dblptr, t_node **a);
 void	isvalidnbr(char *sep_arg, char **sep_args, t_node *node);
-long	ps_atol(char *sep_arg, char **sep_args);
+long	ps_atol(char *sep_arg, char **sep_args, t_node **a);
 void	isduplicate(t_node *lst);
 
 // free stuff
