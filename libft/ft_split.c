@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 23:11:13 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/04/18 01:24:32 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/08/06 18:12:56 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,41 +47,40 @@ static char	*getword(const char *s, char c)
 	return (str);
 }
 
-void	freearray(char **arr)
+char	*freearray(char **arr)
 {
 	size_t	i;
 
 	i = 0;
 	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
+		free(arr[i++]);
 	free(arr);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
+	int		wordcnt;
 	size_t	i;
 	size_t	j;
 
-	i = 0;
-	j = 0;
-	if (!s)
+	if (!s || !c)
 		return (NULL);
-	split = malloc(sizeof(char *) * (wordcount(s, c) + 1));
+	wordcnt = wordcount(s, c);
+	split = malloc(sizeof(char *) * (wordcnt + 1));
 	if (!split)
 		return (NULL);
-	while (s[i] && j < wordcount(s, c))
+	i = 0;
+	j = 0;
+	while (s[i] && j < wordcnt)
 	{
-		while (s[i] == c && s[i])
+		while (s[i] == c)
 			i++;
-		split[j] = getword(s + i, c);
+		split[j] = getword(&s[i], c);
 		if (!split[j])
-			freearray(split);
-		i += ft_strlen(split[j]);
-		j++;
+			return (freearray(split));
+		i += ft_strlen(split[j++]);
 	}
 	split[j] = NULL;
 	return (split);

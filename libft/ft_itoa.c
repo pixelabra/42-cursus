@@ -3,67 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 23:06:00 by agodeanu          #+#    #+#             */
-/*   Updated: 2023/11/16 01:39:50 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:04:15 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_count(int n)
+static int	ft_count(int nbr)
 {
 	int	nbr_count;
 
 	nbr_count = 0;
-	if (n == -2147483648)
-		return (11);
-	if (n < 0)
+	if (nbr < 0)
 	{
-		n *= -1;
+		nbr *= -1;
 		nbr_count++;
 	}
-	while (n / 10 > 0)
+	while (nbr > 0)
 	{
-		n /= 10;
+		nbr /= 10;
 		nbr_count++;
 	}
 	return (nbr_count + 1);
 }
 
-static char	*ft_itostr(int n, char *nbr_str, int nbr_count)
+static char	*ft_itostr(char *nbr_str, int nbr, int nbr_count)
 {
-	int	number;
-
-	number = n;
-	nbr_str[nbr_count] = '\0';
-	while (nbr_count)
+	nbr_str[nbr_count--] = '\0';
+	if (nbr < 0)
 	{
-		if (number < 0)
-			number *= -1;
-		if (n < 0 && number == 0)
-		{
-			nbr_str[0] = 45;
-			break ;
-		}
-		nbr_str[nbr_count - 1] = (char)((number % 10) + 48);
-		number /= 10;
-		nbr_count--;
+		nbr_str[0] = '-';
+		nbr *= -1;
+	}
+	while (nbr > 0)
+	{
+		nbr_str[nbr_count--] = (char)(nbr % 10) + '0';
+		nbr /= 10;
 	}
 	return (nbr_str);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(int nbr)
 {
 	char	*nbr_str;
 	int		nbr_count;
 
-	if (n == -2147483648)
+	if (nbr == 0)
+		return (ft_strdup("0"));
+	if (nbr == -2147483648)
 		return (ft_strdup("-2147483648"));
-	nbr_count = ft_count(n);
-	nbr_str = (char *) malloc(sizeof(char) * (size_t)(nbr_count + 1));
+	nbr_count = ft_count(nbr);
+	nbr_str = malloc(sizeof(char) * (nbr_count + 1));
 	if (!nbr_str)
 		return (NULL);
-	return (ft_itostr(n, nbr_str, nbr_count));
+	return (ft_itostr(nbr_str, nbr, nbr_count));
 }
