@@ -1,5 +1,5 @@
 NAME				:= philo
-SRCS				:= main.c
+SRCS				:= main.c init.c
 
 OBJS				:= $(SRCS:.c=.o)
 CC					:= cc

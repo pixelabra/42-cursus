@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/07 19:00:09 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/07 22:17:06 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	int			index;
-	int			ate;
-	size_t		t_eat;
-	t_data		*data;
-	pthread_t	thread;
+	int				index;
+	int				ate;
+	size_t			t_lastmeal;
+	t_data			*data;
+	pthread_t		thread;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
+	int				*r_flag;
+	int				*l_flag;
 }	t_philo;
 
 #endif
