@@ -1,9 +1,9 @@
 NAME				:= philo
-SRCS				:= main.c init.c
+SRCS				:= main.c init.c parsing.c time.c
 
 OBJS				:= $(SRCS:.c=.o)
 CC					:= cc
-CFLAGS				:= -Wall -Wextra -Werror -pthread
+CFLAGS				:= -pthread
 
 DIR_SRCS			:= srcs/
 DIR_OBJS			:= objs/

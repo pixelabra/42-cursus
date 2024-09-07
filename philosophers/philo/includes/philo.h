@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/07 22:17:06 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/08 02:25:49 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,18 @@ typedef struct s_philo
 	int				*r_flag;
 	int				*l_flag;
 }	t_philo;
+
+int		allocator(t_data *data, t_philo **philos, pthread_mutex_t **forks, int **flags);
+void	free_all(t_philo *philos, pthread_mutex_t *forks, int *flags);
+int		mtx_destroyer(t_data *data, pthread_mutex_t *forks);
+int		init_data(t_data *data, int ac, char **av);
+int		init_mtx(t_data *data, pthread_mutex_t *forks);
+int		init_flags(t_data *data, int *flags);
+int		init_philos(t_data *data, t_philo *philos, pthread_mutex_t *forks, int *flags);
+int		ph_isdigit(char *av);
+long	ph_atol(const char *str);
+int		input_checker(t_data *data, char **av);
+size_t	get_time(void);
+void	ph_usleep(size_t t_ms);
 
 #endif

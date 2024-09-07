@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:04:57 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/07 22:36:44 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:16:04 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ int	ph_isdigit(char *av)
 
 	i = -1;
 	while (av[++i])
-	{
 		if (!(av[i] >= '0' && av[i] <= '9'))
 			return (0);
-	}
 	return (1);
 }
 
@@ -50,19 +48,31 @@ long	ph_atol(const char *str)
 	return ((result * sign));
 }
 
-int	isdigit_args(int ac, char **av)
+int	input_checker(t_data *data, char **av)
 {
 	int		i;
 	long	nbr;
 
 	i = 0;
-	while (++i < ac)
+	while (av[++i])
 	{
 		if (!ph_isdigit(av[i]))
 			return (1);
 		nbr = ph_atol(av[i]);
 		if (nbr > 2147483647)
 			return (1);
+		if (i == 1)
+			data->nbr_philos = nbr;
+		else if (i == 2)
+			data->t_death = nbr;
+		else if (i == 3)
+			data->t_eat = nbr;
+		else if (i == 4)
+			data->t_sleep = nbr;
+		else if (i == 5)
+			data->nbr_meals = nbr;
 	}
+	if (i == 5)
+		data->nbr_meals = -1;
 	return (0);
 }

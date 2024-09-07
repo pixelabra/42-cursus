@@ -10,6 +10,7 @@
 		"math.h": "c",
 		"push_swap.h": "c",
 		"stdio.h": "c",
-		"functional": "c"
+		"functional": "c",
+		"philo.h": "c"
 	}
 }
