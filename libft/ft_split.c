@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 23:11:13 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/08/06 18:12:56 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/07 19:44:08 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*getword(const char *s, char c)
 	return (str);
 }
 
-char	*freearray(char **arr)
+char	**freearray(char **arr)
 {
 	size_t	i;
 
@@ -61,7 +61,7 @@ char	*freearray(char **arr)
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
-	int		wordcnt;
+	size_t		wordcnt;
 	size_t	i;
 	size_t	j;
 
