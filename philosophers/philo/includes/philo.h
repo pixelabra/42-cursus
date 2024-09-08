@@ -6,7 +6,7 @@
 /*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 02:25:49 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/08 14:41:18 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		init_philos(t_data *data, t_philo *philos, pthread_mutex_t *forks, int *fla
 int		ph_isdigit(char *av);
 long	ph_atol(const char *str);
 int		input_checker(t_data *data, char **av);
-size_t	get_time(void);
 void	ph_usleep(size_t t_ms);
+size_t	get_time(void);
 
 #endif
