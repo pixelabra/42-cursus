@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:48 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 14:44:43 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/08 16:02:54 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ int	main(int ac, char **av)
 	pthread_mutex_t	*forks;
 	int				*flags;
 
-	// data = NULL;
-	philos = NULL;
-	flags = NULL;
-	forks = NULL;
 	if (init_data(&data, ac, av))
 		return (1);
 	if (allocator(&data, &philos, &forks, &flags)
@@ -57,6 +53,7 @@ int	main(int ac, char **av)
 		free_all(philos, forks, flags);
 		return (1);
 	}
+	thread_creator(&data, philos);
 	mtx_destroyer(&data, forks);
 	free_all(philos, forks, flags);
 	return (0);

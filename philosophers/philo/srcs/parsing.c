@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:04:57 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 00:16:04 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/08 14:56:04 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+size_t	ph_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 int	ph_isdigit(char *av)
 {
@@ -59,7 +69,7 @@ int	input_checker(t_data *data, char **av)
 		if (!ph_isdigit(av[i]))
 			return (1);
 		nbr = ph_atol(av[i]);
-		if (nbr > 2147483647)
+		if (ph_strlen(av[i]) > 10 || nbr > 2147483647)
 			return (1);
 		if (i == 1)
 			data->nbr_philos = nbr;
