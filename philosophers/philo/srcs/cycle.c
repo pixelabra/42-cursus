@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:50:24 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 18:19:52 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/08 22:08:29 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,18 @@ void	ph_print(t_philo *philo, int print_flag)
 	if (!exit_flag_check(philo))
 	{
 		pthread_mutex_lock(&philo->data->print_mtx);
-		printf("%lu\t", get_time() - philo->data->t_genesis);
-		printf("%d ", philo->index);
-		if (print_flag == EATING)
-			printf("is eating\n");
-		else if (print_flag == SLEEPING)
-			printf("is sleeping\n");
-		else if (print_flag == THINKING)
-			printf("is thinking\n");
-		else if (print_flag == TAKE_FORK)
-			printf("has taken a fork\n");
-		else if (print_flag == DEATH)
-			printf("died\n");
+		if (print_flag == EATING && !exit_flag_check(philo))
+			printf("%lu\t"GREEN BOLD"%d is eating\n"RESET,
+				get_time() - philo->data->t_genesis, philo->index);
+		else if (print_flag == SLEEPING && !exit_flag_check(philo))
+			printf("%lu\t"BLUE"%d is sleeping\n"RESET,
+				get_time() - philo->data->t_genesis, philo->index);
+		else if (print_flag == THINKING && !exit_flag_check(philo))
+			printf("%lu\t"MAGENTA"%d is thinking\n"RESET,
+				get_time() - philo->data->t_genesis, philo->index);
+		else if (print_flag == TAKE_FORK && !exit_flag_check(philo))
+			printf("%lu\t"YELLOW"%d has taken a fork\n"RESET,
+				get_time() - philo->data->t_genesis, philo->index);
 		pthread_mutex_unlock(&philo->data->print_mtx);
 	}
 }
@@ -47,21 +47,27 @@ void	eat_cycle(t_philo *philo)
 {
 	if (philo->index % 2 == 0 && philo->ate == 0)
 		ph_usleep(philo->data->t_eat / 2);
-	pthread_mutex_lock(philo->r_fork);
-	ph_print(philo, TAKE_FORK);
-	pthread_mutex_lock(philo->l_fork);
-
-	pthread_mutex_unlock();
+	get_forks(philo);
+	ph_print(philo, EATING);
+	pthread_mutex_lock(&philo->data->time_mtx);
+	philo->t_lastmeal = get_time();
+	pthread_mutex_unlock(&philo->data->time_mtx);
+	ph_usleep(philo->data->t_eat);
+	pthread_mutex_lock(&philo->data->meals_mtx);
+	philo->ate++;
+	pthread_mutex_unlock(&philo->data->meals_mtx);
 }
 
 void	sleep_cycle(t_philo *philo)
 {
-
+	ph_print(philo, SLEEPING);
+	drop_forks(philo);
+	ph_usleep(philo->data->t_sleep);
 }
 
 void	think_cycle(t_philo *philo)
 {
-
+	ph_print(philo, THINKING);
 }
 
 void	*cycle(void *philosopher)
@@ -69,8 +75,11 @@ void	*cycle(void *philosopher)
 	t_philo	*philo;
 
 	philo = (t_philo *)philosopher;
-	int i = 0;
-	while (i < 5)
-		printf("%d\n", i++);
+	while (!exit_flag_check(philo))
+	{
+		eat_cycle(philo);
+		sleep_cycle(philo);
+		think_cycle(philo);
+	}
 	return (NULL);
 }

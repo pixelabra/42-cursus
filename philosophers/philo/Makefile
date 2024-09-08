@@ -1,5 +1,5 @@
 NAME				:= philo
-SRCS				:= main.c init.c parsing.c time.c threads.c cycle.c
+SRCS				:= main.c init.c parsing.c time.c threads.c cycle.c forks.c overseer.c
 
 OBJS				:= $(SRCS:.c=.o)
 CC					:= cc

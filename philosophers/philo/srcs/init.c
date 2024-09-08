@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:47:49 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 16:47:28 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/08 20:37:11 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	init_philos(t_data *data, t_philo *philos, pthread_mutex_t *forks, int *flag
 		temp_philo = &philos[i];
 		temp_philo->index = i + 1;
 		temp_philo->ate = 0;
-		temp_philo->t_lastmeal = 0;
+		temp_philo->t_lastmeal = get_time();
 		temp_philo->data = data;
 		if (i == 0)
 		{

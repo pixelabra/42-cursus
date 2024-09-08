@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 19:18:57 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/08 22:38:14 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,11 @@ size_t	ph_strlen(const char *str);
 size_t	get_time(void);
 int		exit_flag_check(t_philo *philo);
 void	ph_print(t_philo *philo, int print_flag);
+void	drop_forks(t_philo *philo);
+void	get_forks(t_philo *philo);
+int		l_fork_retrieval(t_philo *philo);
+int		r_fork_retrieval(t_philo *philo);
+void	*overseer(void *philosophers);
+int		calculate_meals(t_philo *philos);
 
 #endif
