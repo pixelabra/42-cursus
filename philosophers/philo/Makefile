@@ -1,9 +1,9 @@
 NAME				:= philo
-SRCS				:= main.c init.c parsing.c time.c
+SRCS				:= main.c init.c parsing.c time.c threads.c cycle.c
 
 OBJS				:= $(SRCS:.c=.o)
 CC					:= cc
-CFLAGS				:= -pthread
+CFLAGS				:= -Wall -Wextra -Werror -pthread
 
 DIR_SRCS			:= srcs/
 DIR_OBJS			:= objs/
@@ -11,6 +11,11 @@ DIR_INC				:= includes/
 
 SRCS_PFX			:= $(addprefix $(DIR_SRCS), $(SRCS))
 OBJS_PFX			:= $(addprefix $(DIR_OBJS), $(OBJS))
+
+OS 					:= $(shell uname)
+ifeq ($(OS),Linux)
+CFLAGS				:= -Wall -Wextra -pthread
+endif
 
 all: $(NAME)
 
