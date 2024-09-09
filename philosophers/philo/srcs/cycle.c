@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cycle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:50:24 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 22:08:29 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:30:43 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	eat_cycle(t_philo *philo)
 	pthread_mutex_lock(&philo->data->time_mtx);
 	philo->t_lastmeal = get_time();
 	pthread_mutex_unlock(&philo->data->time_mtx);
-	ph_usleep(philo->data->t_eat);
 	pthread_mutex_lock(&philo->data->meals_mtx);
 	philo->ate++;
 	pthread_mutex_unlock(&philo->data->meals_mtx);
+	ph_usleep(philo->data->t_eat);
 }
 
 void	sleep_cycle(t_philo *philo)

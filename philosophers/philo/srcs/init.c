@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:47:49 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 20:37:11 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:35:03 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	init_data(t_data *data, int ac, char **av)
 	{
 		printf(RED BOLD"Invalid input!\n"
 			CYAN"./philo <nbr_philos> <t_death> <t_eat> <t_sleep> <nbr_meals>\n"
-			YELLOW"All inputs must be integers.\n"RESET);
+			YELLOW"All inputs must be positive integers.\n"RESET);
 		return (1);
 	}
 	data->t_genesis = get_time();
@@ -94,10 +94,6 @@ int	init_philos(t_data *data, t_philo *philos, pthread_mutex_t *forks, int *flag
 		}
 		temp_philo->r_fork = &forks[i];
 		temp_philo->r_flag = &flags[i];
-		printf("Philo ID %d\n", i);
-		printf("Data %p\n", temp_philo->data);
-		printf("Left fork and flag %p %p\n", temp_philo->l_fork, temp_philo->l_flag);
-		printf("Right fork and flag %p %p\n\n", temp_philo->r_fork, temp_philo->r_flag);
 	}
 	return (0);
 }

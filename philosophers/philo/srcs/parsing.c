@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:04:57 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 14:56:04 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:20:30 by a3y3g1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	input_checker(t_data *data, char **av)
 		if (!ph_isdigit(av[i]))
 			return (1);
 		nbr = ph_atol(av[i]);
-		if (ph_strlen(av[i]) > 10 || nbr > 2147483647)
+		if (ph_strlen(av[i]) > 10 || nbr > 2147483647 || !nbr)
 			return (1);
 		if (i == 1)
 			data->nbr_philos = nbr;
