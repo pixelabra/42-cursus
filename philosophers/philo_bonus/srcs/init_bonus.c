@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:47:49 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/13 01:12:54 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/14 01:12:8 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	sem_destroyer(t_data *data)
 {
 	sem_closer(data);
 	sem_unlinker();
+	return (0);
 }
 
 int	init_data(t_data *data, int ac, char **av)

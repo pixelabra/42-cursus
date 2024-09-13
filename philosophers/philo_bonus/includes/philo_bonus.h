@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/13 01:30:47 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/13 23:55:04 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_philo
 	int				ate;
 	size_t			t_lastmeal;
 	t_data			*data;
-	pthread_t		monitoring;
+	pthread_t		overseer_th;
 	pthread_t		death_th;
 }	t_philo;
 
@@ -90,8 +90,10 @@ int		input_checker(t_data *data, char **av);
 
 // Process Management
 int		process_creator(t_data *data, t_philo *philos);
+void	philo_process(t_philo *philos);
 void	cycle(t_philo *philo);
-void	*overseer(void *philosophers);
+void	*overseer(void *philosopher);
+void	*death_checker(void	*philosopher);
 
 // Cycle Functions
 void	eat_cycle(t_philo *philos);

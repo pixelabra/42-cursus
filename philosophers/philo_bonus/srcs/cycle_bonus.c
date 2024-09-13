@@ -57,6 +57,9 @@ void	eat_cycle(t_philo *philo)
 	sem_post(philo->data->time_sem);
 	sem_wait(philo->data->meals_sem);
 	philo->ate++;
+	if (philo->data->nbr_meals != -1
+		&& philo->ate == philo->data->nbr_meals)
+		sem_post(philo->data->full);
 	sem_post(philo->data->meals_sem);
 	ph_usleep(philo->data->t_eat);
 }
@@ -82,5 +85,4 @@ void	cycle(t_philo *philo)
 		sleep_cycle(philo);
 		think_cycle(philo);
 	}
-	return (NULL);
 }
