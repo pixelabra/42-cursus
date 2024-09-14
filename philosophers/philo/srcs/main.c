@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:48 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 16:02:54 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:47:05 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	free_all(t_philo *philos, pthread_mutex_t *forks, int *flags)
 		free(flags);
 }
 
-int	allocator(t_data *data, t_philo **philos, pthread_mutex_t **forks, int **flags)
+int	allocator(t_data *data, t_philo **philos,
+		pthread_mutex_t **forks, int **flags)
 {
 	*philos = malloc(sizeof(t_philo) * data->nbr_philos);
 	*forks = malloc(sizeof(pthread_mutex_t) * data->nbr_philos);

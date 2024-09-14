@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:47:49 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/10 00:56:48 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/14 16:46:46 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	init_flags(t_data *data, int *flags)
 	return (0);
 }
 
-int	init_philos(t_data *data, t_philo *philos, pthread_mutex_t *forks, int *flags)
+int	init_philos(t_data *data, t_philo *philos,
+		pthread_mutex_t *forks, int *flags)
 {
 	int		i;
 	t_philo	*temp_philo;
@@ -97,4 +98,3 @@ int	init_philos(t_data *data, t_philo *philos, pthread_mutex_t *forks, int *flag
 	}
 	return (0);
 }
-

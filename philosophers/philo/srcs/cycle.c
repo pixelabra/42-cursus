@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cycle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:50:24 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/09 23:30:43 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/14 16:46:24 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int		exit_flag_check(t_philo *philo)
+int	exit_flag_check(t_philo *philo)
 {
 	int	exit_return;
 
@@ -20,27 +20,6 @@ int		exit_flag_check(t_philo *philo)
 	exit_return = philo->data->exit_flag;
 	pthread_mutex_unlock(&philo->data->exit_mtx);
 	return (exit_return);
-}
-
-void	ph_print(t_philo *philo, int print_flag)
-{
-	if (!exit_flag_check(philo))
-	{
-		pthread_mutex_lock(&philo->data->print_mtx);
-		if (print_flag == EATING && !exit_flag_check(philo))
-			printf("%lu\t"GREEN BOLD"%d is eating\n"RESET,
-				get_time() - philo->data->t_genesis, philo->index);
-		else if (print_flag == SLEEPING && !exit_flag_check(philo))
-			printf("%lu\t"BLUE"%d is sleeping\n"RESET,
-				get_time() - philo->data->t_genesis, philo->index);
-		else if (print_flag == THINKING && !exit_flag_check(philo))
-			printf("%lu\t"MAGENTA"%d is thinking\n"RESET,
-				get_time() - philo->data->t_genesis, philo->index);
-		else if (print_flag == TAKE_FORK && !exit_flag_check(philo))
-			printf("%lu\t"YELLOW"%d has taken a fork\n"RESET,
-				get_time() - philo->data->t_genesis, philo->index);
-		pthread_mutex_unlock(&philo->data->print_mtx);
-	}
 }
 
 void	eat_cycle(t_philo *philo)

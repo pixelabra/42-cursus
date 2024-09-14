@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:05:20 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/08 22:41:53 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:48:25 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_exit_flag(t_philo *philo)
 }
 
 int	calculate_death(t_philo *philo)
-{	
+{
 	pthread_mutex_lock(&philo->data->time_mtx);
 	if (get_time() - philo->t_lastmeal >= (size_t)philo->data->t_death)
 	{
@@ -59,8 +59,8 @@ int	calculate_meals(t_philo *philos)
 
 void	*overseer(void *philosophers)
 {
-	t_philo *philos;
-	t_philo *philo;
+	t_philo	*philos;
+	t_philo	*philo;
 	int		i;
 
 	philos = (t_philo *)philosophers;
