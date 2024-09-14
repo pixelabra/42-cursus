@@ -1,5 +1,6 @@
 NAME				:= philo_bonus
-SRCS				:= main_bonus.c init_bonus.c parsing_bonus.c time_bonus.c processes_bonus.c cycle_bonus.c overseer_bonus.c
+SRCS				:= main_bonus.c init_bonus.c parsing_bonus.c time_bonus.c \
+						processes_bonus.c cycle_bonus.c overseer_bonus.c semaphores_bonus.c print_bonus.c
 
 OBJS				:= $(SRCS:.c=.o)
 CC					:= cc

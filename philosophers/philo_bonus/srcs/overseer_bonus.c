@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 21:05:20 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/14 00:49:335 by agodeanu         ###   ########.fr       */
+/*   Created: 2024/09/14 17:23:59 by agodeanu          #+#    #+#             */
+/*   Updated: 2024/09/14 18:07:16 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ int	calculate_death(t_philo *philo)
 	if (get_time() - philo->t_lastmeal >= (size_t)philo->data->t_death)
 	{
 		sem_post(philo->data->time_sem);
-		set_exit_flag(philo);
 		sem_wait(philo->data->print_sem);
 		if (!exit_flag_check(philo))
 			printf("%lu\t"RED BOLD"%d died\n"RESET,
 				get_time() - philo->data->t_genesis, philo->index);
-		sem_post(philo->data->print_sem);
 		while (++i < philo->data->nbr_philos)
 			sem_post(philo->data->death);
+		// sem_post(philo->data->print_sem);
 		return (1);
 	}
 	sem_post(philo->data->time_sem);
@@ -57,7 +56,7 @@ void	*death_checker(void *philosopher)
 
 void	*overseer(void *philosopher)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)philosopher;
 	while (1)
