@@ -12,41 +12,13 @@
 
 #include "../includes/philo_bonus.h"
 
-void	sem_unlinker(void)
-{
-	sem_unlink("/full");
-	sem_unlink("/death");
-	sem_unlink("/forks");
-	sem_unlink("/exit_sem");
-	sem_unlink("/time_sem");
-	sem_unlink("/meals_sem");
-	sem_unlink("/print_sem");
-}
-
-void	sem_closer(t_data *data)
-{
-	sem_close(data->full);
-	sem_close(data->death);
-	sem_close(data->forks);
-	sem_close(data->exit_sem);
-	sem_close(data->time_sem);
-	sem_close(data->meals_sem);
-	sem_close(data->print_sem);
-}
-
-int	sem_destroyer(t_data *data)
-{
-	sem_closer(data);
-	sem_unlinker();
-	return (0);
-}
-
 int	init_data(t_data *data, int ac, char **av)
 {
 	if ((ac != 5 && ac != 6) || input_checker(data, av))
 	{
-		printf(RED BOLD"Invalid input!\n"
-			CYAN"./philo_bonus <nbr_philos> <t_death> <t_eat> <t_sleep> <nbr_meals>\n"
+		printf(RED BOLD"Invalid input!\n"CYAN
+			"./philo_bonus <nbr_philos> <t_death> "
+			"<t_eat> <t_sleep> <nbr_meals>\n"
 			YELLOW"All inputs must be positive integers.\n"RESET);
 		return (1);
 	}
@@ -65,9 +37,6 @@ int	init_semaphores(t_data *data)
 	data->print_sem = sem_open("/print_sem", O_CREAT | O_EXCL, 0644, 1);
 	data->death = sem_open("/death", O_CREAT | O_EXCL, 0644, 0);
 	data->full = sem_open("/full", O_CREAT | O_EXCL, 0644, 0);
-	// if (!data->forks == SEM_FAILED || !data->exit_sem || !data->time_sem || !data->meals_sem
-	// 	|| !data->print_sem || !data->death || !data->full)
-		// return (sem_destroyer(data));
 	return (0);
 }
 

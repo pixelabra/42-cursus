@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a3y3g1 <a3y3g1@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/10 01:02:08 by a3y3g1           ###   ########.fr       */
+/*   Updated: 2024/09/14 16:45:30 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ typedef struct s_philo
 }	t_philo;
 
 // Memory Management
-int		allocator(t_data *data, t_philo **philos, pthread_mutex_t **forks, int **flags);
+int		allocator(t_data *data, t_philo **philos,
+			pthread_mutex_t **forks, int **flags);
 void	free_all(t_philo *philos, pthread_mutex_t *forks, int *flags);
 int		mtx_destroyer(t_data *data, pthread_mutex_t *forks);
 
@@ -78,7 +79,8 @@ int		mtx_destroyer(t_data *data, pthread_mutex_t *forks);
 int		init_flags(t_data *data, int *flags);
 int		init_data(t_data *data, int ac, char **av);
 int		init_mtx(t_data *data, pthread_mutex_t *forks);
-int		init_philos(t_data *data, t_philo *philos, pthread_mutex_t *forks, int *flags);
+int		init_philos(t_data *data, t_philo *philos,
+			pthread_mutex_t *forks, int *flags);
 
 // Input Validation & Parsing
 int		ph_isdigit(char *av);

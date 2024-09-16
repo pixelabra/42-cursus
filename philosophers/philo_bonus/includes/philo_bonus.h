@@ -6,12 +6,12 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:49:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/13 23:55:04 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:27:36 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 // Libraries
 # include <stdio.h>
@@ -90,7 +90,7 @@ int		input_checker(t_data *data, char **av);
 
 // Process Management
 int		process_creator(t_data *data, t_philo *philos);
-void	philo_process(t_philo *philos);
+void	philo_process(t_philo *philo, t_philo *philos);
 void	cycle(t_philo *philo);
 void	*overseer(void *philosopher);
 void	*death_checker(void	*philosopher);

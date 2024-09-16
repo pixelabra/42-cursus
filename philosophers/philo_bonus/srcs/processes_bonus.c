@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   processes_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/13 22:59:21 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/13 33:1:03 by ppolinta         ###   ########.fr       */
+/*   Created: 2024/09/14 17:16:18 by agodeanu          #+#    #+#             */
+/*   Updated: 2024/09/14 17:26:54 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_bonus.h"
 
-void	philo_process(t_philo *philo)
+void	philo_process(t_philo *philo, t_philo *philos)
 {
 	pthread_create(&philo->overseer_th, NULL, overseer, philo);
 	pthread_create(&philo->death_th, NULL, death_checker, philo);
@@ -20,6 +20,8 @@ void	philo_process(t_philo *philo)
 	pthread_join(philo->overseer_th, NULL);
 	pthread_join(philo->death_th, NULL);
 	sem_closer(philo->data);
+	free(philos);
+	exit(0);
 }
 
 int	process_creator(t_data *data, t_philo *philos)
@@ -38,11 +40,7 @@ int	process_creator(t_data *data, t_philo *philos)
 			exit(1);
 		}
 		if (!pid)
-		{
-			philo_process(&philos[i]);
-			free(philos);
-			exit(0);
-		}
+			philo_process(&philos[i], philos);
 	}
 	i = -1;
 	while (++i < data->nbr_philos)
