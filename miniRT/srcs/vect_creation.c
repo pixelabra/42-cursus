@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vect_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:59:17 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/09/21 18:06:03 by ppolinta         ###   ########.fr       */
+/*   Updated: 2024/09/22 19:21:30 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_vect(t_vect vect, char *name)
 
 
 // Create and return a stack allocated vector
-t_vect	create_vect(float x, float y, float z, int w)
+t_vect	create_vect(float x, float y, float z, float w)
 {
 	t_vect	new_temp;
 
@@ -49,7 +49,7 @@ t_vect	create_vect(float x, float y, float z, int w)
 }
 
 // Create and return a heap allocated vector
-t_vect	*new_vect(float x, float y, float z, int w)
+t_vect	*new_vect(float x, float y, float z, float w)
 {
 	t_vect	*new_temp;
 

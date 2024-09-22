@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:24:51 by ppolinta          #+#    #+#             */
-/*   Updated: 2024/09/22 00:58:46 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:07:05 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define POINT		1
 # define VECTOR		0
 # define EPSILON	0.00001f
+# define DIMENSION	4
 
 # define WIN_WIDTH	1600
 # define WIN_HEIGHT	900
@@ -63,12 +64,16 @@
 	W integer allows us to differentiate between
 	points and vectors. Set to 1 for points and
 	 0 for vectors. */
-typedef struct s_vect
+typedef union u_vect
 {
-	float	x;
-	float	y;
-	float	z;
-	int		w;
+	float	a[4];
+	struct 
+	{
+		float	x;
+		float	y;
+		float	z;
+		float	w;
+	};
 }	t_vect;
 
 typedef struct s_rgb
@@ -79,18 +84,33 @@ typedef struct s_rgb
 	int		a;
 }	t_rgb;
 
-typedef struct s_matrix
+typedef struct s_obj
 {
-	float	matrix[4][4];
-	float	determinant;
-	float	inverse[4][4];
-	float	transpose[4][4];
-	float	rotation_x[4][4];
-	float	rotation_y[4][4];
-	float	rotation_z[4][4];
-	float	translation[3];
-	float	scale[3];
-	int		type;
+	t_matrix	matrix;
+	t_matrix	inverse;
+	t_matrix	transpose;
+	t_matrix	minor;
+	t_matrix	rotation_x;
+	t_matrix	rotation_y;
+	t_matrix	rotation_z;
+	t_matrix	cofactor;
+	t_vect		translation;
+	t_vect		scale;
+	float		determinant;
+	int			type;
+}	t_obj;
+
+typedef union u_matrix
+{
+	float	a[4][4];
+	struct
+	{
+		t_vect	r1;
+		t_vect	r2;
+		t_vect	r3;
+		t_vect	r4;
+	};
+	
 }	t_matrix;
 
 typedef struct s_image
@@ -112,7 +132,6 @@ typedef struct s_data
 }	t_data;
 
 
-
 // TUPLE FUNCTIONS
 t_vect	add_point_and_vector(t_vect *point, t_vect *vector);
 t_vect	subtract_point_and_vector(t_vect *point, t_vect *vector);
@@ -125,7 +144,7 @@ t_vect	normalise_vect(t_vect *vect);
 t_vect	create_vect(float x, float y, float z, int w);
 t_vect	*new_vect(float x, float y, float z, int w);
 t_vect	error_vect(void);
-
+int		compare_vects(t_vect *v1, t_vect *v2);
 t_vect	*copy_vect(t_vect *vect);
 float	dot_vect(t_vect *v1, t_vect *v2);
 t_vect	cross_vect(t_vect *v1, t_vect *v2);
@@ -135,6 +154,7 @@ float	sqr(float nbr);
 float	vect_lengthsq(t_vect *vect);
 float	vect_length(t_vect *vect);
 int		compare_float(float a, float b);
+t_vect	get_column(t_matrix *m, int index);
 
 // COLOURS
 t_rgb	hadamard_product(t_rgb *c1, t_rgb *c2);
@@ -152,5 +172,5 @@ t_data	*init_mlx_data(void);
 // FREE STUF
 void	free_init(t_data *data);
 void	free_data(t_data *data);
-
+void	free_dblptr(void **dblptr);
 #endif
