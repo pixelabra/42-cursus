@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:32:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/12/01 16:14:59 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/12/01 19:02:48 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	Contact::setLastName(std::string lastname) {
 	last_name = lastname;
 }
 
-void	Contact::setNickame(std::string nickname) {
+void	Contact::setNickname(std::string nickname) {
 	nick_name = nickname;
 }
 
@@ -44,7 +44,7 @@ std::string	Contact::getLastName() {
 	return (last_name);
 }
 
-std::string	Contact::getNickame() {
+std::string	Contact::getNickname() {
 	return (nick_name);
 }
 

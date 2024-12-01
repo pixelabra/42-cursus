@@ -6,24 +6,34 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:22:46 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/12/01 16:25:28 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/12/01 19:25:16 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHONEBOOK_HPP
 # define PHONEBOOK_HPP
 
-# include "Contact.hpp" 
+# include "Contact.hpp"
+# include <iostream>
+# include <string>
+# include <cstdlib>
+# include <iomanip>
 
 class PhoneBook
 {
 	private:
-		Contact	phonebook[8];
+		Contact	contacts[8];
+		int		filled;
 	public:
 		PhoneBook();
 		~PhoneBook();
 		void	add_contact();
-		Contact	search_contact();
+		void	search_contact();
+		void	select_contact();
+		void	display_contacts();
 };
+
+std::string	get_input();
+std::string	get_input_nbr();
 
 #endif
