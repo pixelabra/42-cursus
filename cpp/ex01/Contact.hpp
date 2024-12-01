@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:23:21 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/11/30 21:27:05 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:16:44 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,24 @@
 class Contact
 {
 	private:
-		int			index;
 		std::string	first_name;
 		std::string	last_name;
-		std::string	last_name;
-	public:	
-		
-		
-
+		std::string	nick_name;
+		std::string	phone_number;
+		std::string	dark_secret;
+	public:
+		Contact();
+		~Contact();
+		void		setFirstName(std::string firstname);
+		void		setLastName(std::string lastname);
+		void		setNickame(std::string nickname);
+		void		setPhNumber(std::string phnumber);
+		void		setSecret(std::string secret);
+		std::string	getFirstName();
+		std::string	getLastName();
+		std::string	getNickame();
+		std::string	getPhNumber();
+		std::string	getSecret();
 };
 
 #endif
