@@ -1,5 +1,5 @@
 NAME			:= sed
-SRCS			:= main.cpp
+SRCS			:= main.cpp #main.cpp
 OBJS			:= $(SRCS:.cpp=.o)
 CC				:= c++
 CPPFLAGS		:= -Wall -Wextra -Werror -std=c++98
