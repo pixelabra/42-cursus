@@ -1,5 +1,5 @@
-NAME			:= violence
-SRCS			:= main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
+NAME			:= sed
+SRCS			:= main.cpp
 OBJS			:= $(SRCS:.cpp=.o)
 CC				:= c++
 CPPFLAGS		:= -Wall -Wextra -Werror -std=c++98

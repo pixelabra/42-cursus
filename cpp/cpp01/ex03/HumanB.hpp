@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:20:50 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/12/02 18:11:55 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:06:43 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@
 class HumanB
 {
 	private:
-		Weapon		weapon;
+		Weapon		*weapon;
 		std::string	name;
 	public:
-		HumanB();
-		~HumanB();
 		HumanB(std::string newname);
 		void	attack();
+		void	setWeapon(Weapon &newweapon);
 };
 
 #endif
