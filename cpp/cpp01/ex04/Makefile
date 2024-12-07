@@ -1,10 +1,10 @@
 NAME			:= sed
-SRCS			:= main.cpp #main.cpp
+SRCS			:= main.cpp #main.cppmain.cpp
 OBJS			:= $(SRCS:.cpp=.o)
 CC				:= c++
 CPPFLAGS		:= -Wall -Wextra -Werror -std=c++98
 
-all: $(NAME)
+all: $(NAME) #main.cpp
 
 $(NAME): $(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $@
