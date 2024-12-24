@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:12:44 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/12/07 18:44:24 by agodeanu         ###   ########.fr       */
+/*   Updated: 2024/12/25 01:02:52 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ int	open_files(int ac, char **av, std::ifstream &inf, std::ofstream &outf)
 {
 	if (ac != 4)
 	{
-		std::cout << WR_INPUT;
+		std::cerr << WR_INPUT;
 		return (0);
 	}
 	inf.open(av[1]);
 	if (!inf.is_open())
 	{
-		std::cout << WR_INF;
+		std::cerr << WR_INF;
 		return (0);
 	}
 	outf.open(((std::string)av[1] + ".replace").c_str());
 	if (!outf.is_open())
 	{
-		std::cout << WR_OUTF;
+		std::cerr << WR_OUTF;
 		if (inf.is_open())
 			inf.close();
 		return (0);
@@ -42,7 +42,7 @@ int	open_files(int ac, char **av, std::ifstream &inf, std::ofstream &outf)
 	return (1);
 }
 
-void	search_and_replace(char **av, std::ifstream &inf, std::ofstream &outf)
+void	search_and_replace(std::string to_find, std::string to_replace, std::ifstream &inf, std::ofstream &outf)
 {
 	size_t			start;
 	size_t			end;
@@ -53,7 +53,7 @@ void	search_and_replace(char **av, std::ifstream &inf, std::ofstream &outf)
 		start = 0;
 		while (1)
 		{
-			end = temp_str.find(av[2], start);
+			end = temp_str.find(to_find, start);
 			if (end == temp_str.npos)
 			{
 				end = temp_str.length();
@@ -61,8 +61,8 @@ void	search_and_replace(char **av, std::ifstream &inf, std::ofstream &outf)
 				break ;
 			}
 			outf << temp_str.substr(start, end - start);
-			outf << av[3];
-			start = end + strlen(av[2]);
+			outf << to_replace;
+			start = end + strlen(to_find.c_str());
 		}
 		if (!inf.eof())
 			outf << std::endl;
@@ -73,10 +73,14 @@ int	main(int ac, char **av)
 {
 	std::ifstream	inf;
 	std::ofstream	outf;
+	std::string		to_find;
+	std::string		to_replace;
 
 	if (!open_files(ac, av, inf, outf))
 		return (0);
-	search_and_replace(av, inf, outf);
+	to_find = av[2];
+	to_replace = av[3];
+	search_and_replace(to_find, to_replace, inf, outf);
 	inf.close();
 	outf.close();
 	return (0);
