@@ -2,6 +2,7 @@
 
 This module serves as an introduction to C++ concepts such as classes, encapsulation, access modifiers, and get/set methods. It establishes a strong foundation for understanding object-oriented programming (OOP) by focusing on modular design and proper class usage.
 
+```plaintext
 Cpp_Module_00/
 ├── ex00/
 │   ├── Makefile
