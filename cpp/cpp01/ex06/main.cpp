@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Weapon.cpp                                         :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 17:21:05 by agodeanu          #+#    #+#             */
-/*   Updated: 2024/12/26 21:05:17 by agodeanu         ###   ########.fr       */
+/*   Created: 2025/01/15 00:08:33 by agodeanu          #+#    #+#             */
+/*   Updated: 2025/01/15 00:13:18 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Weapon.hpp"
+#include "Harl.hpp"
 
-Weapon::Weapon() {
-	type = "ak47";
-}
+int	main(int ac, char **av)
+{
+	Harl	harl;
 
-Weapon::Weapon(std::string newtype) {
-	type = newtype;
+	if (ac != 2)
+		return (1);
+	harl.complain(av[1]);
+	return (0);
 }
-
-const std::string &Weapon::getType(void) {
-	return (type);
-}
-
-void	Weapon::setType(std::string newtype) {
-	type = newtype;
-}
-	
