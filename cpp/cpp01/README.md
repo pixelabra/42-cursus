@@ -32,4 +32,10 @@ Cpp_Module_01/
 ├── ex04/
 │   ├── Makefile
 │   └── main.cpp
+├── ex05/
+│   ├── Makefile
+│   └── main.cpp
+├── ex06/
+│   ├── Makefile
+│   └── main.cpp
 └── README.md				# Project documentation

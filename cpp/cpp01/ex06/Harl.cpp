@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 23:58:11 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/01/15 00:58:16 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:30:28 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,13 @@ void	Harl::complain(std::string level)
 	{
 		case 0:
 			(this->*fn_ptrs[0])();
+			break ;
 		case 1:
 			(this->*fn_ptrs[1])();
+			break ;
 		case 2:
 			(this->*fn_ptrs[2])();
+			break ;
 		case 3:
 			(this->*fn_ptrs[3])();
 			break ;
