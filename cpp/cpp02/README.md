@@ -10,7 +10,11 @@ Direct copy = shallow copy
 Deep copy = copying entire object
 C++ supplies a default copy constructor
 
-Copy assignment is used to copy the values from one existing object to another after both objects have been constructedd
+Copy assignment is used to copy the values from one existing object to another after both objects have been constructed
+
+## Floating-Point Numbers
+Performance vs precision in digital signal processing. Fixed point arithmetic is faster than floating point arithmetic.
+
 
 ```plaintext
 Cpp_Module_02/
