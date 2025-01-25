@@ -6,11 +6,13 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 23:50:12 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/01/16 20:12:30 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/01/25 20:37:26 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
+
+const int Fixed::bits = 8;
 
 Fixed::Fixed(): fx_nbr(0)
 {

@@ -15,6 +15,8 @@ Copy assignment is used to copy the values from one existing object to another a
 ## Floating-Point Numbers
 Performance vs precision in digital signal processing. Fixed point arithmetic is faster than floating point arithmetic.
 
+We are meant to store the fractional bits of the number, up to 8.
+
 
 ```plaintext
 Cpp_Module_02/
