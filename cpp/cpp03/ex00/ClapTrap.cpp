@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:35 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/01/28 02:47:53 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/01/31 02:14:03 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ ClapTrap&	ClapTrap::operator=(const ClapTrap& other)
 	std::cout << this->getName() << " becomes " << other.getName() << "\n\n";
 	if (this == &other)
 		return (*this);
+	Name = other.getName();
 	HP = other.HP;
 	EP = other.EP;
 	ATK = other.ATK;
@@ -58,6 +59,12 @@ ClapTrap::~ClapTrap()
 
 void	ClapTrap::attack(const std::string& target)
 {
+	if (!HP)
+	{
+		std::cout << "ClapTrap " << Name << " cannot attack "<< target << ".\n";
+		std::cout << "ClapTrap " << Name << " is dead. (oh no!)\n\n";
+		return ;
+	}
 	if (EP)
 	{
 		EP--;
@@ -65,11 +72,11 @@ void	ClapTrap::attack(const std::string& target)
 				<< ATK << " damage!";
 		if (!ATK)
 			std::cout << " (pretty useless!)";
-		std::cout << std::endl;
+		std::cout << "\n\n";
 	}
 	else
-		std::cout << "ClapTrap " << Name << " has no energy to attack\n";
-}
+		std::cout << "ClapTrap " << Name << " has no energy to attack\n\n";
+}	
 
 void	ClapTrap::takeDamage(unsigned int amount)
 {
@@ -78,26 +85,35 @@ void	ClapTrap::takeDamage(unsigned int amount)
 		HP--;
 		std::cout << "ClapTrap " << Name << " takes " << amount << " points of damage!\n";
 		std::cout << "ClapTrap " << Name << "'s HP is " << HP << "HP.\n\n";
+		if (!HP)
+			std::cout << "ClapTrap " << Name << " fully died (oh no!)\n\n";
 	}
 	else
-		std::cout << "ClapTrap " << Name << " is already dead. It cannot take more damage\n.";
+		std::cout << "ClapTrap " << Name << " is already dead. It cannot take more damage.\n\n";
 }
 
 void	ClapTrap::beRepaired(unsigned int amount)
 {
+	if (!HP)
+	{
+		std::cout << "ClapTrap " << Name << " cannot be repaired.\n";
+		std::cout << "ClapTrap " << Name << " is dead. (oh no!)\n\n";
+		return ;
+	}
 	if (EP)
 	{
 		if (HP < 10)
 		{
 			HP++;
+			EP--;
 			std::cout << "ClapTrap " << Name << " repaired " << amount << "\n";
 			std::cout << "ClapTrap " << Name << "'s HP is " << HP << "HP.\n\n";
 		}
 		else
-			std::cout << "ClapTrap " << Name << " reached maximum health.\n";
+			std::cout << "ClapTrap " << Name << " tried to repair itself but it already reached maximum health.\n\n";
 	}
 	else
-		std::cout << "ClapTrap " << Name << " does not have energy to repair itself.\n";
+		std::cout << "ClapTrap " << Name << " does not have energy to repair itself.\n\n";
 }
 
 std::ostream&	operator<<(std::ostream& stream, const ClapTrap& other)

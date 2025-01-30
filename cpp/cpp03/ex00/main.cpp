@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:01:04 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/01/28 02:49:52 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/01/31 02:12:28 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ int	main()
 	ClapTrap	clappy("clappy");
 	ClapTrap	clapairy(clurp);
 
-	std::cout << clurp;	
-	clurp = clappy;
 	std::cout << clurp;
+	clurp = clappy;
+	std::cout << clurp << "\n";
 	std::cout << clap << "\n" << clappy << "\n";
 	clurp.setName("clurp");
 	std::cout << clurp << std::endl;
 
 	std::cout << "ATTACK | DAMAGE | REPAIR TESTS" << "\n";
+
 	clapairy.attack("cloupi wooopy");
 	clapairy.attack("cloupi wooopy");
 	std::cout << clapairy << std::endl;
@@ -35,5 +36,17 @@ int	main()
 	clapairy.attack("cloupi wooopy");
 	clapairy.attack("cloupi wooopy");
 	std::cout << clapairy << std::endl;
+
+	clapairy.beRepaired(1);
+	clapairy.setHP(9);
+	clapairy.setEP(10);
+	clapairy.beRepaired(1);
+	clapairy.beRepaired(1);
+
+	clapairy.setHP(1);
+	clapairy.takeDamage(1);
+	clapairy.takeDamage(1);
+	clapairy.beRepaired(1);
+	clapairy.attack("clurpixoo");
 	return (0);
 }
