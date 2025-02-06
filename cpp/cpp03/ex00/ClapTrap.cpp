@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:35 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/01/31 02:14:03 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:01:55 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,33 @@
 ClapTrap::ClapTrap(): HP(10), EP(10), ATK(0)
 {
 	Name = "Oupi Goupi";
-	std::cout << "Default constructor called for ClapTrap " << Name << ".\n";
+	std::cout << "Default ClapTrap constructor called for ClapTrap " << Name << ".\n";
 }
 
 ClapTrap::ClapTrap(std::string name): HP(10), EP(10), ATK(0)
 {
 	Name = name;
-	std::cout << "Default name constructor called for ClapTrap " << Name << "\n";
+	std::cout << "Default name ClapTrap constructor called for ClapTrap " << Name << "\n";
 }
 
 ClapTrap::ClapTrap(const ClapTrap& other): Name(other.Name), HP(other.HP),
 	EP(other.EP), ATK(other.ATK)
 {
-	std::cout << "Copy constructor called\n\n";
+	std::cout << "Copy ClapTrap constructor called\n\n";
 }
 
 ClapTrap&	ClapTrap::operator=(const ClapTrap& other)
 {
-	std::cout << "Copy assignment constructor called\n";
+	std::cout << "Copy assignment overload:\n";
 	std::cout << this->getName() << " becomes " << other.getName() << "\n\n";
 	if (this == &other)
 		return (*this);
-	Name = other.getName();
+	Name = other.Name;
 	HP = other.HP;
 	EP = other.EP;
 	ATK = other.ATK;
 	return (*this);
 }
-
-std::string		ClapTrap::getName(void) const { return (Name);}
-unsigned int	ClapTrap::getHP(void) const { return (HP);}
-unsigned int	ClapTrap::getEP(void) const { return (EP);}
-unsigned int	ClapTrap::getATK(void) const { return (ATK);}
-void			ClapTrap::setName(std::string name) {Name = name;}
-void			ClapTrap::setHP(unsigned int hp) {HP = hp;}
-void			ClapTrap::setEP(unsigned int ep) {EP = ep;}
-void			ClapTrap::setATK(unsigned int atk) {ATK = atk;}
 
 ClapTrap::~ClapTrap()
 {
@@ -82,11 +73,14 @@ void	ClapTrap::takeDamage(unsigned int amount)
 {
 	if (HP)
 	{
-		HP--;
+		if (HP >= amount)
+			HP -= amount;
+		else if (HP < amount)
+			HP = 0;
 		std::cout << "ClapTrap " << Name << " takes " << amount << " points of damage!\n";
 		std::cout << "ClapTrap " << Name << "'s HP is " << HP << "HP.\n\n";
 		if (!HP)
-			std::cout << "ClapTrap " << Name << " fully died (oh no!)\n\n";
+			std::cout << "ClapTrap " << Name << " sadly died (oh no!)\n\n";
 	}
 	else
 		std::cout << "ClapTrap " << Name << " is already dead. It cannot take more damage.\n\n";
@@ -115,6 +109,15 @@ void	ClapTrap::beRepaired(unsigned int amount)
 	else
 		std::cout << "ClapTrap " << Name << " does not have energy to repair itself.\n\n";
 }
+
+std::string		ClapTrap::getName(void) const { return (Name);}
+unsigned int	ClapTrap::getHP(void) const { return (HP);}
+unsigned int	ClapTrap::getEP(void) const { return (EP);}
+unsigned int	ClapTrap::getATK(void) const { return (ATK);}
+void			ClapTrap::setName(std::string name) {Name = name;}
+void			ClapTrap::setHP(unsigned int hp) {HP = hp;}
+void			ClapTrap::setEP(unsigned int ep) {EP = ep;}
+void			ClapTrap::setATK(unsigned int atk) {ATK = atk;}
 
 std::ostream&	operator<<(std::ostream& stream, const ClapTrap& other)
 {

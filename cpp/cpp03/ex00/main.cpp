@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:01:04 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/01/31 02:12:28 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:46:33 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main()
 	ClapTrap	clapairy(clurp);
 
 	std::cout << clurp;
+	std::cout << std::endl;
 	clurp = clappy;
 	std::cout << clurp << "\n";
 	std::cout << clap << "\n" << clappy << "\n";
@@ -46,7 +47,10 @@ int	main()
 	clapairy.setHP(1);
 	clapairy.takeDamage(1);
 	clapairy.takeDamage(1);
+	clapairy.setHP(1);
+	clapairy.takeDamage(2);
 	clapairy.beRepaired(1);
-	clapairy.attack("clurpixoo");
+	std::string	attacker = "clurpixur";
+	clapairy.attack(attacker);
 	return (0);
 }

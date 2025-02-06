@@ -6,48 +6,48 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:01:04 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/02/06 19:46:21 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:04:19 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScavTrap.hpp"
+#include "FragTrap.hpp"
 
 int	main()
 {
-	ScavTrap	clurp;
-	ScavTrap	clappy("clappy");
-	ScavTrap	clapairy(clurp);
+	FragTrap	frurp;
+	FragTrap	frappy("frappy");
+	FragTrap	frapairy(frurp);
 
-	std::cout << clurp << std::endl;
-	clurp = clappy;
-	std::cout << clurp << "\n";
-	clurp.setName("clurp");
-	std::cout << clurp << std::endl;
+	std::cout << frurp << std::endl;
+	frurp = frappy;
+	std::cout << frurp << "\n";
+	frurp.setName("frurp");
+	std::cout << frurp << std::endl;
 
 	std::cout << "ATTACK | DAMAGE | REPAIR TESTS" << "\n";
 
-	std::string	attacker = "cloupi wooopy";
-	clapairy.attack(attacker);
-	clapairy.attack(attacker);
-	std::cout << clapairy << std::endl;
-	clapairy.setEP(1);
-	std::cout << clapairy << std::endl;
-	clapairy.attack(attacker);
-	clapairy.attack(attacker);
-	std::cout << clapairy << std::endl;
+	std::string	attacker = "frurpurpur";
+	frapairy.attack(attacker);
+	frapairy.attack(attacker);
+	std::cout << frapairy << std::endl;
+	frapairy.setEP(1);
+	std::cout << frapairy << std::endl;
+	frapairy.attack(attacker);
+	frapairy.attack(attacker);
+	std::cout << frapairy << std::endl;
 	std::cout << "------------------\n\n";
-	clapairy.beRepaired(1);
-	clapairy.setHP(99);
-	clapairy.setEP(10);
-	clapairy.beRepaired(1);
-	clapairy.beRepaired(1);
-	std::cout << clapairy << std::endl;
+	frapairy.beRepaired(1);
+	frapairy.setHP(99);
+	frapairy.setEP(10);
+	frapairy.beRepaired(1);
+	frapairy.beRepaired(1);
+	std::cout << frapairy << std::endl;
 	std::cout << "------------------\n\n";
-	clapairy.setHP(1);
-	clapairy.takeDamage(3);
-	clapairy.beRepaired(1);
-	attacker = "scurpixur";
-	clapairy.attack(attacker);
-	clapairy.guardGate();
+	frapairy.setHP(1);
+	frapairy.takeDamage(3);
+	frapairy.beRepaired(1);
+	attacker = "frurpixur";
+	frapairy.attack(attacker);
+	frapairy.highFivesGuys();
 	return (0);
 }
