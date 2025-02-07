@@ -6,19 +6,19 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:35 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/02/06 19:44:12 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:59:16 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap(): HP(100), EP(50), ATK(20)
+ClapTrap::ClapTrap(): HP(default_HP), EP(default_EP), ATK(default_ATK)
 {
 	Name = "Froupy Wroupy";
 	std::cout << "Default ClapTrap constructor called for ClapTrap " << Name << ".\n";
 }
 
-ClapTrap::ClapTrap(std::string name): HP(100), EP(50), ATK(20)
+ClapTrap::ClapTrap(std::string name): HP(default_HP), EP(default_EP), ATK(default_ATK)
 {
 	Name = name;
 	std::cout << "Default name ClapTrap constructor called for ClapTrap " << Name << ".\n";
@@ -108,7 +108,7 @@ void	ClapTrap::beRepaired(unsigned int amount)
 	}
 	if (EP)
 	{
-		if (HP < 100)
+		if (HP < default_HP)
 		{
 			HP++;
 			EP--;

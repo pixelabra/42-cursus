@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:35:41 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/02/06 19:31:00 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:53:42 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 ScavTrap::ScavTrap(): ClapTrap()
 {
+	HP = default_HP;
+	EP = default_EP;
+	ATK = default_ATK;
 	std::cout << "Default ScavTrap Constructor called for ScavTrap " << Name << ".\n\n";
 }
 

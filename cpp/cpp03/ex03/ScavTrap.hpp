@@ -5,6 +5,10 @@
 
 class ScavTrap: virtual public ClapTrap
 {
+	protected:
+		static const unsigned int	default_HP = 100;
+		static const unsigned int	default_EP = 50;
+		static const unsigned int	default_ATK = 20;
 	public:
 		ScavTrap();
 		ScavTrap(std::string name);

@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:01:04 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/02/06 20:30:41 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:21:07 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,25 @@
 
 int	main()
 {
-	DiamondTrap	durp;
+	DiamondTrap	diamondY;
+	DiamondTrap	diamondX("horse");
 
-	durp.getName();
+	std::cout << diamondX << std::endl;
+	std::cout << diamondY << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << diamondX.getName() << std::endl;
+	std::cout << diamondY.getName() << std::endl;
+	diamondY.whoAmI();
+	diamondX.whoAmI();
+	std::cout << std::endl;
+	std::cout << std::endl;
+	diamondY.setATK(10000);
+	diamondX = diamondY;
+	diamondX.whoAmI();
+	diamondY.whoAmI();
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << diamondX << std::endl;
 	return (0);
 }

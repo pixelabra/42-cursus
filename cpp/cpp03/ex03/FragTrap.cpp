@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:34:52 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/02/06 19:36:42 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:53:09 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 FragTrap::FragTrap(): ClapTrap()
 {
-	HP = 100;
-	EP = 100;
-	ATK = 30;
+	HP = default_HP;
+	EP = default_EP;
+	ATK = default_ATK;
 	std::cout << "Default FragTrap constructor called for FragTrap "<< Name << ".\n\n";
 }
 
 FragTrap::FragTrap(std::string name): ClapTrap(name)
 {
-	HP = 100;
-	EP = 100;
-	ATK = 30;
+	HP = default_HP;
+	EP = default_EP;
+	ATK = default_ATK;
 	std::cout << "Default name FragTrap constructor called for FragTrap " << Name << ".\n\n";
 }
 
 FragTrap::FragTrap(const FragTrap& other): ClapTrap(other)
 {
-	HP = 100;
-	EP = 100;
-	ATK = 30;
+	HP = default_HP;
+	EP = default_EP;
+	ATK = default_ATK;
 	std::cout << "Copy FragTrap constructor called.\n\n";
 }
 
