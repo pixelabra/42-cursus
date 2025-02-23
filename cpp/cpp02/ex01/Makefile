@@ -1,5 +1,5 @@
 NAME			:= fixed
-SRCS			:= $(shell ls | grep .cpp)
+SRCS			:= Fixed.cpp main.cpp
 OBJS			:= $(SRCS:.cpp=.o)
 CC				:= c++
 CPPFLAGS		:= -Wall -Wextra -Werror -std=c++98

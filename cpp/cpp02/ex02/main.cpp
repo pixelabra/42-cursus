@@ -6,25 +6,24 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 23:41:09 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/01/26 23:34:14 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/01/26 23:55:24 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
-int	main()
+#define PRINT(X) std::cout << X << std::endl
+
+int main(void)
 {
-	Fixed	a;
-	Fixed	b(a);
-	Fixed	c;
+	Fixed		a;
+	Fixed const	b(Fixed(5.05f) * Fixed(2));
 
-	c = b;
 
-	std::cout << a.getRawBits() << std::endl;
-	std::cout << b.getRawBits() << std::endl;
-	std::cout << c.getRawBits() << std::endl;
+	std::cout << Fixed::max(a, b) << std::endl;
+	std::cout << Fixed::min(a, b) << std::endl;
 	
-	a.setRawBits(0b00000000000000000000000000000001);
-	std::cout << a.getRawBits() << std::endl;
+	std::cout << (a < b) << std::endl;
+
 	return (0);
 }
