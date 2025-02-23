@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:35 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/02/07 13:59:03 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:48:59 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ void	ClapTrap::beRepaired(unsigned int amount)
 	{
 		if (HP < 10)
 		{
-			HP++;
+			std::cout << "ClapTrap " << Name << " repaired " << ((HP + amount < 10) ? amount : (10 - HP)) << "\n";
+			HP = (HP + amount < 10) ? (HP + amount) : 10;
 			EP--;
-			std::cout << "ClapTrap " << Name << " repaired " << amount << "\n";
 			std::cout << "ClapTrap " << Name << "'s HP is " << HP << "HP.\n\n";
 		}
 		else
