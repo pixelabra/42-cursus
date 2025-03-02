@@ -1,43 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.cpp                                            :+:      :+:    :+:   */
+/*   Brain.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 17:06:03 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/02 19:50:49 by agodeanu         ###   ########.fr       */
+/*   Created: 2025/03/02 20:19:17 by agodeanu          #+#    #+#             */
+/*   Updated: 2025/03/02 20:43:59 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Dog.hpp"
+#include "Brain.hpp"
 
-Dog::Dog(): Animal("Dog")
+Brain::Brain()
 {
-	std::cout << "Dog default creation activated.\n";
+	std::cout << "Brain default creation activated\n";
+	for (int i = 0; i < 100; i++)
+		ideas[i] = "(bwank)";
 }
 
-Dog::Dog(const Dog& other): Animal("Dog")
+Brain::Brain(const Brain& other)
 {
-	std::cout << "Dog copy constructors activated.\n";
-	type = other.type;
+	std::cout << "Brain copy constructor activated\n";
+	for (int i = 0; i < 100; i++)
+		ideas[i] = other.ideas[i];
 }
 
-Dog&	Dog::operator=(const Dog& other)
+Brain& Brain::operator=(const Brain& other)
 {
-	std::cout << "Dog copy assignment overload activated.\n";
 	if (this == &other)
 		return (*this);
-	Animal::operator=(other);
+	for (int i = 0; i < 100; i++)
+		ideas[i] = other.ideas[i];
 	return (*this);
 }
 
-Dog::~Dog()
+Brain::~Brain()
 {
-	std::cout << "Dog is no longer with us.\n";
-}
-
-void	Dog::makeSound(void) const
-{
-	std::cout << "woof\n";
+	std::cout << "Brain is no longer with us.\n";
 }

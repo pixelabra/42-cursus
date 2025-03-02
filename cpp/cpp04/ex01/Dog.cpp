@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 17:06:03 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/02 19:50:49 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:45:42 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ Dog&	Dog::operator=(const Dog& other)
 Dog::~Dog()
 {
 	std::cout << "Dog is no longer with us.\n";
+	delete brain;
 }
 
 void	Dog::makeSound(void) const

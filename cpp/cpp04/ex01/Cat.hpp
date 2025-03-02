@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 19:46:28 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/02 19:50:26 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:27:39 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 # define CAT_HPP
 
 # include "Animal.hpp"
+# include "Brain.hpp"
 
 class Cat: public Animal
 {
+	private:
+		Brain *brain;
 	public:
 		Cat();
 		Cat(const Cat& other);
