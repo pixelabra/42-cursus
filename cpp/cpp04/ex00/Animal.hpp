@@ -13,6 +13,8 @@ class Animal
 		Animal(const Animal& other);
 		Animal& operator=(const Animal& other);
 		~Animal();
+
+		virtual void	makeSound();
 };
 
 #endif

@@ -1,20 +1,18 @@
 #include "Animal.hpp"
 
-Animal::Animal()
+Animal::Animal(): type("animaux")
 {
-	std::cout << "Animal creation activated\n";
+	std::cout << "Animal default creation activated\n";
 }
 
-Animal::Animal(std::string type)
+Animal::Animal(std::string _type): type(_type)
 {
 	std::cout << "Animal type creation activated\n";
-	this->type = type;
 }
 
-Animal::Animal(const Animal& other)
+Animal::Animal(const Animal& other): type(other.type)
 {
 	std::cout << "Animal copy constructor activated\n";
-
 }
 
 Animal& Animal::operator=(const Animal& other)
@@ -30,3 +28,7 @@ Animal::~Animal()
 	std::cout << "Animal is no longer with us.\n";
 }
 
+void	Animal::makeSound()
+{
+	std::cout << "";
+}
