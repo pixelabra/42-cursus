@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 17:06:03 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/02 19:50:49 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:37:21 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,17 @@ Dog::Dog(const Dog& other): Animal("Dog")
 Dog&	Dog::operator=(const Dog& other)
 {
 	std::cout << "Dog copy assignment overload activated.\n";
-	if (this == &other)
-		return (*this);
-	Animal::operator=(other);
+	if (this != &other)
+		Animal::operator=(other);
 	return (*this);
 }
 
 Dog::~Dog()
 {
-	std::cout << "Dog is no longer with us.\n";
+	std::cout << "Dog of type " << type << " is no longer with us.\n";
 }
 
 void	Dog::makeSound(void) const
 {
-	std::cout << "woof\n";
+	std::cout << "woofywoof\n";
 }

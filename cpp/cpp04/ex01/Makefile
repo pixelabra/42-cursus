@@ -1,5 +1,5 @@
-NAME		:= alpha
-SRCS		:= main.cpp Animal.cpp Dog.cpp Cat.cpp WrongAnimal.cpp WrongCat.cpp
+NAME		:= beta
+SRCS		:= main.cpp Animal.cpp Dog.cpp Cat.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 CC			:= c++
 CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98

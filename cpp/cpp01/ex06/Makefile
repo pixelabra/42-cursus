@@ -9,7 +9,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $@
 
-%.o: %.c
+%.o: %.cpp
 	$(CC) $(CPPFLAGS) -c $< -o $@
 
 clean:

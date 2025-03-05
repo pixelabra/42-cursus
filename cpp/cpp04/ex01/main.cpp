@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 19:32:38 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/02 20:16:08 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:08:24 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,41 @@
 
 int	main()
 {
-	{
-		const Animal		*meta = new Animal();
-		const Animal		*j = new Dog();
-		const Animal		*i = new Cat();
+	// {
+	// 	const Animal		*meta = new Animal();
+	// 	const Animal		*j = new Dog();
+	// 	const Animal		*i = new Cat();
 
-		std::cout << j->getType() << " " << std::endl;	
-		std::cout << i->getType() << " " << std::endl;
-		i->makeSound();
-		j->makeSound();
-		meta->makeSound();
-		delete meta;
-		delete i;
-		delete j;
-	}
-	std::cout << std::endl;
+	// 	std::cout << j->getType() << " " << std::endl;	
+	// 	std::cout << i->getType() << " " << std::endl;
+	// 	i->makeSound();
+	// 	j->makeSound();
+	// 	meta->makeSound();
+	// 	delete meta;
+	// 	delete i;
+	// 	delete j;
+	// }
+	// std::cout << std::endl;
+	// {
+	// 	const WrongAnimal	*k = new WrongCat();
+	// 	std::cout << k->getType() << " " << std::endl;
+	// 	k->makeSound();
+	// 	delete k;
+	// }
 	{
-		const WrongAnimal	*k = new WrongCat();
-		std::cout << k->getType() << " " << std::endl;
-		k->makeSound();
-		delete k;
+		int	N = 3;
+		Animal	*herd[N];
+
+		for (int i = 0; i < N; i++)
+		{
+			if (i < N / 2)
+				herd[i] = new Cat();
+			else
+				herd[i] = new Dog();
+		}
+
+		for (int i = 0; i < N; i++)
+			delete herd[i];
 	}
 	return (0);
 }
