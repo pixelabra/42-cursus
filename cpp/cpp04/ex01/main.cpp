@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 19:32:38 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/04 14:08:24 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:06:59 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,26 @@ int	main()
 	// 	k->makeSound();
 	// 	delete k;
 	// }
+	// {
+	// 	int	N = 3;
+	// 	Animal	*herd[N];
+
+	// 	for (int i = 0; i < N; i++)
+	// 	{
+	// 		if (i < N / 2)
+	// 			herd[i] = new Cat();
+	// 		else
+	// 			herd[i] = new Dog();
+	// 	}
+	// 	for (int i = 0; i < N; i++)
+	// 		delete herd[i];
+	// }
 	{
-		int	N = 3;
-		Animal	*herd[N];
+		const Cat	luna;
+		const Cat	mochi(luna);
+		const Dog	appowo;
 
-		for (int i = 0; i < N; i++)
-		{
-			if (i < N / 2)
-				herd[i] = new Cat();
-			else
-				herd[i] = new Dog();
-		}
-
-		for (int i = 0; i < N; i++)
-			delete herd[i];
+		std::cout << mochi.getType() << std::endl;
 	}
 	return (0);
 }

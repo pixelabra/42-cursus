@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 17:06:00 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/04 13:23:17 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:56:57 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ Cat::Cat(): Animal("Cat")
 Cat::Cat(const Cat& other): Animal("Cat")
 {
 	std::cout << "Cat copy constructors activated.\n";
-	type = other.type;	
+	type = other.type;
+	brain = new Brain(*other.brain);
 }
 
 Cat&	Cat::operator=(const Cat& other)
