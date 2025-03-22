@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 20:19:17 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/16 13:34:49 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:57:18 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ void	Brain::getIdeas(void) const
 {
 	for (int i = 0; i < 100; i++)
 		std::cout << ideas[i] << std::endl;
+}
+
+void	Brain::setIdea(int index, std::string message)
+{
+	if (index >= 0 && index < 100)
+		ideas[index] = message;
 }

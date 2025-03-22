@@ -36,4 +36,4 @@ void	Animal::makeSound(void) const
 }
 
 std::string	Animal::getType() const { return (type); }
-void		Animal::setType(std::string _type) {type = _type; }
+void		Animal::setType(std::string _type) { type = _type; }

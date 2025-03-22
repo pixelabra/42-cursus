@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 17:06:03 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/15 17:57:23 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:57:10 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ Dog&	Dog::operator=(const Dog& other)
 	if (this == &other)
 		return (*this);
 	Animal::operator=(other);
+	if (brain)
+		delete brain;
+	brain = new Brain(*other.brain);
 	return (*this);
 }
 
@@ -43,4 +46,16 @@ Dog::~Dog()
 void	Dog::makeSound(void) const
 {
 	std::cout << "woof\n";
+}
+
+void	Dog::getIdeas(void) const
+{
+	if (brain)
+		brain->getIdeas();
+}
+
+void	Dog::setIdea(int index, std::string message)
+{
+	if (brain && index >= 0 && index < 100)
+		brain->setIdea(index, message);
 }

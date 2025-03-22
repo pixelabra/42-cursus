@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 17:06:00 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/16 13:38:01 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:57:13 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ Cat&	Cat::operator=(const Cat& other)
 	if (this == &other)
 		return (*this);
 	Animal::operator=(other);
+	if (brain)
+		delete brain;
+	brain = new Brain(*other.brain);
 	return (*this);
 }
 
@@ -47,5 +50,12 @@ void	Cat::makeSound(void) const
 
 void	Cat::getIdeas(void) const
 {
-	brain->getIdeas();
+	if (brain)
+		brain->getIdeas();
+}
+
+void	Cat::setIdea(int index, std::string message)
+{
+	if (brain && index >= 0 && index < 100)
+		brain->setIdea(index, message);
 }

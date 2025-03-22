@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 19:32:38 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/04 16:52:44 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:11:24 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	main()
 	{
 		std::cout << BLUE BOLD << "Scope 1\n" << RESET;
 		const Animal	*meta = new Animal();
-		const Animal	*j = new Dog();
 		const Animal	*i = new Cat();
+		const Animal	*j = new Dog();
 		
-		std::cout << j->getType() << " " << std::endl;	
 		std::cout << i->getType() << " " << std::endl;
+		std::cout << j->getType() << " " << std::endl;	
 		i->makeSound();
 		j->makeSound();
 		meta->makeSound();
@@ -83,11 +83,6 @@ int	main()
 		wooshy.setType("wooshy");
 		wooshwoosh = wooshy;
 		std::cout << "Type of wooshwoosh is: " << wooshwoosh.getType() << std::endl;
-		
-		std::cout << RED BOLD << "Self-assignment:\n" << RESET;
-		wooshy = wooshy;
-		swooshy = swooshy;
-		splooshy = splooshy;
 		
 		std::cout << RED BOLD << "Slicing:\n" << RESET;
 		Animal	sliced = Dog();

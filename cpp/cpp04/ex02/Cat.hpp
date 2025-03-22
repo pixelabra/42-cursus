@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 19:46:28 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/03/16 14:18:50 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:12:49 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ class Cat: public Animal
 
 		void	makeSound(void) const;
 		void	getIdeas(void) const;
+		void	setIdea(int index, std::string message);
 };
 #endif
