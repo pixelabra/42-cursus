@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 23:50:12 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/02/23 17:55:08 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:59:09 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ Fixed	Fixed::operator--(int)
 {
 	Fixed	temp(*this);
 
-	--this->fx_nbr;
+	++this->fx_nbr;
 	return (temp);
 }
 
