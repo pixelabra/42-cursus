@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:27:29 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/04/30 19:38:57 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:41:40 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Form
 		Form& operator=(const Form& other);
 		~Form();
 
-		const bool&				getIsSigned() const;
+		const bool&			getIsSigned() const;
 		const int&			getMinSign() const;
 		const int&			getMinExec() const;
 		const std::string&	getName() const;
