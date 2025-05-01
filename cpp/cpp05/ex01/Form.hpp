@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:27:29 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/04/30 19:41:40 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:24:06 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define FORM_HPP
 
 # include "Bureaucrat.hpp"
+
+class Bureaucrat;
 
 class Form
 {
@@ -34,7 +36,7 @@ class Form
 		const int&			getMinExec() const;
 		const std::string&	getName() const;
 
-		void				beSigned(Bureaucrat brcrat);
+		void				beSigned(Bureaucrat& brcrat);
 
 		class GradeTooHighException: public std::exception
 		{
@@ -42,7 +44,8 @@ class Form
 				std::string	message;
 			public:
 				GradeTooHighException();
-				~GradeTooHighException();
+				GradeTooHighException(std::string _message);
+				~GradeTooHighException() throw();
 				const char	*what() const throw();
 		};
 		class GradeTooLowException: public std::exception
@@ -51,7 +54,8 @@ class Form
 				std::string	message;
 			public:
 				GradeTooLowException();
-				~GradeTooLowException();
+				GradeTooLowException(std::string _message);
+				~GradeTooLowException() throw();
 				const char	*what() const throw();
 		};
 };

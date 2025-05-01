@@ -2,4 +2,7 @@
 
 This module introduces us to exceptions.
 
+Circular dependencies.
+Forward declarations.
+
 ## Exceptions

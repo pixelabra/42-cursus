@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:50 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/04/29 14:30:29 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:02:17 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <exception>
+# include "Form.hpp"
 
 # define RESET		"\x1b[0m"
 # define BOLD		"\x1b[1m"
@@ -26,6 +27,8 @@
 # define MAGENTA	"\x1b[35m"
 # define CYAN		"\x1b[36m"
 # define WHITE		"\x1b[37m"
+
+class Form;
 
 class Bureaucrat
 {
@@ -44,6 +47,7 @@ class Bureaucrat
 
 		void					promote();
 		void					demote();
+		void					signForm(Form& frm);
 
 	class GradeTooHighException: public std::exception
 	{
@@ -51,6 +55,7 @@ class Bureaucrat
 			std::string	message;
 		public:
 			GradeTooHighException();
+			GradeTooHighException(std::string _message);
 			~GradeTooHighException() throw();
 			const char* what() const throw();
 	};
@@ -60,6 +65,7 @@ class Bureaucrat
 			std::string	message;
 		public:
 			GradeTooLowException();
+			GradeTooLowException(std::string _message);
 			~GradeTooLowException() throw();
 			const char* what() const throw();
 	};

@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/04/29 15:25:16 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:16:19 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(void)
 		} catch(std::exception& e) {
 			std::cout << e.what();
 		} catch(...) {
-			std::cout << "Encountered an unforeseen problem\n";
+			std::cout << "Encountered an unforeseen problem.\n";
 		}
 		std::cout << "---------------" << std::endl;
 		for (int i = 0; i < 10; i++) {

@@ -6,13 +6,13 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:35:30 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/04/29 15:25:25 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:10:36 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include "Form.hpp"
 
-Bureaucrat::Bureaucrat(): name("basic"), grade(150)
+Bureaucrat::Bureaucrat(): name("brcrt"), grade(150)
 {
 	std::cout << BOLD << BLUE << "[d_CONSTR]" << RESET << " ";
 	std::cout << name << "(" << grade << ")" << " joined." << std::endl;
@@ -22,18 +22,19 @@ Bureaucrat::Bureaucrat(const std::string _name, int _grade): name(_name)
 {
 	std::cout << BOLD << MAGENTA << "[p_CONSTR]" << RESET << " ";
 	if (_grade > 150) {
-		std::cout << name << ": ";
-		throw GradeTooLowException();
+		throw GradeTooLowException(this->getName()
+			+ ": grade cannot be lower than 150\n");
 	}
 	if (_grade < 1) {
 		std::cout << name << ": ";
-		throw GradeTooHighException();
+		throw GradeTooHighException(this->getName()
+			+ ": grade cannot be higher than 1\n");
 	}
 	grade = _grade;
 	std::cout << name << "(" << grade << ")" << " joined." << std::endl;
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat& other): name("basic+"), grade(other.grade)
+Bureaucrat::Bureaucrat(const Bureaucrat& other): name(other.name), grade(other.grade)
 {
 	std::cout << BOLD << YELLOW << "[c_CONSTR]" << RESET << " ";
 	std::cout << name << "(" << grade << ")" << " joined." << std::endl;
@@ -69,8 +70,8 @@ const int&				Bureaucrat::getGrade() const { return (grade); }
 void	Bureaucrat::promote()
 {
 	if (grade <= 1) {
-		std::cout << name << ": ";
-		throw GradeTooHighException();
+		throw GradeTooHighException(this->getName()
+			+ ": cannot be promoted higher than 1.\n");
 	}
 	std::cout << BOLD << GREEN << "[PRMT]" << RESET << " ";
 	std::cout << name << "(" << grade << ")" << " --> ";
@@ -80,8 +81,8 @@ void	Bureaucrat::promote()
 void	Bureaucrat::demote()
 {
 	if (grade >= 150) {
-		std::cout << name << ": ";
-		throw GradeTooLowException();
+		throw GradeTooLowException(this->getName()
+			+ ": cannot be demoted lower than 150.\n");
 	}
 	std::cout << BOLD << CYAN << "[DMT]" << RESET << " ";
 	std::cout << name << "(" << grade << ")" << " --> ";
@@ -90,18 +91,34 @@ void	Bureaucrat::demote()
 
 Bureaucrat::GradeTooHighException::GradeTooHighException():
 	message("level higher than 1 not allowed.\n") {}
+
+Bureaucrat::GradeTooHighException::GradeTooHighException(std::string _message):
+	message(_message) {}
+
 Bureaucrat::GradeTooLowException::GradeTooLowException():
 	message("level lower than 150 not allowed.\n") {}
+
+Bureaucrat::GradeTooLowException::GradeTooLowException(std::string _message):
+	message(_message) {}
 
 Bureaucrat::GradeTooHighException::~GradeTooHighException() throw() {}
 Bureaucrat::GradeTooLowException::~GradeTooLowException() throw() {}
 
 const char *Bureaucrat::GradeTooHighException::what() const throw()
 {
+	std::cout << "\n---------------" << std::endl;
+	std::cout << BOLD << CYAN << "[EXCPT]" << RESET << " ";
 	return (message.c_str());
 }
 
 const char *Bureaucrat::GradeTooLowException::what() const throw()
 {
+	std::cout << "\n---------------" << std::endl;
+	std::cout << BOLD << CYAN << "[EXCPT]" << RESET << " ";
 	return (message.c_str());
+}
+
+void	Bureaucrat::signForm(Form& form)
+{
+	form.beSigned(*this);
 }

@@ -6,72 +6,51 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/04/29 15:25:16 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:34:02 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 int	main(void)
 {
 	{
-		Bureaucrat	apowo;
-		Bureaucrat	*lunesytoonesy;
-		Bureaucrat	apowoof(apowo);
+		Form		fwom;
+		Form		*fwomseytunesy;
+		Form		formwoof(fwom);
 
-		lunesytoonesy = NULL;
+		fwomseytunesy = NULL;
 		try {
-			Bureaucrat	lunesy("lunesy", 12);
-			lunesytoonesy = new Bureaucrat("lunesytoonesy", 14);
-			apowo = *lunesytoonesy;
+			Form	fwomsify("fwomsify", 85, 24);
+			fwomseytunesy = new Form("fwomseytunesy", 13, 28);
+			fwom = *fwomseytunesy;
+			std::cout << "---------------" << std::endl;
 		} catch(std::exception& e) {
 			std::cout << e.what();
 		} catch(...) {
 			std::cout << "Encountered an unforeseen problem\n";
 		}
 		std::cout << "---------------" << std::endl;
-		if (lunesytoonesy) {
-			delete lunesytoonesy;
+		if (fwomseytunesy) {
+			delete fwomseytunesy;
 		}
 	}
 	std::cout << BOLD << WHITE << ">INTERMEZZO<\n" << RESET;
 	{
-		Bureaucrat	*lunesyHorde[10];
-		
-		for (int i = 0; i < 10; i++) {
-			lunesyHorde[i] = NULL;
-		}
 		try {
-			for (int i = 0; i < 10; i++) {
-				lunesyHorde[i] = new Bureaucrat("lunesypaloonesy", 147 + i);
-			}
-			for (int i = 0; i < 10; i++) {
-				std::cout << lunesyHorde[i] << std::endl;
-			}
+			Bureaucrat	lunesy("lunesy", 26);
+			Form		f1("appowoTermination", 24, 12);
+
+			lunesy.promote();
+			lunesy.promote();
+			lunesy.signForm(f1);
+			lunesy.demote();
+			lunesy.signForm(f1);
+			std::cout << "---------------" << std::endl;
 		} catch(std::exception& e) {
 			std::cout << e.what();
 		} catch(...) {
-			std::cout << "Encountered an unforeseen problem\n";
-		}
-		std::cout << "---------------" << std::endl;
-		for (int i = 0; i < 10; i++) {
-			if (lunesyHorde[i]) {
-				delete lunesyHorde[i];
-			}
-		}
-	}
-	std::cout << BOLD << WHITE << ">INTERMEZZO<\n" << RESET;
-	{
-		Bureaucrat	luneychan("luneychan", 148);
-
-		try {
-			for (int i = 0; i < 10; i++) {
-				luneychan.demote();
-			}
-		} catch (std::exception& e) {
-			std::cout << e.what();
-		} catch (...) {
-			std::cout << "Encountered an unforeseen problem\n";
+			std::cout << "Encountered an unforeseen problem.\n";
 		}
 	}
 	return (0);

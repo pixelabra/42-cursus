@@ -1,5 +1,5 @@
-NAME		:= alpha
-SRCS		:= main.cpp Bureaucrat.cpp
+NAME		:= beta
+SRCS		:= main.cpp Bureaucrat.cpp Form.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 CC			:= c++
 CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98
