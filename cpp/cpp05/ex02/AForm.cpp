@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Form.cpp                                           :+:      :+:    :+:   */
+/*   AForm.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:01:55 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/01 18:58:57 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/02 00:44:26 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Form.hpp"
+#include "AForm.hpp"
 
-Form::Form(): name("blank"), minSign(150), minExec(150), isSigned(false)
+AForm::AForm(): name("blank"), minSign(150), minExec(150), isSigned(false)
 {
 	std::cout << BOLD << BLUE << "[d_CONSTR]" << RESET << " ";
 	std::cout << "form " << name << "(" << "S-" << minSign << ", E-"<< minExec;
 	std::cout << ")" << " created." << std::endl;
 }
 
-Form::Form(const std::string _name, const int _minSign, const int _minExec):
+AForm::AForm(const std::string _name, const int _minSign, const int _minExec):
 	name(_name), minSign(_minSign), minExec(_minExec)
 {
 	std::cout << BOLD << MAGENTA << "[p_CONSTR]" << RESET << " ";
@@ -36,7 +36,7 @@ Form::Form(const std::string _name, const int _minSign, const int _minExec):
 	std::cout << ")" << " created." << std::endl;
 }
 
-Form::Form(const Form& other): name(other.name), minSign(other.minSign),
+AForm::AForm(const AForm& other): name(other.name), minSign(other.minSign),
 	minExec(other.minExec), isSigned(other.isSigned)
 {
 	std::cout << BOLD << YELLOW << "[c_CONSTR]" << RESET << " ";
@@ -44,7 +44,7 @@ Form::Form(const Form& other): name(other.name), minSign(other.minSign),
 	std::cout << ")" << " copied." << std::endl;
 }
 
-Form&	Form::operator=(const Form& other)
+AForm&	AForm::operator=(const AForm& other)
 {
 	if (this == &other) {
 		return (*this);
@@ -54,19 +54,19 @@ Form&	Form::operator=(const Form& other)
 	return (*this);
 }
 
-Form::~Form()
+AForm::~AForm()
 {
 	std::cout << BOLD << RED << "[DESTR]" << RESET << " ";
 	std::cout << "form " << name << "(" << "S-" << minSign << ", E-"<< minExec;
 	std::cout << ")" << " shredded." << std::endl;
 }
 
-const bool&			Form::getIsSigned() const { return (isSigned); }
-const int&			Form::getMinSign() const { return (minSign); }
-const int&			Form::getMinExec() const { return (minExec); }
-const std::string&	Form::getName() const { return (name); }
+const bool&			AForm::getIsSigned() const { return (isSigned); }
+const int&			AForm::getMinSign() const { return (minSign); }
+const int&			AForm::getMinExec() const { return (minExec); }
+const std::string&	AForm::getName() const { return (name); }
 
-void	Form::beSigned(Bureaucrat& brcrat)
+void	AForm::beSigned(Bureaucrat& brcrat)
 {
 	if (brcrat.getGrade() > minSign) {
 		throw GradeTooLowException(brcrat.getName()
@@ -81,36 +81,36 @@ void	Form::beSigned(Bureaucrat& brcrat)
 	}
 }
 
-Form::GradeTooHighException::GradeTooHighException():
+AForm::GradeTooHighException::GradeTooHighException():
 	message("level higher than 1 not allowed.\n") {}
 
-Form::GradeTooHighException::GradeTooHighException(std::string _message):
+AForm::GradeTooHighException::GradeTooHighException(std::string _message):
 	message(_message) {}
 
-Form::GradeTooLowException::GradeTooLowException():
+AForm::GradeTooLowException::GradeTooLowException():
 	message("level lower than 150 not allowed.\n") {}
 
-Form::GradeTooLowException::GradeTooLowException(std::string _message):
+AForm::GradeTooLowException::GradeTooLowException(std::string _message):
 	message(_message) {}
 
-Form::GradeTooHighException::~GradeTooHighException() throw() {}
-Form::GradeTooLowException::~GradeTooLowException() throw() {}
+AForm::GradeTooHighException::~GradeTooHighException() throw() {}
+AForm::GradeTooLowException::~GradeTooLowException() throw() {}
 
-const char *Form::GradeTooHighException::what() const throw()
+const char *AForm::GradeTooHighException::what() const throw()
 {
 	std::cout << "---------------" << std::endl;
 	std::cout << BOLD << CYAN << "[EXCPT]" << RESET << " ";
 	return (message.c_str());
 }
 
-const char *Form::GradeTooLowException::what() const throw()
+const char *AForm::GradeTooLowException::what() const throw()
 {
 	std::cout << "---------------" << std::endl;
 	std::cout << BOLD << CYAN << "[EXCPT]" << RESET << " ";
 	return (message.c_str());
 }
 
-std::ostream&	operator<<(std::ostream& stream, const Form& other)
+std::ostream&	operator<<(std::ostream& stream, const AForm& other)
 {
 	stream << "form " << other.getName() << "(" << "S-" << other.getMinSign();
 	stream << ", E-"<< other.getMinExec() << ")" << std::endl;
