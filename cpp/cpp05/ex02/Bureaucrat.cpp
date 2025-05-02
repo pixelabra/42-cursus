@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:35:30 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/02 00:45:00 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:14:37 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 Bureaucrat::Bureaucrat(): name("brcrt"), grade(150)
 {
 	std::cout << BOLD << BLUE << "[d_CONSTR]" << RESET << " ";
-	std::cout << name << "(" << grade << ")" << " joined." << std::endl;
+	std::cout << "BRCRT " << name << "(" << grade << ")" << " joined." << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const std::string _name, int _grade): name(_name)
@@ -37,7 +37,7 @@ Bureaucrat::Bureaucrat(const std::string _name, int _grade): name(_name)
 Bureaucrat::Bureaucrat(const Bureaucrat& other): name(other.name), grade(other.grade)
 {
 	std::cout << BOLD << YELLOW << "[c_CONSTR]" << RESET << " ";
-	std::cout << name << "(" << grade << ")" << " joined." << std::endl;
+	std::cout << "BRCRT " << name << "(" << grade << ")" << " joined." << std::endl;
 }
 
 Bureaucrat&	Bureaucrat::operator=(const Bureaucrat& other)
@@ -47,7 +47,7 @@ Bureaucrat&	Bureaucrat::operator=(const Bureaucrat& other)
 	}
 	std::cout << BOLD << BLACK << "[OVRLRD]" << RESET << " ";
 	std::cout << name << "(" << grade << ")" << " --> ";
-	std::cout << name << "(" << other.grade << ")" << std::endl;
+	std::cout << "BRCRT " << name <<  "(" << other.grade << ")" << std::endl;
 	grade = other.grade;
 	return (*this);
 }
@@ -61,7 +61,7 @@ std::ostream&	operator<<(std::ostream& stream, const Bureaucrat& bcrat)
 Bureaucrat::~Bureaucrat()
 {
 	std::cout << BOLD << RED << "[DESTR]" << RESET << " ";
-	std::cout << name << "(" << grade << ")" << " left." << std::endl;
+	std::cout << "BRCRT " << name <<  "(" << grade << ")" << " left." << std::endl;
 }
 
 const std::string&		Bureaucrat::getName() const { return (name); }
@@ -121,4 +121,9 @@ const char *Bureaucrat::GradeTooLowException::what() const throw()
 void	Bureaucrat::signForm(AForm& form)
 {
 	form.beSigned(*this);
+}
+
+void Bureaucrat::executeForm(AForm& form)
+{
+	form.execute(*this);
 }

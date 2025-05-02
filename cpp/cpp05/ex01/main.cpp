@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/01 18:34:02 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:45:00 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	main(void)
 			fwomseytunesy = new Form("fwomseytunesy", 13, 28);
 			fwom = *fwomseytunesy;
 			std::cout << "---------------" << std::endl;
-		} catch(std::exception& e) {
+		} catch (std::exception& e) {
 			std::cout << e.what();
-		} catch(...) {
+		} catch (...) {
 			std::cout << "Encountered an unforeseen problem\n";
 		}
 		std::cout << "---------------" << std::endl;
@@ -47,9 +47,9 @@ int	main(void)
 			lunesy.demote();
 			lunesy.signForm(f1);
 			std::cout << "---------------" << std::endl;
-		} catch(std::exception& e) {
+		} catch (std::exception& e) {
 			std::cout << e.what();
-		} catch(...) {
+		} catch (...) {
 			std::cout << "Encountered an unforeseen problem.\n";
 		}
 	}

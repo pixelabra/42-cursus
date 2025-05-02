@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:50 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/02 00:43:26 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:26:26 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ class Bureaucrat
 		void					promote();
 		void					demote();
 		void					signForm(AForm& frm);
+		void					executeForm(AForm& frm);
 
 	class GradeTooHighException: public std::exception
 	{

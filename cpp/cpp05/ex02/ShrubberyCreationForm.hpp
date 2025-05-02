@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 00:49:03 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/02 01:40:16 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:53:49 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include "AForm.hpp"
 # include <fstream>
 
-class ShrubberyCreationForm: AForm
+class ShrubberyCreationForm: public AForm
 {
+	private:
+		std::string	target;
 	public:
 		ShrubberyCreationForm();
 		ShrubberyCreationForm(std::string target);
@@ -25,7 +27,7 @@ class ShrubberyCreationForm: AForm
 		const ShrubberyCreationForm&	operator=(const ShrubberyCreationForm& other);
 		~ShrubberyCreationForm();
 
-		const std::string&	getName() const;
+		void	execute(Bureaucrat const & executor) const;
 };
 
 #endif
