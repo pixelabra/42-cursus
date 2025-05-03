@@ -26,7 +26,7 @@ PresidentialPardonForm::PresidentialPardonForm(std::string _target):
 }
 
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& other):
-AForm(other.AForm::getName(), other.AForm::getMinSign(), other.AForm::getMinExec())
+AForm(other.AForm::getName(), other.AForm::getMinSign(), other.AForm::getMinExec()), target(other.target)
 {
 	std::cout << BOLD << YELLOW << "[c_CONSTR]" << RESET << " ";
 	std::cout << "PRDN " << this->AForm::getName()  << "(" << "S-" << this->AForm::getMinSign()  << ", E-"<< this->AForm::getMinExec();

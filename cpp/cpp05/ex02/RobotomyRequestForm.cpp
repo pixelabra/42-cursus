@@ -28,7 +28,7 @@ RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& other):
 	AForm(other.AForm::getName(), other.AForm::getMinSign(), other.AForm::getMinExec()), target(other.target)
 {
 	std::cout << BOLD << YELLOW << "[c_CONSTR]" << RESET << " ";
-	std::cout << "PRDN " << this->AForm::getName()  << "(" << "S-" << this->AForm::getMinSign()  << ", E-"<< this->AForm::getMinExec();
+	std::cout << "RBTM " << this->AForm::getName()  << "(" << "S-" << this->AForm::getMinSign()  << ", E-"<< this->AForm::getMinExec();
 	std::cout << ")" << " copied." << std::endl;
 }
 
@@ -56,8 +56,8 @@ void	RobotomyRequestForm::execute(Bureaucrat const & executor) const
 		<< " executed RBTM " << this->getName()  << "(" << "S-"
 		<< this->getMinSign() << ", E-"<< this->getMinExec() << ")" << std::endl;
 	std::cout << "*drill* *drill* *drill*\n";
-	std::srand(time(0));
-	if (std::rand() % 2 == 0) {
+	srand(time(0));
+	if (rand() % 2 == 0) {
 		std::cout << target << "'s robotomy successful.\n";
 	} else {
 		std::cout << target << "'s robotomy failed.\n";

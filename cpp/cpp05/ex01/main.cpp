@@ -26,9 +26,9 @@ int	main(void)
 			fwom = *fwomseytunesy;
 			std::cout << "---------------" << std::endl;
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		} catch (...) {
-			std::cout << "Encountered an unforeseen problem\n";
+			std::cerr << "Encountered an unforeseen problem.\n";
 		}
 		std::cout << "---------------" << std::endl;
 		if (fwomseytunesy) {
@@ -48,9 +48,9 @@ int	main(void)
 			lunesy.signForm(f1);
 			std::cout << "---------------" << std::endl;
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		} catch (...) {
-			std::cout << "Encountered an unforeseen problem.\n";
+			std::cerr << "Encountered an unforeseen problem.\n";
 		}
 	}
 	return (0);

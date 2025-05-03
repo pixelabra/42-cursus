@@ -15,7 +15,7 @@
 ShrubberyCreationForm::ShrubberyCreationForm(): AForm("shrubless", 145, 137), target("trgtless")
 {
 	std::cout << BOLD << BLUE << "[d_CONSTR]" << RESET << " ";
-	std::cout << "SHRB shrubless shrubbery created.\n";
+	std::cout << "SHRB --> trgt: " << target << " created.\n";
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string _target):
@@ -29,7 +29,7 @@ ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other)
 	AForm(other.getName(), other.getMinSign(), other.getMinExec()), target(other.target)
 {
 	std::cout << BOLD << YELLOW << "[c_CONSTR]" << RESET << " ";
-	std::cout << "SHRB " << this->getName()  << "(" << "S-" << this->getMinSign()  << ", E-"<< this->getMinExec();
+	std::cout << "SHRB --> trgt: " << target << ", " << this->getName()  << "(" << "S-" << this->getMinSign()  << ", E-"<< this->getMinExec();
 	std::cout << ")" << " copied." << std::endl;
 }
 

@@ -25,9 +25,9 @@ int	main(void)
 			lunesytoonesy = new Bureaucrat("lunesytoonesy", 14);
 			apowo = *lunesytoonesy;
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		} catch (...) {
-			std::cout << "Encountered an unforeseen problem\n";
+			std::cerr << "Encountered an unforeseen problem.\n";
 		}
 		std::cout << "---------------" << std::endl;
 		if (lunesytoonesy) {
@@ -49,9 +49,9 @@ int	main(void)
 				std::cout << lunesyHorde[i] << std::endl;
 			}
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		} catch (...) {
-			std::cout << "Encountered an unforeseen problem.\n";
+			std::cerr << "Encountered an unforeseen problem.\n";
 		}
 		std::cout << "---------------" << std::endl;
 		for (int i = 0; i < 10; i++) {
@@ -69,9 +69,9 @@ int	main(void)
 				luneychan.demote();
 			}
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		} catch (...) {
-			std::cout << "Encountered an unforeseen problem\n";
+			std::cerr << "Encountered an unforeseen problem.\n";
 		}
 	}
 	return (0);

@@ -17,13 +17,13 @@
 
 int	main(void)
 {
-	// Test: ShrubberyCreationForm (stack + heap, copy + assignment)
+	// Test: ShrubberybCreationForm (stack + heap, copy + assignment)
 	{
 		AForm*		shrooby;
 		
 		shrooby = NULL;
 		try {
-			Bureaucrat				appowo("appowo", 15);
+			Bureaucrat				appowo("appowo", 11);
 			ShrubberyCreationForm	d_shrub;
 			ShrubberyCreationForm	shrub2("shrub2");
 			ShrubberyCreationForm	shrooby2(shrub2);
@@ -34,9 +34,9 @@ int	main(void)
 			appowo.executeForm(*shrooby);
 			std::cout << "---------------" << std::endl;
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		} catch (...) {
-			std::cout << "Unforeseen problem encountered.\n";
+			std::cerr << "Unforeseen problem encountered.\n";
 		}
 		std::cout << "---------------" << std::endl;
 		if (shrooby) {
@@ -50,7 +50,7 @@ int	main(void)
 		
 		rooby = NULL;
 		try {
-			Bureaucrat				appowo("appowo", 15);
+			Bureaucrat				appowo("appowo", 44);
 			RobotomyRequestForm		d_roob;
 			RobotomyRequestForm		ruby2("ruby2");
 			RobotomyRequestForm		rooby2(ruby2);
@@ -61,9 +61,9 @@ int	main(void)
 			appowo.executeForm(*rooby);
 			std::cout << "---------------" << std::endl;
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		} catch (...) {
-			std::cout << "Unforeseen problem encountered.\n";
+			std::cerr << "Unforeseen problem encountered.\n";
 		}
 		std::cout << "---------------" << std::endl;
 		if (rooby) {
@@ -77,7 +77,7 @@ int	main(void)
 		
 		prooby = NULL;
 		try {
-			Bureaucrat				lunesy("lunesy", 4);
+			Bureaucrat					lunesy("lunesy", 5);
 			PresidentialPardonForm		d_presidente;
 			PresidentialPardonForm		presidente2("presidente2");
 			PresidentialPardonForm		prooby2(presidente2);
@@ -88,21 +88,23 @@ int	main(void)
 			lunesy.executeForm(*prooby);
 			std::cout << "---------------" << std::endl;
 		} catch (std::exception& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
+			std::cout << "---------------" << std::endl;
 		} catch (...) {
-			std::cout << "Unforeseen problem encountered.\n";
+			std::cerr << "Unforeseen problem encountered.\n";
 		}
 		std::cout << "---------------" << std::endl;
 		if (prooby) {
-			delete prooby;
+				delete prooby;
+			}
 		}
-		std::cout << BOLD << WHITE << ">INTERMEZZO<\n" << RESET;
+		// std::cout << BOLD << WHITE << ">INTERMEZZO<\n" << RESET;
 		{
 			int			N = 10;
 			AForm		*forms[N];
 			std::string	target = "target";
-			Bureaucrat	appowo("appowo", 120);
-
+			Bureaucrat	appowo("appowo", 5);
+			
 			for (int i = 0; i < N; i++) {
 				forms[i] = NULL;
 			}
@@ -121,24 +123,25 @@ int	main(void)
 				try {
 					appowo.signForm(*forms[i]);
 				} catch (std::exception& e) {
-					std::cout << e.what();
+					std::cerr << e.what();
+					std::cout << "---------------" << std::endl;
 				} catch (...) {
-					std::cout << "Unforeseen problem encountered.\n";
+					std::cerr << "Unforeseen problem encountered.\n";
 				}
 			}
 			for (int i = 0; i < N; i++) {
 				try {
 					appowo.executeForm(*forms[i]);
 				} catch (std::exception& e) {
-					std::cout << e.what();
+					std::cerr << e.what();
+					std::cout << "---------------" << std::endl;
 				} catch (...) {
-					std::cout << "Unforeseen problem encountered.\n";
-				}
+					std::cerr << "Unforeseen problem encountered.\n";
 			}
-			for (int i = 0; i < N; i++) {
-				if (forms[i]) {
-					delete forms[i];
-				}
+		}
+		for (int i = 0; i < N; i++) {
+			if (forms[i]) {
+				delete forms[i];
 			}
 		}
 	}
