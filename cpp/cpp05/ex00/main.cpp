@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/02 18:45:13 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:52:56 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(void)
 				lunesyHorde[i] = new Bureaucrat("lunesypaloonesy", 147 + i);
 			}
 			for (int i = 0; i < 10; i++) {
-				std::cout << lunesyHorde[i] << std::endl;
+				std::cout << *lunesyHorde[i] << std::endl;
 			}
 		} catch (std::exception& e) {
 			std::cerr << e.what();

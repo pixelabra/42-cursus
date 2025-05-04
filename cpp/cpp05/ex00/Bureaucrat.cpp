@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:35:30 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/04/29 15:25:25 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:52:04 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ Bureaucrat::Bureaucrat(): name("basic"), grade(150)
 
 Bureaucrat::Bureaucrat(const std::string _name, int _grade): name(_name)
 {
-	std::cout << BOLD << MAGENTA << "[p_CONSTR]" << RESET << " ";
 	if (_grade > 150) {
-		std::cout << name << ": ";
 		throw GradeTooLowException();
 	}
 	if (_grade < 1) {
-		std::cout << name << ": ";
 		throw GradeTooHighException();
 	}
+	std::cout << BOLD << MAGENTA << "[p_CONSTR]" << RESET << " ";
 	grade = _grade;
 	std::cout << name << "(" << grade << ")" << " joined." << std::endl;
 }
@@ -98,10 +96,14 @@ Bureaucrat::GradeTooLowException::~GradeTooLowException() throw() {}
 
 const char *Bureaucrat::GradeTooHighException::what() const throw()
 {
+	std::cout << "\n---------------" << std::endl;
+	std::cout << BOLD << CYAN << "[EXCPT]" << RESET << " ";
 	return (message.c_str());
 }
 
 const char *Bureaucrat::GradeTooLowException::what() const throw()
 {
+	std::cout << "\n---------------" << std::endl;
+	std::cout << BOLD << CYAN << "[EXCPT]" << RESET << " ";
 	return (message.c_str());
 }
