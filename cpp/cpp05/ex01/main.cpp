@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/02 18:45:00 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:55:36 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(void)
 			lunesy.promote();
 			lunesy.promote();
 			lunesy.signForm(f1);
-			lunesy.demote();
+			// lunesy.demote();
 			lunesy.signForm(f1);
 			std::cout << "---------------" << std::endl;
 		} catch (std::exception& e) {
