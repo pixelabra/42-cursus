@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 20:34:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/02 19:27:11 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:29:38 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int	main(void)
 				delete prooby;
 			}
 		}
-		// std::cout << BOLD << WHITE << ">INTERMEZZO<\n" << RESET;
+		std::cout << BOLD << WHITE << ">INTERMEZZO<\n" << RESET;
+		// Test: Create various forms, try to sign them and execute them
 		{
 			int			N = 10;
 			AForm		*forms[N];

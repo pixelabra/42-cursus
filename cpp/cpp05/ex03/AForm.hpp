@@ -1,0 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   AForm.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 15:27:29 by agodeanu          #+#    #+#             */
+/*   Updated: 2025/05/02 14:42:32 by agodeanu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef AFORM_HPP
+# define AFORM_HPP
+
+# include "Bureaucrat.hpp"
+
+class Bureaucrat;
+
+class AForm
+{
+	private:
+		const std::string	name;
+		const int			minSign;
+		const int			minExec;
+		bool				isSigned;
+	public:
+		AForm();
+		AForm(const std::string _name, const int _minSign, const int _minExec);
+		AForm(const AForm& other);
+		AForm& operator=(const AForm& other);
+		virtual ~AForm();
+
+		const bool&			getIsSigned() const;
+		const int&			getMinSign() const;
+		const int&			getMinExec() const;
+		const std::string&	getName() const;
+
+		void				beSigned(Bureaucrat& brcrat);
+		virtual void		execute(Bureaucrat const & executor) const = 0;
+
+		class GradeTooHighException: public std::exception
+		{
+			private:
+				std::string	message;
+			public:
+				GradeTooHighException();
+				GradeTooHighException(std::string _message);
+				~GradeTooHighException() throw();
+				const char	*what() const throw();
+		};
+		class GradeTooLowException: public std::exception
+		{
+			private:
+				std::string	message;
+			public:
+				GradeTooLowException();
+				GradeTooLowException(std::string _message);
+				~GradeTooLowException() throw();
+				const char	*what() const throw();
+		};
+		class FormNotSignedException: public std::exception
+		{
+			private:
+				std::string message;
+			public:
+				FormNotSignedException();
+				FormNotSignedException(std::string _message);
+				~FormNotSignedException() throw();
+				const char	*what() const throw();
+		};
+};
+
+std::ostream&	operator<<(std::ostream& stream, const AForm& form);
+
+#endif
