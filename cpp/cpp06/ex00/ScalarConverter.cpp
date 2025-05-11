@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:08:22 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/07 19:07:31 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/11 20:27:45 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,48 +20,109 @@ ScalarConverter&	ScalarConverter::operator=(const ScalarConverter& other) { (voi
 
 ScalarConverter::~ScalarConverter() {}
 
-void	ScalarConverter::convert(const std::string& input)
-{
-	parsingInput(input);
-	
+void	ScalarConverter::convert(const std::string& input) {
+	parseInput(input);
 }
 
-size_t	charCounter(const std::string& input, const char& c)
-{
-	size_t	counter = 0;
-	size_t	start = 0;
-	size_t	end;
+void	convertChar(char c) {
+	if (c < 32 || c == 127) {
+		std::cout << "char: Non displayable." << std::endl;
+	}
+	std::cout << "char: '" << c << "'" << std::endl;
+	std::cout << "int: " << static_cast<int>(c) << std::endl;
+	std::cout << "float: " << static_cast<float>(c) << ".0f" << std::endl;
+	std::cout << "double: " << static_cast<double>(c) << ".0" << std::endl;
+}
 
-	while (1) {
-		end = input.find(c, start);
-		if (end == input.npos) {
-			break ;
+void	convertInt(int number) {
+	if ((number >= 0 && number < 32) || number == 127) {
+		std::cout << "char: Non displayable" << std::endl;
+	} else if (number < 0 || number > 127) {
+		std::cout << "char: impossible" << std::endl;
+	} else {
+		std::cout << "char: '" << (char)number << "'" << std::endl;
+	}
+	std::cout << "int: " << number << std::endl;
+	std::cout << "float: " << static_cast<float>(number) << ".0f" << std::endl;
+	std::cout << "double: " << static_cast<double>(number) << ".0" << std::endl;
+}
+
+void	convertFloat(float number) {
+	if ((number >= 0 && number < 32) || number == 127) {
+		std::cout << "char: Non displayable" << std::endl;
+	} else if (number < 0 || number > 127) {
+		std::cout << "char: impossible" << std::endl;
+	} else {
+		std::cout << "char: '" << (char)number << "'" << std::endl;
+	}
+	if (number > INT_MAX || number < INT_MIN) {
+		std:: cout << "int: impossible" << std::endl;
+	} else {
+		std::cout << "int: " << static_cast<int>(number) << std::endl;
+	}
+	if (number == floorf(number)) {
+		std::cout << "float: " << number << ".0f" << std::endl;
+	} else {
+		std::cout << "float: " << number << "f" << std::endl;
+	}
+	if (number == floorf(number)) {
+		std::cout << "double: " << static_cast<double>(number) << ".0" << std::endl;
+	} else {
+		std::cout << "double: " << static_cast<double>(number) << std::endl;
+	}
+}
+
+void	convertDouble(double number) {
+	if ((number >= 0 && number < 32) || number == 127) {
+		std::cout << "char: Non displayable" << std::endl;
+	} else if (number < 0 || number > 127) {
+		std::cout << "char: impossible" << std::endl;
+	} else {
+		std::cout << "char: '" << (char)number << "'" << std::endl;
+	}
+	if (number > INT_MAX || number < INT_MIN) {
+		std:: cout << "int: impossible" << std::endl;
+	} else {
+		std::cout << "int: " << static_cast<int>(number) << std::endl;
+	}
+	if (number == floor(number)) {
+		std::cout << "float: " << static_cast<float>(number) << ".0f" << std::endl;
+	} else {
+		std::cout << "float: " << static_cast<float>(number) << "f" << std::endl;
+	}
+	if (number == floor(number)) {
+		std::cout << "double: " << number << ".0" << std::endl;
+	} else {
+		std::cout << "double: " << number << std::endl;
+	}
+}
+
+void	detectType(const std::string& input, double& number) {
+	if (input.length() == 1 && !std::isdigit(input[0])) {
+		convertChar(input[0]);
+	} else if (input.find('.', 0) != input.npos) {
+		if (input.find('f', 0)) {
+			convertFloat(atof(input.c_str()));
+		} else {
+			convertDouble(number);
 		}
-		start = end + 1;
-		counter++;
+	} else if (number > INT_MAX || number < INT_MIN) {
+		std::cerr << "Error: int displayed not nice." << std::endl;
+	} else {
+		convertInt(atoi(input.c_str()));
 	}
-	return (counter);
 }
 
-void	parsingInput(const std::string& input)
-{
-	if (input.size() == 1 && !std::isdigit(input[0])) {
-		char c = input[0];
-		std::cout << c << std::endl;
-	} else if (input.size() != 1) {
-		
+void	parseInput(const std::string& input) {
+	char	*endPtr = NULL;
+	double	number = strtod(input.c_str(), &endPtr);
+	// nanf stuffsies check
+	if ((input.length() > 0 && (!*endPtr || (*endPtr && (input.find('.', 0) != input.npos)
+		&& (!*(endPtr + 1)) && (*endPtr == 'f'))))
+		|| (input.length() == 1 && !std::isdigit(input[0]))) {
+			detectType(input, number);
+	} else {
+		std::cerr << "invalid literal." << std::endl;
 	}
-	size_t	counter = charCounter(input, '-');
-	// if (counter > 2) 
-	// if (charCounter(input, '.') > 1) {
-	// 	std::cerr << "Error: input cannot have multiple '.'" << std::endl;
-	// }
-	// if (charCounter(input, '-') > 1 || ) {
-	// 	std::cerr << "Error: input cannot have multiple '.'" << std::endl;
-	// }
-	// if (charCounter(input, 'f') > 1) {
-	// 	std::cerr << "Error: input cannot have multiple '.'" << std::endl;
-	// }
-	
-	std::cout << counter << std::endl;
+	(void)number;
 }
