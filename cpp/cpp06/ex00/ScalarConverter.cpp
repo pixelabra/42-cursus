@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:08:22 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/11 20:27:45 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:05:51 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 ScalarConverter::ScalarConverter() {}
 
-ScalarConverter::ScalarConverter(const ScalarConverter& other) {(void)other;}
+ScalarConverter::ScalarConverter(const ScalarConverter& other) { (void)other; }
 
 ScalarConverter&	ScalarConverter::operator=(const ScalarConverter& other) { (void)other; return (*this); }
 
@@ -113,10 +113,51 @@ void	detectType(const std::string& input, double& number) {
 	}
 }
 
+void	checkInfNanf(const std::string& _input) {
+	size_t	i, j;
+
+	for (i = 0; i < _input.length(); i++) {
+		if (!isspace(_input[i])) {
+			break ;
+		}
+	}
+	for (j = _input[_input.length() - 1]; j > 0; j--) {
+		if (!isspace(_input[j])) {
+			break ;
+		}
+	}
+	std::string	input = _input.substr(i, j);
+	if (input == "+inf" || input == "-inf" || input == "+inff" || input == "-inff") {
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+		if (input == "+inf" || input == "-inf") {
+			std::cout << "float: " << input << "f" << std::endl;
+		} else {
+			std::cout << "float: " << input << std::endl;
+		}
+		if (input == "+inf" || input == "-inf") {
+			std::cout << "double: " << input << std::endl;
+		} else if (input == "+inff") {
+			std::cout << "double: " << "+inf" << std::endl;
+		} else if (input == "-inff") {
+			std::cout << "double: " << "-inf" << std::endl;	
+		}
+		exit(0);
+	}
+	if (input == "nan" || input == "nanf") {
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+		std::cout << "float: " << "nanf" << std::endl;
+		std::cout << "double: " << "nan" << std::endl;
+		exit(0);
+	}
+}
+
 void	parseInput(const std::string& input) {
 	char	*endPtr = NULL;
 	double	number = strtod(input.c_str(), &endPtr);
-	// nanf stuffsies check
+
+	checkInfNanf(input);
 	if ((input.length() > 0 && (!*endPtr || (*endPtr && (input.find('.', 0) != input.npos)
 		&& (!*(endPtr + 1)) && (*endPtr == 'f'))))
 		|| (input.length() == 1 && !std::isdigit(input[0]))) {
