@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   C.hpp                                              :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 20:08:56 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/24 17:49:12 by agodeanu         ###   ########.fr       */
+/*   Created: 2025/05/24 17:33:29 by agodeanu          #+#    #+#             */
+/*   Updated: 2025/05/24 18:09:47 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef C_HPP
-# define C_HPP
+#include "Base.hpp"
 
-# include "Base.hpp"
+int	main() {
+	Base*	p;
 
-class C: public Base {
-	
-};
-
-#endif
+	srand(time(0));
+	p = generate();
+	identify(p);
+	identify(*p);
+	delete (p);
+	return (0);
+}

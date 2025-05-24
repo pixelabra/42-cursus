@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:09:00 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/18 20:10:07 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:49:02 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "Base.hpp"
 
-class B: public Base {
+class B: public Base
+{
 	
 };
 

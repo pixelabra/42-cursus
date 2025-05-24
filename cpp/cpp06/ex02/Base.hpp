@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 20:06:56 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/18 20:24:41 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:51:20 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 # include <iostream>
 # include <cstdlib>
-# include "A.hpp"
-# include "B.hpp"
-# include "C.hpp"
 
 class Base {
 	public:
