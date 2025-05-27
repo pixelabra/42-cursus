@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   whatever.hpp                                       :+:      :+:    :+:   */
+/*   Array.tpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 19:27:32 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/25 18:37:45 by agodeanu         ###   ########.fr       */
+/*   Created: 2025/05/27 19:28:45 by agodeanu          #+#    #+#             */
+/*   Updated: 2025/05/27 20:34:52 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WHATEVER_HPP
-# define WHATEVER_HPP
-
-# include <iostream>
+#include "Array.hpp"
 
 template<typename T>
-void	swap(T& a, T& b) {
-	T temp = a;
-	a = b;
-	b = temp;
+Array<T>::Array() { return (NULL); }
+
+template<typename T>
+Array<T>::Array(unsigned int n) {
+	arr = new T(n);
+	for (size_t i = 0; i < size; i++) {
+		arr[i] = T();
+	}
 }
 
 template<typename T>
-T	min(const T a, const T b) {
-	return (a < b ? a : b);
+Array<T>::~Array() {
+	
 }
-
-template<typename T>
-T	max(const T a, const T b) {
-	return (a > b ? a : b);
-}
-
-#endif

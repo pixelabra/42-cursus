@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   whatever.hpp                                       :+:      :+:    :+:   */
+/*   Array.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 19:27:32 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/25 18:37:45 by agodeanu         ###   ########.fr       */
+/*   Created: 2025/05/27 19:26:12 by agodeanu          #+#    #+#             */
+/*   Updated: 2025/05/27 20:29:48 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WHATEVER_HPP
-# define WHATEVER_HPP
+#ifndef ARRAY_HPP
+# define ARRAY_HPP
 
 # include <iostream>
 
-template<typename T>
-void	swap(T& a, T& b) {
-	T temp = a;
-	a = b;
-	b = temp;
-}
+template<class T>
+class Array {
+	private:
+		T		*arr;
+		size_t	size;
+	public:
+		Array();
+		Array(unsigned int size);
+		Array(const Array& other);
+		~Array();
+		Array&	operator=(const Array& other);
+		T&		operator[](unsigned int n);
 
-template<typename T>
-T	min(const T a, const T b) {
-	return (a < b ? a : b);
-}
-
-template<typename T>
-T	max(const T a, const T b) {
-	return (a > b ? a : b);
-}
+		size_t	size() const;
+};
 
 #endif
