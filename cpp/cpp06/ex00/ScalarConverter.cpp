@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:08:22 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/18 20:05:51 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:29:58 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,4 @@ void	parseInput(const std::string& input) {
 	} else {
 		std::cerr << "invalid literal." << std::endl;
 	}
-	(void)number;
 }

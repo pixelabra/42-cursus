@@ -13,7 +13,7 @@ class Point {
 public:
   Point(float x, float y);     // Rectangular coordinates
   Point(float r, float a);     // Polar coordinates (radius and angle)
-  // ERROR: Overload is Ambiguous: Point::Point(float,float)
+  // ERROR: Overload is Ambiguous: Point::Point(float,float)	
 };
 int main()
 {
