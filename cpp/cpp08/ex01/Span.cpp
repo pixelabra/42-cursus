@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Span.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 17:52:01 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/06/28 19:37:38 by agodeanu         ###   ########.fr       */
+/*   Created: 2025/06/28 20:51:03 by agodeanu          #+#    #+#             */
+/*   Updated: 2025/06/28 21:08:12 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "easyfind.hpp"
+#include "Span.hpp"
 
-int	main() {
-	srand(time(0));
-	std::vector<int>	a;
-	fillIt(a, 12);
-	printContainer(a);
-	try {
-		easyfind(a, 2);
-	} catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	} catch (...) {
-		std::cerr << "Unforeseen broblem." << std::endl;
+Span::Span(): N(0) {}
+
+Span::Span(unsigned int _N): N(_N) {}
+
+Span::Span(const Span& other): N(other.N) {
+
+}
+
+Span&	Span::operator=(const Span& other) {
+	if (this != &other) {
+		
 	}
-	return (0);
+	return (*this);
+}
+
+Span::~Span() {}
+
+void	Span::addNumber(int number) {
+	if (container.size() >= N) {
+		throw std::out_of_range("Span is FULLL!!");
+	}
+	container.push_back(number);
 }

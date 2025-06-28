@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   easyfind.hpp                                       :+:      :+:    :+:   */
+/*   Span.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 17:59:34 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/06/28 20:48:14 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/06/28 21:03:53 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,18 @@
 # define CYAN		"\x1b[36m"
 # define WHITE		"\x1b[37m"
 
-template <typename T>
-void	fillIt(T& a, size_t N) {
-	for (size_t i = 0; i < N; i++) {
-		a.push_back(rand() % 6);
-	}
-}
+class Span {
+	private:
+		std::vector<int>	container;
+		unsigned int		N;
+	public:
+		Span();
+		Span(unsigned int N);
+		Span(const Span& other);
+		Span& operator=(const Span& other);
+		~Span();
 
-template <typename T>
-void	printContainer(T& a) {
-	for (size_t i = 0; i < a.size(); ++i) {
-		std::cout << "Index [" << i << "]: "
-			<< RED BOLD << &a[i] << RESET;
-		std::cout << " content: " << a[i] << std::endl;
-	}
-}
-
-template <typename T>
-int	*easyfind(T& a, int b) {
-	for (std::vector<int>::iterator it = a.begin(); it != a.end(); ++it) {
-		if (*it == b) {
-			std::cout << "WE FOUND IT: " << MAGENTA BOLD
-				<< &(*it) << RESET << " content: " << *it << std::endl;
-			return (&(*it));
-		}
-	}
-	throw (std::invalid_argument("We were not able to find the parameter."));
-}
+		void	addNumber(int number);
+};
 
 #endif
