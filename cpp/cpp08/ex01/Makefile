@@ -1,5 +1,5 @@
 NAME		:= beta
-SRCS		:= main.cpp
+SRCS		:= main.cpp Span.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 CC			:= c++
 CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98
