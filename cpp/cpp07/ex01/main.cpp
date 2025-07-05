@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:45:35 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/05/27 19:23:22 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:16:04 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 class Array {
 	public:
 		static const size_t			arrSize = 3;
-
+	
 		static const unsigned int	*getArrayConst() { 
 		unsigned int	*arr = new unsigned int[arrSize];
 			for (unsigned int i = 0; i < arrSize; i++) {
@@ -30,14 +30,14 @@ int	main() {
 	{
 		int		arr[Array::arrSize];
 		void	(*fn_ptr)(const int&) = print_arr;
-		
+
 		for (size_t i = 0; i < Array::arrSize; i++) {
-				arr[i] = rand();
-			}
-			::iter(arr, Array::arrSize, fn_ptr);
-			std::cout << BLUE "CONST" << RESET << std::endl;
-			const int	*data = arr;
-			::iter(data, Array::arrSize, fn_ptr);
+			arr[i] = rand();
+		}
+		::iter(arr, Array::arrSize, fn_ptr);
+		std::cout << BLUE "CONST" << RESET << std::endl;
+		const int	*data = arr;
+		::iter(data, Array::arrSize, fn_ptr);
 	}
 	std::cout << BOLD RED << "INTERMISSION" << RESET << std::endl;
 	{
@@ -50,8 +50,8 @@ int	main() {
 		std::cout << MAGENTA << "TESTING" RESET << std::endl;
 		::iter(array2, size, fn_ptr);
 
-		delete array;
-		delete array2;
+		delete[] array;
+		delete[] array2;
 	}
 	return (0);
 }
