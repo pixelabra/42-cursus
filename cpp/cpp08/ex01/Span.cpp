@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:51:03 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/07/01 18:51:02 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:53:18 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	Span::addNumber(int number) {
 	std::cout << " content: " << container[container.size() - 1] << std::endl;
 }
 
-int		Span::longestSpan() {
+int		Span::longestSpan() const {
 	if (container.size() <= 1) {
 		throw std::invalid_argument("Span has one element only / Span has no elements");
 	}
@@ -48,7 +48,7 @@ int		Span::longestSpan() {
 	return (longSpan);
 }
 
-int		Span::shortestSpan() {
+int		Span::shortestSpan() const {
 	if (container.size() <= 1) {
 		throw std::invalid_argument("Span has one element only / Span has no elements");
 	}
@@ -66,11 +66,11 @@ int		Span::shortestSpan() {
 	return (shortSpan);
 }
 
-void	Span::printVector() {
+void	Span::printVector() const {
 	printContainer(this->container);
 }
 
-void	Span::fillSpan(size_t nFill, size_t nDiv) {
+void	Span::fillSpan(const size_t nFill, const size_t nDiv) {
 	for (size_t i = 0; i < nFill; i++) {
 		this->addNumber(rand() % nDiv + 1);
 	}

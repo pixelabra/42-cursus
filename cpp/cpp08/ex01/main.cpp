@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:35:41 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/07/01 19:08:30 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:50:48 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int main(void) {
 
 		// std::list<int>		cont;
 		// fillIt(cont, nFill, nDiv);
-	
+
 		std::deque<int>		cont;
 		fillIt(cont, nFill, nDiv);
-
+	
 		for (int i = 0; i < 2; i++) {
 			a.fillSpanRange(cont.begin(), cont.end());
 		}

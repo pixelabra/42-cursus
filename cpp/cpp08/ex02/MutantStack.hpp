@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:20:32 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/07/06 18:10:30 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:36:43 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ class MutantStack: public std::stack<T, Container> {
 };
 
 template <typename T, typename Container>
-void	printStack(MutantStack<T, Container> mstack) {
-	for (typename MutantStack<T, Container>::iterator it = mstack.begin(); it != mstack.end(); it++) {
+void	printStack(const MutantStack<T, Container>& mstack) {
+	for (typename MutantStack<T, Container>::const_iterator it = mstack.begin(); it != mstack.end(); it++) {
 		std::cout << *it << std::endl;
 	}
 }

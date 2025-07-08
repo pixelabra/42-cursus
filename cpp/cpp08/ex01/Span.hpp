@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 17:59:34 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/07/01 19:05:07 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:53:07 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define WHITE		"\x1b[37m"
 
 template <typename T>
-void	printContainer(T& a) {
+void	printContainer(const T& a) {
 	for (size_t i = 0; i < a.size(); ++i) {
 		std::cout << "Index [" << i << "]: "
 			<< RED BOLD << &a[i] << RESET;
@@ -60,11 +60,11 @@ class Span {
 		~Span();
 
 		void	addNumber(int number);
-		int		shortestSpan();
-		int		longestSpan();
+		int		shortestSpan() const;
+		int		longestSpan() const;
 
-		void	printVector();
-		void	fillSpan(size_t nFill, size_t nDiv);
+		void	printVector() const;
+		void	fillSpan(const size_t nFill, const size_t nDiv);
 
 		template <typename T>
 		void	fillSpanRange(T beginIt, T endIt) {
