@@ -43,23 +43,25 @@ int main()
 		srand(time(0));
 		size_t	size = 10;
 		MutantStack<float>	mstack;
-	
+		
 		for (size_t i = 0; i < size; i++) {
 			mstack.push(rand() % 100);
 		}
 		printStack(mstack);
-
+		
 		std::cout << "mstack.end(): " << RED BOLD << *(mstack.end() - 1) <<  RESET << std::endl;
 		std::cout << "mstack.begin(): " << RED BOLD << *mstack.begin() <<  RESET << std::endl;
 		std::cout << "mstack.rbegin(): " << RED BOLD << *(mstack.rbegin()) <<  RESET << std::endl;
 		std::cout << "mstack.rend(): " << RED BOLD << *(mstack.rend() - 1) <<  RESET << std::endl;
-
+		
 		std::cout << MAGENTA BOLD << "CONST SITUATION" << RESET << std::endl;
+		
+		const MutantStack<float>	const_stack = mstack;
 
-		std::cout << "mstack.end(): " << RED BOLD << *static_cast<MutantStack<float>::const_iterator>(mstack.end() - 1) <<  RESET << std::endl;
-		std::cout << "mstack.begin(): " << RED BOLD << *static_cast<MutantStack<float>::const_iterator>(mstack.begin()) <<  RESET << std::endl;
-		std::cout << "mstack.rbegin(): " << RED BOLD << *static_cast<MutantStack<float>::const_reverse_iterator>(mstack.rbegin()) <<  RESET << std::endl;
-		std::cout << "mstack.rend(): " << RED BOLD << *static_cast<MutantStack<float>::const_reverse_iterator>(mstack.rend() - 1) <<  RESET << std::endl;
+		std::cout << "mstack.end(): " << RED BOLD << *(const_stack.end() - 1) <<  RESET << std::endl;
+		std::cout << "mstack.begin(): " << RED BOLD << *(const_stack.begin()) <<  RESET << std::endl;
+		std::cout << "mstack.rbegin(): " << RED BOLD << *(const_stack.rbegin()) <<  RESET << std::endl;
+		std::cout << "mstack.rend(): " << RED BOLD << *(const_stack.rend() - 1) <<  RESET << std::endl;
 	}
 	return (0);
 }
