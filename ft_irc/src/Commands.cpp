@@ -5,6 +5,7 @@
 #include "IRCParser.hpp"
 #include "FileTransfer.hpp"
 #include "Bot.hpp"
+#include <iostream>
 #include <algorithm>
 #include <sstream>
 
@@ -21,6 +22,13 @@ void Commands::processCommand(Client* client, const std::string& rawCommand) {
     if (msg.command.empty()) {
         return;
     }
+    
+    // Log received command for debugging
+    std::cout << "Client " << client->getNickname() << " sent: " << msg.command;
+    if (!msg.params.empty()) {
+        std::cout << " " << msg.params[0];
+    }
+    std::cout << std::endl;
     
     std::transform(msg.command.begin(), msg.command.end(), msg.command.begin(), ::toupper);
     

@@ -41,10 +41,10 @@ void Bot::processMessage(Client* client, const std::string& target, const std::s
         std::string lowerMsg = message;
         std::transform(lowerMsg.begin(), lowerMsg.end(), lowerMsg.begin(), ::tolower);
         
-        // Only respond if bot is specifically mentioned or if it's a private message
-        if (lowerMsg.find(_botNick) != std::string::npos || 
-            lowerMsg.find("ircbot") != std::string::npos ||
-            target[0] != '#') { // Private message
+        // Respond to greetings in private messages OR when bot is mentioned in channels
+        if (target[0] != '#' || // Private message - respond to all greetings
+            lowerMsg.find(_botNick) != std::string::npos || 
+            lowerMsg.find("ircbot") != std::string::npos) {
             
             for (std::map<std::string, std::string>::const_iterator it = _responses.begin(); 
                  it != _responses.end(); ++it) {

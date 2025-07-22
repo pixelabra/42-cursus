@@ -34,6 +34,7 @@ int main(int argc, char** argv) {
 
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
+    std::signal(SIGTSTP, signalHandler);  // Handle Ctrl+Z
 
     try {
         Server* server = new Server(port, password);

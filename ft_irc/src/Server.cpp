@@ -167,6 +167,11 @@ void Server::handleClientData(int clientFd) {
     // Process complete commands
     std::string command;
     while (client->getNextCommand(command)) {
+        // Check for empty/disconnected client (Ctrl+Z handling)
+        if (command.empty() || bytesRead == 0) {
+            disconnectClient(clientFd);
+            return;
+        }
         _commands->processCommand(client, command);
     }
 }
