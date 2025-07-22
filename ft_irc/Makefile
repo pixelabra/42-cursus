@@ -1,40 +1,29 @@
 NAME = ircserv
 
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
 SRCDIR = src
 OBJDIR = obj
 
-SOURCES = main.cpp Server.cpp Client.cpp Channel.cpp Commands.cpp Utils.cpp
+SOURCES = main.cpp Server.cpp Client.cpp Channel.cpp Commands.cpp IRCParser.cpp FileTransfer.cpp Bot.cpp
 SRCS = $(addprefix $(SRCDIR)/, $(SOURCES))
 OBJS = $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-INCLUDES = -I$(SRCDIR)
-
-# Colors for output
-GREEN = \033[0;32m
-RED = \033[0;31m
-RESET = \033[0m
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "$(GREEN)Linking $(NAME)...$(RESET)"
-	@$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)$(NAME) compiled successfully!$(RESET)"
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
-	@echo "Compiling $<..."
-	@$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 clean:
-	@echo "$(RED)Cleaning object files...$(RESET)"
-	@rm -rf $(OBJDIR)
+	rm -rf $(OBJDIR)
 
 fclean: clean
-	@echo "$(RED)Removing $(NAME)...$(RESET)"
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
