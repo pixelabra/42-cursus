@@ -5,6 +5,7 @@
 #include "IRCParser.hpp"
 #include "FileTransfer.hpp"
 #include "Bot.hpp"
+#include "Colors.hpp"
 #include <iostream>
 #include <algorithm>
 #include <sstream>
@@ -15,29 +16,19 @@ Commands::Commands(Server* server) : _server(server) {
 Commands::~Commands() {
 }
 
-void Commands::processCommand(Client* client, const std::string& rawCommand) {
-    IRCParser parser;
-    IRCMessage msg = parser.parseMessage(rawCommand);
-    
+void Commands::processCommand(Client* client, const IRCMessage& msg) {
     if (msg.command.empty()) {
         return;
     }
-    
-    // Log received command for debugging
-    std::cout << "Client " << client->getNickname() << " sent: " << msg.command;
-    if (!msg.params.empty()) {
-        std::cout << " " << msg.params[0];
-    }
-    std::cout << std::endl;
-    
-    std::transform(msg.command.begin(), msg.command.end(), msg.command.begin(), ::toupper);
+    std::string command = msg.command;
+    std::transform(command.begin(), command.end(), command.begin(), ::toupper);
     
     // Authentication commands
-    if (msg.command == "PASS") {
+    if (command == "PASS") {
         cmdPass(client, msg);
-    } else if (msg.command == "NICK") {
+    } else if (command == "NICK") {
         cmdNick(client, msg);
-    } else if (msg.command == "USER") {
+    } else if (command == "USER") {
         cmdUser(client, msg);
     }
     // Commands requiring authentication
@@ -45,64 +36,64 @@ void Commands::processCommand(Client* client, const std::string& rawCommand) {
         sendNumericReply(client, 451, "You have not registered");
     }
     // Channel and messaging commands
-    else if (msg.command == "JOIN") {
+    else if (command == "JOIN") {
         cmdJoin(client, msg);
-    } else if (msg.command == "PART") {
+    } else if (command == "PART") {
         cmdPart(client, msg);
-    } else if (msg.command == "PRIVMSG") {
+    } else if (command == "PRIVMSG") {
         cmdPrivmsg(client, msg);
-    } else if (msg.command == "KICK") {
+    } else if (command == "KICK") {
         cmdKick(client, msg);
-    } else if (msg.command == "INVITE") {
+    } else if (command == "INVITE") {
         cmdInvite(client, msg);
-    } else if (msg.command == "TOPIC") {
+    } else if (command == "TOPIC") {
         cmdTopic(client, msg);
-    } else if (msg.command == "MODE") {
+    } else if (command == "MODE") {
         cmdMode(client, msg);
-    } else if (msg.command == "WHO") {
+    } else if (command == "WHO") {
         cmdWho(client, msg);
-    } else if (msg.command == "QUIT") {
+    } else if (command == "QUIT") {
         cmdQuit(client, msg);
-    } else if (msg.command == "PING") {
+    } else if (command == "PING") {
         cmdPing(client, msg);
     } else {
-        sendNumericReply(client, 421, msg.command + " :Unknown command");
+        sendNumericReply(client, 421, command + std::string(": ") + RED + "Unknown command" + RESET);
     }
 }
 
 void Commands::cmdPass(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "PASS :Not enough parameters");
+        sendNumericReply(client, 461, std::string("PASS: ") + RED + "Not enough parameters" + RESET);
         return;
     }
     
     if (client->isAuthenticated()) {
-        sendNumericReply(client, 462, ":You may not reregister");
+        sendNumericReply(client, 462, std::string(": ") + RED + "You may not reregister" + RESET);
         return;
     }
     
     if (msg.params[0] == _server->getPassword()) {
         client->setAuthenticated(true);
     } else {
-        sendNumericReply(client, 464, ":Password incorrect");
+        sendNumericReply(client, 464, std::string(": ") + RED + "Password incorrect" + RESET);
     }
 }
 
 void Commands::cmdNick(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 431, ":No nickname given");
+        sendNumericReply(client, 431, std::string(": ") + RED + "No nickname given" + RESET);
         return;
     }
     
     std::string newNick = msg.params[0];
     if (!isValidNickname(newNick)) {
-        sendNumericReply(client, 432, newNick + " :Erroneous nickname");
+        sendNumericReply(client, 432, newNick + ": " + RED + "Erroneous nickname" + RESET);
         return;
     }
     
     Client* existing = _server->getClientByNick(newNick);
     if (existing && existing != client) {
-        sendNumericReply(client, 433, newNick + " :Nickname is already in use");
+        sendNumericReply(client, 433, newNick + ": " + RED + "Nickname is already in use" + RESET);
         return;
     }
     
@@ -110,7 +101,7 @@ void Commands::cmdNick(Client* client, const IRCMessage& msg) {
     client->setNickname(newNick);
     
     if (!oldNick.empty()) {
-        std::string message = ":" + oldNick + " NICK :" + newNick;
+        std::string message = std::string(":") + BOLD + oldNick + " NICK:" + RESET + " " + newNick;
         _server->sendToClient(client->getFd(), message);
     }
     
@@ -122,12 +113,12 @@ void Commands::cmdNick(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdUser(Client* client, const IRCMessage& msg) {
     if (msg.params.size() < 4) {
-        sendNumericReply(client, 461, "USER :Not enough parameters");
+        sendNumericReply(client, 461, std::string("USER: ") + RED + "Not enough parameters" + RESET);
         return;
     }
     
     if (client->isRegistered()) {
-        sendNumericReply(client, 462, ":You may not reregister");
+        sendNumericReply(client, 462, std::string(": ") + RED + "You may not reregister" + RESET);
         return;
     }
     
@@ -142,7 +133,7 @@ void Commands::cmdUser(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "JOIN :Not enough parameters");
+        sendNumericReply(client, 461, std::string("JOIN: ") + RED + "Not enough parameters" + RESET);
         return;
     }
     
@@ -150,7 +141,7 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     std::string key = (msg.params.size() > 1) ? msg.params[1] : "";
     
     if (channelName[0] != '#') {
-        sendNumericReply(client, 403, channelName + " :No such channel");
+        sendNumericReply(client, 403, channelName + ": " + RED + "No such channel" + RESET);
         return;
     }
     
@@ -160,9 +151,9 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     } else {
         if (!channel->canJoin(client, key)) {
             if (channel->isInviteOnly()) {
-                sendNumericReply(client, 473, channelName + " :Cannot join channel (+i) - invite only");
+                sendNumericReply(client, 473, channelName + ": " + RED + "Cannot join channel (+i) - invite only" + RESET);
             } else {
-                sendNumericReply(client, 473, channelName + " :Cannot join channel");
+                sendNumericReply(client, 473, channelName + ": " + RED + "Cannot join channel" + RESET);
             }
             return;
         }
@@ -174,23 +165,23 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     }
     
     // Send JOIN confirmation
-    std::string joinMsg = ":" + client->getPrefix() + " JOIN " + channelName;
+    std::string joinMsg = std::string(":") + BOLD + client->getPrefix() + " JOIN:" + RESET + " " + channelName;
     _server->sendToClient(client->getFd(), joinMsg);
     _server->broadcastToChannel(channelName, joinMsg, client);
     
     // Send topic if exists
     if (!channel->getTopic().empty()) {
-        sendNumericReply(client, 332, channelName + " :" + channel->getTopic());
+        sendNumericReply(client, 332, channelName + ": " + CYAN + channel->getTopic() + RESET);
     }
     
     // Send names list
-    sendNumericReply(client, 353, "= " + channelName + " :" + channel->getMembersList());
-    sendNumericReply(client, 366, channelName + " :End of /NAMES list");
+    sendNumericReply(client, 353, "= " + channelName + ": " + GREEN + channel->getMembersList() + RESET);
+    sendNumericReply(client, 366, channelName + ": " + YELLOW + "End of /NAMES list" + RESET);
 }
 
 void Commands::cmdPart(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "PART :Not enough parameters");
+        sendNumericReply(client, 461, std::string("PART: ") + RED + "Not enough parameters" + RESET);
         return;
     }
     
@@ -198,14 +189,14 @@ void Commands::cmdPart(Client* client, const IRCMessage& msg) {
     Channel* channel = _server->getChannel(channelName);
     
     if (!channel || !channel->isMember(client)) {
-        sendNumericReply(client, 442, channelName + " :You're not on that channel");
+        sendNumericReply(client, 442, channelName + ": " + RED + "You're not on that channel" + RESET);
         return;
     }
     
     std::string reason = (msg.params.size() > 1) ? msg.params[1] : "";
-    std::string partMsg = ":" + client->getPrefix() + " PART " + channelName;
+    std::string partMsg = std::string(":") + BOLD + client->getPrefix() + " PART " + channelName + RESET;
     if (!reason.empty()) {
-        partMsg += " :" + reason;
+        partMsg += ": " + reason;
     }
     
     _server->sendToClient(client->getFd(), partMsg);
@@ -216,7 +207,7 @@ void Commands::cmdPart(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
     if (msg.params.size() < 2) {
-        sendNumericReply(client, 461, "PRIVMSG :Not enough parameters");
+        sendNumericReply(client, 461, std::string("PRIVMSG: ") + RED + "Not enough parameters" + RESET);
         return;
     }
     
@@ -233,16 +224,16 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
         // Channel message
         Channel* channel = _server->getChannel(target);
         if (!channel) {
-            sendNumericReply(client, 403, target + " :No such channel");
+            sendNumericReply(client, 403, target + ": " + RED + "No such channel" + RESET);
             return;
         }
         
         if (!channel->isMember(client)) {
-            sendNumericReply(client, 442, target + " :You're not on that channel");
+            sendNumericReply(client, 442, target + ": " + RED + "You're not on that channel" + RESET);
             return;
         }
         
-        std::string privmsg = ":" + client->getPrefix() + " PRIVMSG " + target + " :" + message;
+        std::string privmsg = std::string(":") + BOLD + client->getPrefix() + " PRIVMSG " + target + ":" + RESET + " " + message;
         _server->broadcastToChannel(target, privmsg, client);
         
         // Process bot commands in channel
@@ -256,18 +247,18 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
                 _server->getBot()->processMessage(client, client->getNickname(), message);
                 return;
             }
-            sendNumericReply(client, 401, target + " :No such nick/channel");
+            sendNumericReply(client, 401, target + ": " + RED + "No such nick/channel" + RESET);
             return;
         }
         
-        std::string privmsg = ":" + client->getPrefix() + " PRIVMSG " + target + " :" + message;
+        std::string privmsg = std::string(":") + BOLD + client->getPrefix() + " PRIVMSG " + target + ":" + RESET + " " + message;
         _server->sendToClient(targetClient->getFd(), privmsg);
     }
 }
 
 void Commands::cmdKick(Client* client, const IRCMessage& msg) {
     if (msg.params.size() < 2) {
-        sendNumericReply(client, 461, "KICK :Not enough parameters. Usage: KICK <channel> <nickname> [reason]");
+        sendNumericReply(client, 461, std::string("KICK: ") + RED + "Not enough parameters. Usage: KICK <channel> <nickname> [reason]" + RESET);
         return;
     }
     
@@ -277,22 +268,22 @@ void Commands::cmdKick(Client* client, const IRCMessage& msg) {
     
     Channel* channel = _server->getChannel(channelName);
     if (!channel) {
-        sendNumericReply(client, 403, channelName + " :No such channel");
+        sendNumericReply(client, 403, channelName + ": " + RED + "No such channel" + RESET);
         return;
     }
     
     if (!channel->isOperator(client)) {
-        sendNumericReply(client, 482, channelName + " :You're not channel operator");
+        sendNumericReply(client, 482, channelName + ": " + RED + "You're not channel operator" + RESET);
         return;
     }
     
     Client* targetClient = _server->getClientByNick(targetNick);
     if (!targetClient || !channel->isMember(targetClient)) {
-        sendNumericReply(client, 441, targetNick + " " + channelName + " :They aren't on that channel");
+        sendNumericReply(client, 441, targetNick + " " + channelName + ": " + RED + "They aren't on that channel" + RESET);
         return;
     }
     
-    std::string kickMsg = ":" + client->getPrefix() + " KICK " + channelName + " " + targetNick + " :" + reason;
+    std::string kickMsg = std::string(":") + BOLD + client->getPrefix() + " KICK " + channelName + " " + targetNick + ":" + RESET + " " + reason;
     _server->sendToClient(targetClient->getFd(), kickMsg);
     _server->broadcastToChannel(channelName, kickMsg, NULL);
     
@@ -301,7 +292,7 @@ void Commands::cmdKick(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
     if (msg.params.size() < 2) {
-        sendNumericReply(client, 461, "INVITE :Not enough parameters. Usage: INVITE <nickname> <channel>");
+        sendNumericReply(client, 461, std::string("INVITE: ") + RED + "Not enough parameters. Usage: INVITE <nickname> <channel>" + RESET);
         return;
     }
     
@@ -310,28 +301,28 @@ void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
     
     Channel* channel = _server->getChannel(channelName);
     if (!channel) {
-        sendNumericReply(client, 403, channelName + " :No such channel");
+        sendNumericReply(client, 403, channelName + ": " + RED + "No such channel" + RESET);
         return;
     }
     
     if (!channel->isMember(client)) {
-        sendNumericReply(client, 442, channelName + " :You're not on that channel");
+        sendNumericReply(client, 442, channelName + ": " + RED + "You're not on that channel" + RESET);
         return;
     }
     
     if (channel->isInviteOnly() && !channel->isOperator(client)) {
-        sendNumericReply(client, 482, channelName + " :You're not channel operator");
+        sendNumericReply(client, 482, channelName + ": " + RED + "You're not channel operator" + RESET);
         return;
     }
     
     Client* targetClient = _server->getClientByNick(targetNick);
     if (!targetClient) {
-        sendNumericReply(client, 401, targetNick + " :No such nick/channel");
+        sendNumericReply(client, 401, targetNick + ": " + RED + "No such nick/channel" + RESET);
         return;
     }
     
     if (channel->isMember(targetClient)) {
-        sendNumericReply(client, 443, targetNick + " " + channelName + " :is already on channel");
+        sendNumericReply(client, 443, targetNick + " " + channelName + ": " + RED + "is already on channel" + RESET);
         return;
     }
     
@@ -339,20 +330,20 @@ void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
     channel->addToInviteList(targetClient);
     
     // Send invite to target
-    std::string inviteMsg = ":" + client->getPrefix() + " INVITE " + targetNick + " " + channelName;
+    std::string inviteMsg = std::string(":") + BOLD + client->getPrefix() + " INVITE " + targetNick + ":" + RESET + " " + channelName;
     _server->sendToClient(targetClient->getFd(), inviteMsg);
     
     // Confirm to sender
     sendNumericReply(client, 341, targetNick + " " + channelName);
     
     // Add confirmation message
-    std::string confirmMsg = ":ircserv!server@ircserver PRIVMSG " + client->getNickname() + " :" + client->getNickname() + " invited " + targetNick + " to " + channelName;
+    std::string confirmMsg = std::string(":ircserv!server@ircserver PRIVMSG ") + client->getNickname() + ": " + GREEN + client->getNickname() + " invited " + targetNick + " to " + channelName + RESET;
     _server->sendToClient(client->getFd(), confirmMsg);
 }
 
 void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "TOPIC :Not enough parameters. Usage: TOPIC <channel> [topic]");
+        sendNumericReply(client, 461, std::string("TOPIC: ") + RED + "Not enough parameters. Usage: TOPIC <channel> [topic]" + RESET);
         return;
     }
     
@@ -360,33 +351,33 @@ void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
     Channel* channel = _server->getChannel(channelName);
     
     if (!channel) {
-        sendNumericReply(client, 403, channelName + " :No such channel");
+        sendNumericReply(client, 403, channelName + ": " + RED + "No such channel" + RESET);
         return;
     }
     
     if (!channel->isMember(client)) {
-        sendNumericReply(client, 442, channelName + " :You're not on that channel");
+        sendNumericReply(client, 442, channelName + ": " + RED + "You're not on that channel" + RESET);
         return;
     }
     
     if (msg.params.size() == 1) {
         // View topic
         if (channel->getTopic().empty()) {
-            sendNumericReply(client, 331, channelName + " :No topic is set");
+            sendNumericReply(client, 331, channelName + ": " + YELLOW + "No topic is set" + RESET);
         } else {
-            sendNumericReply(client, 332, channelName + " :" + channel->getTopic());
+            sendNumericReply(client, 332, channelName + ": " + CYAN + channel->getTopic() + RESET);
         }
     } else {
         // Set topic
         if (channel->isTopicRestricted() && !channel->isOperator(client)) {
-            sendNumericReply(client, 482, channelName + " :You're not channel operator");
+            sendNumericReply(client, 482, channelName + ": " + RED + "You're not channel operator" + RESET);
             return;
         }
         
         std::string newTopic = msg.params[1];
         channel->setTopic(newTopic);
         
-        std::string topicMsg = ":" + client->getPrefix() + " TOPIC " + channelName + " :" + newTopic;
+        std::string topicMsg = std::string(":") + BOLD + client->getPrefix() + " TOPIC " + channelName + ":" + RESET + " " + newTopic;
         _server->sendToClient(client->getFd(), topicMsg);
         _server->broadcastToChannel(channelName, topicMsg, client);
     }
@@ -394,7 +385,7 @@ void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdMode(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "MODE :Not enough parameters. Usage: MODE <channel> [+/-modes] [parameters]");
+        sendNumericReply(client, 461, std::string("MODE: ") + RED + "Not enough parameters. Usage: MODE <channel> [+/-modes] [parameters]" + RESET);
         return;
     }
     
@@ -402,12 +393,12 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
     Channel* channel = _server->getChannel(channelName);
     
     if (!channel) {
-        sendNumericReply(client, 403, channelName + " :No such channel");
+        sendNumericReply(client, 403, channelName + ": " + RED + "No such channel" + RESET);
         return;
     }
     
     if (!channel->isOperator(client)) {
-        sendNumericReply(client, 482, channelName + " :You're not channel operator");
+        sendNumericReply(client, 482, channelName + ": " + RED + "You're not channel operator" + RESET);
         return;
     }
     
@@ -436,12 +427,12 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
             adding = false;
         } else if (mode == 'i') {
             channel->setInviteOnly(adding);
-            std::string statusMsg = ":ircserv!server@ircserver PRIVMSG " + client->getNickname() + " :" + client->getNickname() + " set channel " + channelName + (adding ? " to invite only" : " to open access");
-            _server->sendToClient(client->getFd(), statusMsg);
+            std::string statusMsg = ":ircserv!server@ircserver PRIVMSG " + channelName + ": " + client->getNickname() + " set channel " + channelName + (adding ? " to invite only" : " to open access");
+            _server->broadcastToChannel(channelName, statusMsg);
         } else if (mode == 't') {
             channel->setTopicRestricted(adding);
-            std::string statusMsg = ":ircserv!server@ircserver PRIVMSG " + client->getNickname() + " :" + client->getNickname() + (adding ? " restricted topic changes to operators" : " allowed topic changes by all members") + " in " + channelName;
-            _server->sendToClient(client->getFd(), statusMsg);
+            std::string statusMsg = ":ircserv!server@ircserver PRIVMSG " + channelName + ": " + client->getNickname() + (adding ? " restricted topic changes to operators" : " allowed topic changes by all members") + " in " + channelName;
+            _server->broadcastToChannel(channelName, statusMsg);
         } else if (mode == 'k') {
             if (adding && paramIndex < static_cast<int>(msg.params.size())) {
                 channel->setKey(msg.params[paramIndex++]);
@@ -476,7 +467,7 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdWho(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 315, "* :End of /WHO list");
+        sendNumericReply(client, 315, std::string("*: ") + YELLOW + "End of /WHO list" + RESET);
         return;
     }
     
@@ -488,39 +479,41 @@ void Commands::cmdWho(Client* client, const IRCMessage& msg) {
         for (std::vector<Client*>::const_iterator it = members.begin(); it != members.end(); ++it) {
             std::ostringstream oss;
             oss << target << " " << (*it)->getUsername() << " " << (*it)->getHostname() 
-                << " server " << (*it)->getNickname() << " H :0 " << (*it)->getRealname();
+                << " server " << (*it)->getNickname() << " H: 0 " << (*it)->getRealname();
             sendNumericReply(client, 352, oss.str());
         }
     }
     
-    sendNumericReply(client, 315, target + " :End of /WHO list");
+    sendNumericReply(client, 315, target + ": " + YELLOW + "End of /WHO list" + RESET);
 }
 
 void Commands::cmdQuit(Client* client, const IRCMessage& msg) {
     std::string reason = (msg.params.empty()) ? "Client Quit" : msg.params[0];
-    std::string quitMsg = ":" + client->getPrefix() + " QUIT :" + reason;
+    std::string quitMsg = std::string(":") + BOLD + client->getPrefix() + " QUIT:" + RESET + " " + reason;
     
-    // Broadcast quit message to all channels
+    // Broadcast quit message to all channels the client is in
+    _server->broadcastQuitMessage(client, quitMsg);
+    
+    // Remove client from all channels - server will handle disconnect
     _server->removeClientFromChannels(client);
-    
-    // Client will be disconnected by server
+    // Note: Client will be disconnected by the server after command processing
 }
 
 void Commands::cmdPing(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "PING :Not enough parameters");
+        sendNumericReply(client, 461, std::string("PING: ") + RED + "Not enough parameters" + RESET);
         return;
     }
     
-    std::string pongMsg = "PONG :" + msg.params[0];
+    std::string pongMsg = std::string("PONG: ") + GREEN + msg.params[0] + RESET;
     _server->sendToClient(client->getFd(), pongMsg);
 }
 
 void Commands::sendWelcome(Client* client) {
-    sendNumericReply(client, 001, ":Welcome to the Internet Relay Network " + client->getPrefix());
-    sendNumericReply(client, 002, ":Your host is ircserv, running version 1.0");
-    sendNumericReply(client, 003, ":This server was created today");
-    sendNumericReply(client, 004, "ircserv 1.0 o itkol");
+    sendNumericReply(client, 001, std::string(": ") + GREEN + "Welcome to the Internet Relay Network " + client->getPrefix() + RESET);
+    sendNumericReply(client, 002, std::string(": ") + CYAN + "Your host is ircserv, running version 1.0" + RESET);
+    sendNumericReply(client, 003, std::string(": ") + CYAN + "This server was created today" + RESET);
+    sendNumericReply(client, 004, std::string("ircserv 1.0 o itkol"));
 }
 
 void Commands::sendNumericReply(Client* client, int code, const std::string& message) {

@@ -1,8 +1,8 @@
 #include "Client.hpp"
 #include <algorithm>
 
-Client::Client(int fd, const std::string& hostname) 
-    : _fd(fd), _hostname(hostname), _authenticated(false), _registered(false) {
+Client::Client(int fd, const std::string& hostname, int clientNumber) 
+    : _fd(fd), _clientNumber(clientNumber), _hostname(hostname), _authenticated(false), _registered(false) {
 }
 
 Client::~Client() {

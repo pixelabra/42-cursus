@@ -5,6 +5,7 @@
 #include "Commands.hpp"
 #include "FileTransfer.hpp"
 #include "Bot.hpp"
+#include "Colors.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -15,7 +16,7 @@
 #include <cerrno>
 #include <cstring>
 
-Server::Server(int port, const std::string& password) : _serverSocket(-1), _port(port), _password(password), _running(false) {
+Server::Server(int port, const std::string& password) : _serverSocket(-1), _port(port), _password(password), _running(false), _clientCounter(0) {
     _parser = new IRCParser();
     _commands = new Commands(this);
     _fileTransfer = new FileTransfer(this);
@@ -132,8 +133,9 @@ void Server::acceptNewClient() {
         return;
     }
 
-    // Create client object
-    Client* newClient = new Client(clientSocket, inet_ntoa(clientAddr.sin_addr));
+    // Create client object with incremented counter
+    _clientCounter++;
+    Client* newClient = new Client(clientSocket, inet_ntoa(clientAddr.sin_addr), _clientCounter);
     _clients[clientSocket] = newClient;
 
     // Add to poll fds
@@ -167,12 +169,14 @@ void Server::handleClientData(int clientFd) {
     // Process complete commands
     std::string command;
     while (client->getNextCommand(command)) {
-        // Check for empty/disconnected client (Ctrl+Z handling)
-        if (command.empty() || bytesRead == 0) {
-            disconnectClient(clientFd);
-            return;
+        if (client->getNickname().empty()) {
+            std::cout << CYAN << "Client " << client->getClientNumber() << RESET << " sent: " << BOLD << command.substr(0, command.find(' ')) << RESET << std::endl;
+        } else {
+            std::cout << CYAN << "Client " << client->getClientNumber() << " " << client->getNickname() << RESET << " sent: " << BOLD << command.substr(0, command.find(' ')) << RESET << std::endl;
         }
-        _commands->processCommand(client, command);
+        
+        IRCMessage msg = _parser->parseMessage(command);
+        _commands->processCommand(client, msg);
     }
 }
 
@@ -237,6 +241,16 @@ void Server::broadcastToChannel(const std::string& channelName, const std::strin
     for (std::vector<Client*>::const_iterator it = members.begin(); it != members.end(); ++it) {
         if (*it != sender) {
             sendToClient((*it)->getFd(), message);
+        }
+    }
+}
+
+void Server::broadcastQuitMessage(Client* client, const std::string& quitMsg) {
+    // Broadcast quit message to all channels the client is in
+    for (std::map<std::string, Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
+        Channel* channel = it->second;
+        if (channel->isMember(client)) {
+            broadcastToChannel(it->first, quitMsg, client);
         }
     }
 }

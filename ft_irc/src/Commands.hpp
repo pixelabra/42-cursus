@@ -39,7 +39,7 @@ public:
     Commands(Server* server);
     ~Commands();
 
-    void processCommand(Client* client, const std::string& rawCommand);
+    void processCommand(Client* client, const IRCMessage& msg);
 };
 
 #endif

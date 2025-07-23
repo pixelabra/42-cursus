@@ -26,6 +26,7 @@ private:
     FileTransfer* _fileTransfer;
     Bot* _bot;
     bool _running;
+    int _clientCounter;  // For numbering clients
 
     void setupSocket();
     void acceptNewClient();
@@ -54,6 +55,7 @@ public:
     // Utility functions
     void sendToClient(int clientFd, const std::string& message);
     void broadcastToChannel(const std::string& channelName, const std::string& message, Client* sender = NULL);
+    void broadcastQuitMessage(Client* client, const std::string& quitMsg);
     void removeClientFromChannels(Client* client);
 };
 

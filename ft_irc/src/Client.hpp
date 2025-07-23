@@ -7,6 +7,7 @@
 class Client {
 private:
     int _fd;
+    int _clientNumber;
     std::string _hostname;
     std::string _nickname;
     std::string _username;
@@ -16,11 +17,12 @@ private:
     bool _registered;
 
 public:
-    Client(int fd, const std::string& hostname);
+    Client(int fd, const std::string& hostname, int clientNumber);
     ~Client();
 
     // Getters
     int getFd() const { return _fd; }
+    int getClientNumber() const { return _clientNumber; }
     const std::string& getHostname() const { return _hostname; }
     const std::string& getNickname() const { return _nickname; }
     const std::string& getUsername() const { return _username; }

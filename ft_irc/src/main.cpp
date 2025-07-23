@@ -35,6 +35,7 @@ int main(int argc, char** argv) {
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
     std::signal(SIGTSTP, signalHandler);  // Handle Ctrl+Z
+    std::signal(SIGQUIT, signalHandler);  // Handle Ctrl+backslash
 
     try {
         Server* server = new Server(port, password);
