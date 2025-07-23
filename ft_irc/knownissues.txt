@@ -1,0 +1,4 @@
+password can be white spaces
+QUIT cmd does nothing
+file transfer needs to be tested
+test max memory
