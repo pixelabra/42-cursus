@@ -159,10 +159,18 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
         channel = _server->createChannel(channelName, client);
     } else {
         if (!channel->canJoin(client, key)) {
-            sendNumericReply(client, 473, channelName + " :Cannot join channel");
+            if (channel->isInviteOnly()) {
+                sendNumericReply(client, 473, channelName + " :Cannot join channel (+i) - invite only");
+            } else {
+                sendNumericReply(client, 473, channelName + " :Cannot join channel");
+            }
             return;
         }
         channel->addMember(client);
+        // Remove from invite list once joined (invite is used up)
+        if (channel->isInvited(client)) {
+            channel->removeFromInviteList(client);
+        }
     }
     
     // Send JOIN confirmation
@@ -259,7 +267,7 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdKick(Client* client, const IRCMessage& msg) {
     if (msg.params.size() < 2) {
-        sendNumericReply(client, 461, "KICK :Not enough parameters");
+        sendNumericReply(client, 461, "KICK :Not enough parameters. Usage: KICK <channel> <nickname> [reason]");
         return;
     }
     
@@ -293,7 +301,7 @@ void Commands::cmdKick(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
     if (msg.params.size() < 2) {
-        sendNumericReply(client, 461, "INVITE :Not enough parameters");
+        sendNumericReply(client, 461, "INVITE :Not enough parameters. Usage: INVITE <nickname> <channel>");
         return;
     }
     
@@ -306,7 +314,12 @@ void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
         return;
     }
     
-    if (!channel->isOperator(client)) {
+    if (!channel->isMember(client)) {
+        sendNumericReply(client, 442, channelName + " :You're not on that channel");
+        return;
+    }
+    
+    if (channel->isInviteOnly() && !channel->isOperator(client)) {
         sendNumericReply(client, 482, channelName + " :You're not channel operator");
         return;
     }
@@ -322,14 +335,24 @@ void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
         return;
     }
     
+    // Add to invite list
+    channel->addToInviteList(targetClient);
+    
+    // Send invite to target
     std::string inviteMsg = ":" + client->getPrefix() + " INVITE " + targetNick + " " + channelName;
     _server->sendToClient(targetClient->getFd(), inviteMsg);
+    
+    // Confirm to sender
     sendNumericReply(client, 341, targetNick + " " + channelName);
+    
+    // Add confirmation message
+    std::string confirmMsg = ":ircserv!server@ircserver PRIVMSG " + client->getNickname() + " :" + client->getNickname() + " invited " + targetNick + " to " + channelName;
+    _server->sendToClient(client->getFd(), confirmMsg);
 }
 
 void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "TOPIC :Not enough parameters");
+        sendNumericReply(client, 461, "TOPIC :Not enough parameters. Usage: TOPIC <channel> [topic]");
         return;
     }
     
@@ -371,7 +394,7 @@ void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdMode(Client* client, const IRCMessage& msg) {
     if (msg.params.empty()) {
-        sendNumericReply(client, 461, "MODE :Not enough parameters");
+        sendNumericReply(client, 461, "MODE :Not enough parameters. Usage: MODE <channel> [+/-modes] [parameters]");
         return;
     }
     
@@ -413,8 +436,12 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
             adding = false;
         } else if (mode == 'i') {
             channel->setInviteOnly(adding);
+            std::string statusMsg = ":ircserv!server@ircserver PRIVMSG " + client->getNickname() + " :" + client->getNickname() + " set channel " + channelName + (adding ? " to invite only" : " to open access");
+            _server->sendToClient(client->getFd(), statusMsg);
         } else if (mode == 't') {
             channel->setTopicRestricted(adding);
+            std::string statusMsg = ":ircserv!server@ircserver PRIVMSG " + client->getNickname() + " :" + client->getNickname() + (adding ? " restricted topic changes to operators" : " allowed topic changes by all members") + " in " + channelName;
+            _server->sendToClient(client->getFd(), statusMsg);
         } else if (mode == 'k') {
             if (adding && paramIndex < static_cast<int>(msg.params.size())) {
                 channel->setKey(msg.params[paramIndex++]);

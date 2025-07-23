@@ -14,6 +14,7 @@ private:
     std::string _key;
     std::vector<Client*> _members;
     std::set<Client*> _operators;
+    std::set<Client*> _inviteList;
     bool _inviteOnly;
     bool _topicRestricted;
     int _userLimit;
@@ -47,6 +48,11 @@ public:
     void addOperator(Client* client);
     void removeOperator(Client* client);
     bool isOperator(Client* client) const;
+
+    // Invite management
+    void addToInviteList(Client* client);
+    void removeFromInviteList(Client* client);
+    bool isInvited(Client* client) const;
 
     // Utility functions
     std::string getMembersList() const;

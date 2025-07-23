@@ -31,6 +31,8 @@ void Channel::removeMember(Client* client) {
         _members.erase(it);
     }
     removeOperator(client);
+    removeFromInviteList(client);
+    removeFromInviteList(client);  // Clean up invite list when member leaves
 }
 
 bool Channel::isMember(Client* client) const {
@@ -63,11 +65,21 @@ std::string Channel::getMembersList() const {
     return oss.str();
 }
 
+void Channel::addToInviteList(Client* client) {
+    _inviteList.insert(client);
+}
+
+void Channel::removeFromInviteList(Client* client) {
+    _inviteList.erase(client);
+}
+
+bool Channel::isInvited(Client* client) const {
+    return _inviteList.find(client) != _inviteList.end();
+}
+
 bool Channel::canJoin(Client* client, const std::string& key) const {
-    (void)client; // Suppress unused parameter warning
-    
-    if (_inviteOnly) {
-        return false; // Would need invite system
+    if (_inviteOnly && !isInvited(client)) {
+        return false;
     }
     
     if (!_key.empty() && _key != key) {
