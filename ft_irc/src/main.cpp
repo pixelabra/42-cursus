@@ -10,6 +10,7 @@ void signalHandler(int signal) {
     if (g_server) {
         std::cout << "\nShutting down server..." << std::endl;
         g_server->shutdown();
+        delete g_server;
         std::exit(0);
     }
 }
