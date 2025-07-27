@@ -1,5 +1,7 @@
 password shouldnt be allowed white spaces
-QUIT cmd does nothing
+QUIT cmd does nothing:
+	can be fixed by making disconnectClient from Server public and using in quit cmd function, but
+	causes new issue of some invalid read in valgrind. need to look into it further
 file transfer needs to be tested
 test max memory
 leak on failed bind (and probably other errors)
