@@ -1,4 +1,6 @@
-password can be white spaces
+password shouldnt be allowed white spaces
 QUIT cmd does nothing
 file transfer needs to be tested
 test max memory
+leak on failed bind (and probably other errors)
+irssi issues
