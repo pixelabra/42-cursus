@@ -23,13 +23,18 @@ void Commands::processCommand(Client* client, const IRCMessage& msg) {
     std::string command = msg.command;
     std::transform(command.begin(), command.end(), command.begin(), ::toupper);
     
-    // Authentication commands
+    // Authentication commands and pre-auth compatibility commands
     if (command == "PASS") {
         cmdPass(client, msg);
     } else if (command == "NICK") {
         cmdNick(client, msg);
     } else if (command == "USER") {
         cmdUser(client, msg);
+    } else if (command == "CAP") {
+        cmdCap(client, msg);  // Allow CAP before authentication for irssi compatibility
+    } else if (command == "PONG") {
+        // PONG responses are acceptable, just ignore
+        return;
     }
     // Commands requiring authentication
     else if (!client->isAuthenticated()) {
@@ -509,11 +514,43 @@ void Commands::cmdPing(Client* client, const IRCMessage& msg) {
     _server->sendToClient(client->getFd(), pongMsg);
 }
 
+void Commands::cmdCap(Client* client, const IRCMessage& msg) {
+    // Handle CAP (Client Capability Negotiation) - irssi compatibility
+    if (msg.params.empty()) {
+        return; // Ignore malformed CAP commands
+    }
+    
+    std::string subCommand = msg.params[0];
+    std::transform(subCommand.begin(), subCommand.end(), subCommand.begin(), ::toupper);
+    
+    if (subCommand == "LS") {
+        // List capabilities - we don't support any advanced capabilities
+        std::string nickname = client->getNickname().empty() ? "*" : client->getNickname();
+        std::string response = ":ircserv CAP " + nickname + " LS :\r\n";
+        _server->sendToClient(client->getFd(), response);
+    } else if (subCommand == "END") {
+        // End capability negotiation - client is ready to continue
+        // No response needed, client will proceed with normal registration
+        return;
+    }
+    // Ignore other CAP commands (REQ, ACK, etc.) for basic IRC compatibility
+}
+
 void Commands::sendWelcome(Client* client) {
+    // Send standard IRC welcome sequence (001-004 replies)
     sendNumericReply(client, 001, std::string(": ") + GREEN + "Welcome to the Internet Relay Network " + client->getPrefix() + RESET);
     sendNumericReply(client, 002, std::string(": ") + CYAN + "Your host is ircserv, running version 1.0" + RESET);
     sendNumericReply(client, 003, std::string(": ") + CYAN + "This server was created today" + RESET);
     sendNumericReply(client, 004, std::string("ircserv 1.0 o itkol"));
+    
+    // Send additional numeric replies that irssi expects
+    sendNumericReply(client, 005, std::string("CHANTYPES=# PREFIX=(o)@ CHANLIMIT=#:10 CHANNELLEN=50 NICKLEN=9 NETWORK=ircserv : are supported by this server"));
+    
+    // Send MOTD (Message of the Day) - Critical for irssi to recognize connection completion
+    sendNumericReply(client, 375, std::string(": ") + BOLD + "- ircserv Message of the day - " + RESET);
+    sendNumericReply(client, 372, std::string(": ") + CYAN + "- Welcome to the IRC server!" + RESET);
+    sendNumericReply(client, 372, std::string(": ") + CYAN + "- This server is ready for use." + RESET);
+    sendNumericReply(client, 376, std::string(": ") + BOLD + "End of /MOTD command" + RESET);
 }
 
 void Commands::sendNumericReply(Client* client, int code, const std::string& message) {

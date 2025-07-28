@@ -21,3 +21,6 @@ colon beginning cmd
 
 notes
 max prvmsg sned char limit 4096 (4 x 1024)
+
+
+irssi -c 127.0.0.1 -p 6667 -w testpassword -n yournickname

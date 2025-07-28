@@ -29,6 +29,7 @@ private:
     void cmdWho(Client* client, const IRCMessage& msg);
     void cmdQuit(Client* client, const IRCMessage& msg);
     void cmdPing(Client* client, const IRCMessage& msg);
+    void cmdCap(Client* client, const IRCMessage& msg);
     
     // Helper functions
     void sendWelcome(Client* client);

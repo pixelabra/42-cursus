@@ -242,7 +242,11 @@ Channel* Server::createChannel(const std::string& name, Client* creator) {
 
 void Server::sendToClient(int clientFd, const std::string& message) {
     std::string fullMessage = message + "\r\n";
-    send(clientFd, fullMessage.c_str(), fullMessage.length(), 0);
+    ssize_t result = send(clientFd, fullMessage.c_str(), fullMessage.length(), 0);
+    if (result < 0) {
+        // Client might have disconnected, handle gracefully
+        std::cout << "Failed to send message to client " << clientFd << std::endl;
+    }
 }
 
 void Server::broadcastToChannel(const std::string& channelName, const std::string& message, Client* sender) {
