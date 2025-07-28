@@ -16,12 +16,21 @@
 #include <cerrno>
 #include <cstring>
 
-Server::Server(int port, const std::string& password) : _serverSocket(-1), _port(port), _password(password), _running(false), _clientCounter(0) {
-    _parser = new IRCParser();
-    _commands = new Commands(this);
-    _fileTransfer = new FileTransfer(this);
-    _bot = new Bot(this);
-    setupSocket();
+Server::Server(int port, const std::string& password) : _serverSocket(-1), _port(port), _password(password), _parser(NULL), _commands(NULL), _fileTransfer(NULL), _bot(NULL), _running(false), _clientCounter(0) {
+    try {
+        _parser = new IRCParser();
+        _commands = new Commands(this);
+        _fileTransfer = new FileTransfer(this);
+        _bot = new Bot(this);
+        setupSocket();
+    } catch (...) {
+        // Clean up any allocated objects if setupSocket fails
+        delete _parser;
+        delete _commands;
+        delete _fileTransfer;
+        delete _bot;
+        throw; // Re-throw the exception
+    }
 }
 
 Server::~Server() {
@@ -39,6 +48,7 @@ Server::~Server() {
         delete it->second;
     }
     
+    // Safe delete (handles NULL pointers)
     delete _parser;
     delete _commands;
     delete _fileTransfer;
@@ -127,8 +137,12 @@ void Server::acceptNewClient() {
     }
 
     // Set client socket to non-blocking
-    int flags = fcntl(clientSocket, F_GETFL, 0);
-    if (flags == -1 || fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK) == -1) {
+    // int flags = fcntl(clientSocket, F_GETFL, 0);
+    // if (flags == -1 || fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK) == -1) {
+    //     close(clientSocket);
+    //     return;
+    // }
+    if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1) {
         close(clientSocket);
         return;
     }

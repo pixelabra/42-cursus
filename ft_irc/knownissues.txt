@@ -4,5 +4,20 @@ QUIT cmd does nothing:
 	causes new issue of some invalid read in valgrind. need to look into it further
 file transfer needs to be tested
 test max memory
-leak on failed bind (and probably other errors)
-irssi issues
+leak on failed bind (and probably other errors) /fixed maybe
+irssi issues biiig big bad
+one word privmsg
+	fix parameter splitting for privmsg ONLY!!!
+check buffer etc
+\r\n ? getnextcmd
+
+q&a
+what even poll
+is pollfd vector containing copies of the one socket ready to be listening or like multiple like different sockets
+why revents and operator pollin
+why check after pollhup pollerr if original socket. is possible for main socket to have revents flags bad?
+cleanuppollfds
+colon beginning cmd
+
+notes
+max prvmsg sned char limit 4096 (4 x 1024)
