@@ -8,8 +8,11 @@ leak on failed bind (and probably other errors) /fixed maybe
 irssi issues biiig big bad
 one word privmsg
 	fix parameter splitting for privmsg ONLY!!!
+		wait maybe not
 check buffer etc
 \r\n ? getnextcmd
+irssi channel window sender sees msg twice
+irssi inputs a join and mode on startup?
 
 q&a
 what even poll

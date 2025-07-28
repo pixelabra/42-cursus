@@ -106,7 +106,7 @@ void Commands::cmdNick(Client* client, const IRCMessage& msg) {
     client->setNickname(newNick);
     
     if (!oldNick.empty()) {
-        std::string message = std::string(":") + BOLD + oldNick + " NICK:" + RESET + " " + newNick;
+        std::string message = std::string(":") + oldNick + " NICK " + newNick;
         _server->sendToClient(client->getFd(), message);
     }
     
@@ -170,7 +170,7 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     }
     
     // Send JOIN confirmation
-    std::string joinMsg = std::string(":") + BOLD + client->getPrefix() + " JOIN:" + RESET + " " + channelName;
+    std::string joinMsg = std::string(":") + client->getPrefix() + " JOIN " + channelName;
     _server->sendToClient(client->getFd(), joinMsg);
     _server->broadcastToChannel(channelName, joinMsg, client);
     
@@ -180,8 +180,8 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     }
     
     // Send names list
-    sendNumericReply(client, 353, "= " + channelName + ": " + GREEN + channel->getMembersList() + RESET);
-    sendNumericReply(client, 366, channelName + ": " + YELLOW + "End of /NAMES list" + RESET);
+    sendNumericReply(client, 353, "= " + channelName + " :" + channel->getMembersList());
+    sendNumericReply(client, 366, channelName + " :End of /NAMES list");
 }
 
 void Commands::cmdPart(Client* client, const IRCMessage& msg) {
@@ -199,7 +199,7 @@ void Commands::cmdPart(Client* client, const IRCMessage& msg) {
     }
     
     std::string reason = (msg.params.size() > 1) ? msg.params[1] : "";
-    std::string partMsg = std::string(":") + BOLD + client->getPrefix() + " PART " + channelName + RESET;
+    std::string partMsg = std::string(":") + client->getPrefix() + " PART " + channelName;
     if (!reason.empty()) {
         partMsg += ": " + reason;
     }
@@ -238,7 +238,12 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
             return;
         }
         
-        std::string privmsg = std::string(":") + BOLD + client->getPrefix() + " PRIVMSG " + target + ":" + RESET + " " + message;
+        std::string privmsg = std::string(":") + client->getPrefix() + " PRIVMSG " + target + " :" + message;
+        
+        // Echo message back to sender (so they see it in their channel window)
+        // _server->sendToClient(client->getFd(), privmsg);
+        
+        // Broadcast to other channel members
         _server->broadcastToChannel(target, privmsg, client);
         
         // Process bot commands in channel
@@ -256,7 +261,7 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
             return;
         }
         
-        std::string privmsg = std::string(":") + BOLD + client->getPrefix() + " PRIVMSG " + target + ":" + RESET + " " + message;
+        std::string privmsg = std::string(":") + client->getPrefix() + " PRIVMSG " + target + " :" + message;
         _server->sendToClient(targetClient->getFd(), privmsg);
     }
 }
@@ -494,7 +499,7 @@ void Commands::cmdWho(Client* client, const IRCMessage& msg) {
 
 void Commands::cmdQuit(Client* client, const IRCMessage& msg) {
     std::string reason = (msg.params.empty()) ? "Client Quit" : msg.params[0];
-    std::string quitMsg = std::string(":") + BOLD + client->getPrefix() + " QUIT:" + RESET + " " + reason;
+    std::string quitMsg = std::string(":") + client->getPrefix() + " QUIT :" + reason;
     
     // Broadcast quit message to all channels the client is in
     _server->broadcastQuitMessage(client, quitMsg);
@@ -538,19 +543,19 @@ void Commands::cmdCap(Client* client, const IRCMessage& msg) {
 
 void Commands::sendWelcome(Client* client) {
     // Send standard IRC welcome sequence (001-004 replies)
-    sendNumericReply(client, 001, std::string(": ") + GREEN + "Welcome to the Internet Relay Network " + client->getPrefix() + RESET);
-    sendNumericReply(client, 002, std::string(": ") + CYAN + "Your host is ircserv, running version 1.0" + RESET);
-    sendNumericReply(client, 003, std::string(": ") + CYAN + "This server was created today" + RESET);
+    sendNumericReply(client, 001, std::string(": Welcome to the Internet Relay Network " + client->getPrefix()));
+    sendNumericReply(client, 002, std::string(": Your host is ircserv, running version 1.0"));
+    sendNumericReply(client, 003, std::string(": This server was created today"));
     sendNumericReply(client, 004, std::string("ircserv 1.0 o itkol"));
     
     // Send additional numeric replies that irssi expects
     sendNumericReply(client, 005, std::string("CHANTYPES=# PREFIX=(o)@ CHANLIMIT=#:10 CHANNELLEN=50 NICKLEN=9 NETWORK=ircserv : are supported by this server"));
     
     // Send MOTD (Message of the Day) - Critical for irssi to recognize connection completion
-    sendNumericReply(client, 375, std::string(": ") + BOLD + "- ircserv Message of the day - " + RESET);
-    sendNumericReply(client, 372, std::string(": ") + CYAN + "- Welcome to the IRC server!" + RESET);
-    sendNumericReply(client, 372, std::string(": ") + CYAN + "- This server is ready for use." + RESET);
-    sendNumericReply(client, 376, std::string(": ") + BOLD + "End of /MOTD command" + RESET);
+    sendNumericReply(client, 375, std::string(": - ircserv Message of the day - "));
+    sendNumericReply(client, 372, std::string(": - Welcome to the IRC server!"));
+    sendNumericReply(client, 372, std::string(": - This server is ready for use."));
+    sendNumericReply(client, 376, std::string(": End of /MOTD command"));
 }
 
 void Commands::sendNumericReply(Client* client, int code, const std::string& message) {
