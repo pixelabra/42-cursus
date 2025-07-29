@@ -177,16 +177,24 @@ void Server::handleClientData(int clientFd) {
         return;
     }
 
-    // Add to client's buffer
-    client->addToBuffer(std::string(buffer, bytesRead));
+    // Add to client's buffer with length check
+    std::string incomingData(buffer, bytesRead);
+    
+    // Reject if client buffer would exceed IRC limits
+    if (client->getBuffer().length() + incomingData.length() > 512) {
+        // Don't add oversized data, just process what we have
+        std::cout << "Rejecting oversized message from client " << client->getClientNumber() << std::endl;
+    } else {
+        client->addToBuffer(incomingData);
+    }
     
     // Process complete commands
     std::string command;
     while (client->getNextCommand(command)) {
         if (client->getNickname().empty()) {
-            std::cout << CYAN << "Client " << client->getClientNumber() << RESET << " sent: " << BOLD << command.substr(0, command.find(' ')) << RESET << std::endl;
+            std::cout << CYAN << "Client " << client->getClientNumber() << RESET << " sent: " << BOLD << command << RESET << std::endl;
         } else {
-            std::cout << CYAN << "Client " << client->getClientNumber() << " " << client->getNickname() << RESET << " sent: " << BOLD << command.substr(0, command.find(' ')) << RESET << std::endl;
+            std::cout << CYAN << "Client " << client->getClientNumber() << " " << client->getNickname() << RESET << " sent: " << BOLD << command << RESET << std::endl;
         }
         
         IRCMessage msg = _parser->parseMessage(command);

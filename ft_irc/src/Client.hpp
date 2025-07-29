@@ -40,6 +40,7 @@ public:
     // Buffer management
     void addToBuffer(const std::string& data);
     bool getNextCommand(std::string& command);
+    const std::string& getBuffer() const { return _buffer; }
 
     // Utility functions
     std::string getPrefix() const;

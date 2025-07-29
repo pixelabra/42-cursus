@@ -11,7 +11,11 @@ check buffer etc
 \r\n ? getnextcmd
 	maybe necessary ackshually
 irssi inputs a join and mode on startup?
+	dealt with
 test max clients
+invite only stuff on irssi
+rejecting oversized msg several prompts
+topic doesnt show up in irssi?
 
 q&a
 what even poll
