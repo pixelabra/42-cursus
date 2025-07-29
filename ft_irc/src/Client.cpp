@@ -2,7 +2,7 @@
 #include <algorithm>
 
 Client::Client(int fd, const std::string& hostname, int clientNumber) 
-    : _fd(fd), _clientNumber(clientNumber), _hostname(hostname), _authenticated(false), _registered(false) {
+    : _fd(fd), _clientNumber(clientNumber), _hostname(hostname), _authenticated(false), _registered(false), _ignoreOversizedInput(false) {
 }
 
 Client::~Client() {

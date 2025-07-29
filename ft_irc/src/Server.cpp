@@ -137,11 +137,6 @@ void Server::acceptNewClient() {
     }
 
     // Set client socket to non-blocking
-    // int flags = fcntl(clientSocket, F_GETFL, 0);
-    // if (flags == -1 || fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK) == -1) {
-    //     close(clientSocket);
-    //     return;
-    // }
     if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1) {
         close(clientSocket);
         return;
@@ -180,13 +175,41 @@ void Server::handleClientData(int clientFd) {
     // Add to client's buffer with length check
     std::string incomingData(buffer, bytesRead);
     
-    // Reject if client buffer would exceed IRC limits
-    if (client->getBuffer().length() + incomingData.length() > 512) {
-        // Don't add oversized data, just process what we have
-        std::cout << "Rejecting oversized message from client " << client->getClientNumber() << std::endl;
-    } else {
-        client->addToBuffer(incomingData);
+    // If we're already ignoring oversized input, check if we've reached the end
+    if (client->isIgnoringOversizedInput()) {
+        // Look for newline or carriage return to end the oversized message
+        if (incomingData.find('\n') != std::string::npos || incomingData.find('\r') != std::string::npos) {
+            // End of oversized message, reset flag and continue normally with any remaining data after the newline
+            client->setIgnoreOversizedInput(false);
+            std::cout << "End of oversized input detected from client " << client->getClientNumber() << " - resuming normal processing" << std::endl;
+            
+            // Process any data after the newline
+            size_t newlinePos = std::max(incomingData.find('\n'), incomingData.find('\r'));
+            if (newlinePos != std::string::npos && newlinePos + 1 < incomingData.length()) {
+                std::string remainingData = incomingData.substr(newlinePos + 1);
+                if (!remainingData.empty()) {
+                    client->addToBuffer(remainingData);
+                }
+            }
+        }
+        // Ignore all input until we find the end
+        return;
     }
+    
+    // Check for oversized messages immediately
+    if (client->getBuffer().length() + incomingData.length() > 512) {
+        // Clear buffer and reject immediately
+        client->clearBuffer();
+        client->setIgnoreOversizedInput(true);
+        std::cout << "Rejecting oversized message from client " << client->getClientNumber() << " - ignoring input until newline" << std::endl;
+        
+        // Send error to client (only once)
+        std::string errorMsg = ":ircserv 417 " + client->getNickname() + " :Input line was too long\r\n";
+        send(clientFd, errorMsg.c_str(), errorMsg.length(), 0);
+        return;
+    }
+    
+    client->addToBuffer(incomingData);
     
     // Process complete commands
     std::string command;

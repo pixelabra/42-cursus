@@ -15,6 +15,7 @@ private:
     std::string _buffer;
     bool _authenticated;
     bool _registered;
+    bool _ignoreOversizedInput;
 
 public:
     Client(int fd, const std::string& hostname, int clientNumber);
@@ -41,6 +42,11 @@ public:
     void addToBuffer(const std::string& data);
     bool getNextCommand(std::string& command);
     const std::string& getBuffer() const { return _buffer; }
+    void clearBuffer() { _buffer.clear(); }
+    
+    // Oversized message handling
+    bool isIgnoringOversizedInput() const { return _ignoreOversizedInput; }
+    void setIgnoreOversizedInput(bool ignore) { _ignoreOversizedInput = ignore; }
 
     // Utility functions
     std::string getPrefix() const;

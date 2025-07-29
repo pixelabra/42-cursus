@@ -1,21 +1,11 @@
-QUIT cmd does nothing:
-	can be fixed by making disconnectClient from Server public and using in quit cmd function, but
-	causes new issue of some invalid read in valgrind. need to look into it further
-		actually it might be fine idk.
 file transfer needs to be tested
 test max memory
-one word privmsg
-	fix parameter splitting for privmsg ONLY!!!
-		wait maybe not
 check buffer etc
 \r\n ? getnextcmd
 	maybe necessary ackshually
-irssi inputs a join and mode on startup?
-	dealt with
 test max clients
-invite only stuff on irssi
 rejecting oversized msg several prompts
-topic doesnt show up in irssi?
+irssi sends MDOE on part
 
 q&a
 what even poll

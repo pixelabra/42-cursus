@@ -155,10 +155,12 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
         channel = _server->createChannel(channelName, client);
     } else {
         if (!channel->canJoin(client, key)) {
-            if (channel->isInviteOnly()) {
-                sendNumericReply(client, 473, channelName + ": " + RED + "Cannot join channel (+i) - invite only" + RESET);
+            if (channel->isInviteOnly() && !channel->isInvited(client)) {
+                sendNumericReply(client, 473, channelName + " :Cannot join channel (+i)");
+            } else if (!channel->getKey().empty() && channel->getKey() != key) {
+                sendNumericReply(client, 475, channelName + " :Cannot join channel (+k)");
             } else {
-                sendNumericReply(client, 473, channelName + ": " + RED + "Cannot join channel" + RESET);
+                sendNumericReply(client, 473, channelName + " :Cannot join channel");
             }
             return;
         }
@@ -174,9 +176,11 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     _server->sendToClient(client->getFd(), joinMsg);
     _server->broadcastToChannel(channelName, joinMsg, client);
 
-    // Send topic if exists
+    // Send topic if exists (clean for irssi compatibility)
     if (!channel->getTopic().empty()) {
-        sendNumericReply(client, 332, channelName + ": " + CYAN + channel->getTopic() + RESET);
+        sendNumericReply(client, 332, channelName + " :" + channel->getTopic());
+    } else {
+        sendNumericReply(client, 331, channelName + " :No topic is set");
     }
 
     // Send names list
@@ -239,9 +243,6 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
         }
 
         std::string privmsg = std::string(":") + client->getPrefix() + " PRIVMSG " + target + " :" + message;
-
-        // Echo message back to sender (so they see it in their channel window)
-        // _server->sendToClient(client->getFd(), privmsg);
 
         // Broadcast to other channel members
         _server->broadcastToChannel(target, privmsg, client);
@@ -371,23 +372,23 @@ void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
     }
 
     if (msg.params.size() == 1) {
-        // View topic
+        // View topic - clean for irssi compatibility
         if (channel->getTopic().empty()) {
-            sendNumericReply(client, 331, channelName + ": " + YELLOW + "No topic is set" + RESET);
+            sendNumericReply(client, 331, channelName + " :No topic is set");
         } else {
-            sendNumericReply(client, 332, channelName + ": " + CYAN + channel->getTopic() + RESET);
+            sendNumericReply(client, 332, channelName + " :" + channel->getTopic());
         }
     } else {
         // Set topic
         if (channel->isTopicRestricted() && !channel->isOperator(client)) {
-            sendNumericReply(client, 482, channelName + ": " + RED + "You're not channel operator" + RESET);
+            sendNumericReply(client, 482, channelName + " :You're not channel operator");
             return;
         }
 
         std::string newTopic = msg.params[1];
         channel->setTopic(newTopic);
 
-        std::string topicMsg = std::string(":") + BOLD + client->getPrefix() + " TOPIC " + channelName + ":" + RESET + " " + newTopic;
+        std::string topicMsg = std::string(":") + client->getPrefix() + " TOPIC " + channelName + " :" + newTopic;
         _server->sendToClient(client->getFd(), topicMsg);
         _server->broadcastToChannel(channelName, topicMsg, client);
     }
@@ -403,13 +404,6 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
     
     // Check if it's a user mode (MODE nickname +flags)
     if (target == client->getNickname()) {
-        // Handle user modes (like MODE john +i from irssi)
-        // if (msg.params.size() > 1) {
-        //     std::string modeString = msg.params[1];
-        //     // Accept user modes but don't implement functionality (basic IRC compliance)
-        //     std::string modeMsg = ":" + client->getPrefix() + " MODE " + target + " " + modeString;
-        //     _server->sendToClient(client->getFd(), modeMsg);
-        // }
         _server->sendToClient(client->getFd(), "User modes unavailable.");
         return;
     }
