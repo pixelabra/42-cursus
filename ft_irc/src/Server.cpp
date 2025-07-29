@@ -163,7 +163,7 @@ void Server::acceptNewClient() {
 }
 
 void Server::handleClientData(int clientFd) {
-    char buffer[1024];
+    char buffer[512];  // IRC RFC 2812 standard: 512 bytes max per message
     ssize_t bytesRead = recv(clientFd, buffer, sizeof(buffer) - 1, 0);
     
     if (bytesRead <= 0) {

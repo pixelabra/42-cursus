@@ -1,18 +1,17 @@
-password shouldnt be allowed white spaces
 QUIT cmd does nothing:
 	can be fixed by making disconnectClient from Server public and using in quit cmd function, but
 	causes new issue of some invalid read in valgrind. need to look into it further
+		actually it might be fine idk.
 file transfer needs to be tested
 test max memory
-leak on failed bind (and probably other errors) /fixed maybe
-irssi issues biiig big bad
 one word privmsg
 	fix parameter splitting for privmsg ONLY!!!
 		wait maybe not
 check buffer etc
 \r\n ? getnextcmd
-irssi channel window sender sees msg twice
+	maybe necessary ackshually
 irssi inputs a join and mode on startup?
+test max clients
 
 q&a
 what even poll

@@ -32,6 +32,12 @@ int main(int argc, char** argv) {
         std::cerr << "Error: Password cannot be empty" << std::endl;
         return 1;
     }
+    for (size_t i = 0; i < password.size(); i++) {
+        if (password[i] < 33 || password[i] > 126) {
+            std::cerr << "Error: Password contains invalid characters" << std::endl;
+            return 1;
+        }
+    }
 
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
