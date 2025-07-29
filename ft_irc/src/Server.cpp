@@ -37,17 +37,17 @@ Server::~Server() {
     if (_serverSocket != -1) {
         close(_serverSocket);
     }
-    
+
     // Clean up clients
     for (std::map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
         delete it->second;
     }
-    
+
     // Clean up channels
     for (std::map<std::string, Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
         delete it->second;
     }
-    
+
     // Safe delete (handles NULL pointers)
     delete _parser;
     delete _commands;
@@ -130,7 +130,7 @@ void Server::run() {
 void Server::acceptNewClient() {
     struct sockaddr_in clientAddr;
     socklen_t clientLen = sizeof(clientAddr);
-    
+
     int clientSocket = accept(_serverSocket, (struct sockaddr*)&clientAddr, &clientLen);
     if (clientSocket < 0) {
         return; // Non-blocking, so this is normal
@@ -160,21 +160,41 @@ void Server::acceptNewClient() {
 void Server::handleClientData(int clientFd) {
     char buffer[512];  // IRC RFC 2812 standard: 512 bytes max per message
     ssize_t bytesRead = recv(clientFd, buffer, sizeof(buffer) - 1, 0);
-    
-    if (bytesRead <= 0) {
+
+    if (bytesRead < 0) {
+        // Handle recv errors
+        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+            return; // No data available (non-blocking socket)
+        }
         disconnectClient(clientFd);
         return;
     }
-
-    buffer[bytesRead] = '\0';
+    
     Client* client = getClient(clientFd);
     if (!client) {
         return;
     }
+    
+    if (bytesRead == 0) {
+        // Zero bytes could be Ctrl+D (EOF signal) or real disconnection
+        client->incrementZeroReads();
+        
+        // Allow up to 2 consecutive zero reads (handles double Ctrl+D)
+        // After that, assume real disconnection
+        if (client->getConsecutiveZeroReads() >= 3) {
+            disconnectClient(clientFd);
+        }
+        return;
+    }
+    
+    // Reset zero read counter when we get actual data
+    client->resetZeroReads();
+
+    buffer[bytesRead] = '\0';
 
     // Add to client's buffer with length check
     std::string incomingData(buffer, bytesRead);
-    
+
     // If we're already ignoring oversized input, check if we've reached the end
     if (client->isIgnoringOversizedInput()) {
         // Look for newline or carriage return to end the oversized message
@@ -182,7 +202,7 @@ void Server::handleClientData(int clientFd) {
             // End of oversized message, reset flag and continue normally with any remaining data after the newline
             client->setIgnoreOversizedInput(false);
             std::cout << "End of oversized input detected from client " << client->getClientNumber() << " - resuming normal processing" << std::endl;
-            
+
             // Process any data after the newline
             size_t newlinePos = std::max(incomingData.find('\n'), incomingData.find('\r'));
             if (newlinePos != std::string::npos && newlinePos + 1 < incomingData.length()) {
@@ -195,22 +215,22 @@ void Server::handleClientData(int clientFd) {
         // Ignore all input until we find the end
         return;
     }
-    
+
     // Check for oversized messages immediately
     if (client->getBuffer().length() + incomingData.length() > 512) {
         // Clear buffer and reject immediately
         client->clearBuffer();
         client->setIgnoreOversizedInput(true);
         std::cout << "Rejecting oversized message from client " << client->getClientNumber() << " - ignoring input until newline" << std::endl;
-        
+
         // Send error to client (only once)
         std::string errorMsg = ":ircserv 417 " + client->getNickname() + " :Input line was too long\r\n";
         send(clientFd, errorMsg.c_str(), errorMsg.length(), 0);
         return;
     }
-    
+
     client->addToBuffer(incomingData);
-    
+
     // Process complete commands
     std::string command;
     while (client->getNextCommand(command)) {
@@ -219,7 +239,7 @@ void Server::handleClientData(int clientFd) {
         } else {
             std::cout << CYAN << "Client " << client->getClientNumber() << " " << client->getNickname() << RESET << " sent: " << BOLD << command << RESET << std::endl;
         }
-        
+
         IRCMessage msg = _parser->parseMessage(command);
         _commands->processCommand(client, msg);
     }
@@ -308,7 +328,7 @@ void Server::removeClientFromChannels(Client* client) {
     for (std::map<std::string, Channel*>::iterator it = _channels.begin(); it != _channels.end(); ) {
         Channel* channel = it->second;
         channel->removeMember(client);
-        
+
         if (channel->getMembers().empty()) {
             delete channel;
             std::map<std::string, Channel*>::iterator toErase = it;
@@ -322,17 +342,17 @@ void Server::removeClientFromChannels(Client* client) {
 
 void Server::shutdown() {
     _running = false;
-    
+
     // Send QUIT messages to all clients and close their connections
     for (std::map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
         close(it->first);
     }
-    
+
     // Close server socket
     if (_serverSocket != -1) {
         close(_serverSocket);
         _serverSocket = -1;
     }
-    
+
     std::cout << "Server shutdown complete." << std::endl;
 }

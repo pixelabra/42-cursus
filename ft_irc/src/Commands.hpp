@@ -20,6 +20,7 @@ private:
     void cmdJoin(Client* client, const IRCMessage& msg);
     void cmdPart(Client* client, const IRCMessage& msg);
     void cmdPrivmsg(Client* client, const IRCMessage& msg);
+    void cmdNotice(Client* client, const IRCMessage& msg);
     void cmdKick(Client* client, const IRCMessage& msg);
     void cmdInvite(Client* client, const IRCMessage& msg);
     void cmdTopic(Client* client, const IRCMessage& msg);

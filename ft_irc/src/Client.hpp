@@ -16,6 +16,7 @@ private:
     bool _authenticated;
     bool _registered;
     bool _ignoreOversizedInput;
+    int _consecutiveZeroReads;
 
 public:
     Client(int fd, const std::string& hostname, int clientNumber);
@@ -47,6 +48,11 @@ public:
     // Oversized message handling
     bool isIgnoringOversizedInput() const { return _ignoreOversizedInput; }
     void setIgnoreOversizedInput(bool ignore) { _ignoreOversizedInput = ignore; }
+    
+    // Zero-read tracking for Ctrl+D handling
+    int getConsecutiveZeroReads() const { return _consecutiveZeroReads; }
+    void incrementZeroReads() { _consecutiveZeroReads++; }
+    void resetZeroReads() { _consecutiveZeroReads = 0; }
 
     // Utility functions
     std::string getPrefix() const;

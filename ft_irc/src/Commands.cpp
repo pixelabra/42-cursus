@@ -47,6 +47,8 @@ void Commands::processCommand(Client* client, const IRCMessage& msg) {
         cmdPart(client, msg);
     } else if (command == "PRIVMSG") {
         cmdPrivmsg(client, msg);
+    } else if (command == "NOTICE") {
+        cmdNotice(client, msg);
     } else if (command == "KICK") {
         cmdKick(client, msg);
     } else if (command == "INVITE") {
@@ -264,6 +266,50 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
 
         std::string privmsg = std::string(":") + client->getPrefix() + " PRIVMSG " + target + " :" + message;
         _server->sendToClient(targetClient->getFd(), privmsg);
+    }
+}
+
+void Commands::cmdNotice(Client* client, const IRCMessage& msg) {
+    if (msg.params.size() < 2) {
+        // NOTICE doesn't send error replies (RFC 2812 requirement)
+        return;
+    }
+
+    std::string target = msg.params[0];
+    std::string message = msg.params[1];
+
+    if (target[0] == '#') {
+        // Channel notice
+        Channel* channel = _server->getChannel(target);
+        if (!channel) {
+            // No error reply for NOTICE (RFC 2812)
+            return;
+        }
+
+        if (!channel->isMember(client)) {
+            // No error reply for NOTICE (RFC 2812)
+            return;
+        }
+
+        // Send NOTICE to channel (format: :nick!user@host NOTICE #channel :message)
+        std::string notice = std::string(":") + client->getPrefix() + " NOTICE " + target + " :" + message;
+        
+        // Send to sender (like PRIVMSG for echo)
+        _server->sendToClient(client->getFd(), notice);
+        
+        // Broadcast to other channel members
+        _server->broadcastToChannel(target, notice, client);
+    } else {
+        // Private notice
+        Client* targetClient = _server->getClientByNick(target);
+        if (!targetClient) {
+            // No error reply for NOTICE (RFC 2812)
+            return;
+        }
+
+        // Send NOTICE to target user (format: :nick!user@host NOTICE target :message)
+        std::string notice = std::string(":") + client->getPrefix() + " NOTICE " + target + " :" + message;
+        _server->sendToClient(targetClient->getFd(), notice);
     }
 }
 

@@ -4,8 +4,8 @@ check buffer etc
 \r\n ? getnextcmd
 	maybe necessary ackshually
 test max clients
-rejecting oversized msg several prompts
 irssi sends MDOE on part
+multiple eof
 
 q&a
 what even poll
