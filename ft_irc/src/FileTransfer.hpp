@@ -4,43 +4,77 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <vector>
+#include <stdint.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 class Server;
 class Client;
 
-struct FileTransferSession {
+struct DCCSession {
     std::string filename;
-    std::string sender;
-    std::string receiver;
-    size_t fileSize;
-    size_t bytesTransferred;
-    std::ofstream* outputFile;
+    std::string filepath;
+    std::string senderNick;
+    std::string receiverNick;
+    uint32_t ip;
+    uint16_t port;
+    uint32_t fileSize;
+    uint32_t bytesTransferred;
+    int serverSocket;
+    int clientSocket;
     bool active;
+    bool isReceiver;
+    std::ifstream* inputFile;
+    std::ofstream* outputFile;
     
-    FileTransferSession() : fileSize(0), bytesTransferred(0), outputFile(NULL), active(false) {}
+    DCCSession() : ip(0), port(0), fileSize(0), bytesTransferred(0), 
+                   serverSocket(-1), clientSocket(-1), active(false), 
+                   isReceiver(false), inputFile(NULL), outputFile(NULL) {}
 };
 
 class FileTransfer {
 private:
     Server* _server;
-    std::map<std::string, FileTransferSession> _sessions;
+    std::map<std::string, DCCSession> _activeSessions;
+    static uint16_t _nextPort;
     
-    std::string generateSessionId();
-    void sendDCCMessage(Client* client, const std::string& message);
+    std::string getSessionKey(const std::string& sender, const std::string& receiver, const std::string& filename);
+    uint32_t ipStringToLong(const std::string& ip);
+    std::string ipLongToString(uint32_t ip);
+    uint16_t getNextAvailablePort();
     
 public:
     FileTransfer(Server* server);
     ~FileTransfer();
     
-    // DCC SEND/ACCEPT handling
-    void handleDCCSend(Client* sender, const std::string& target, const std::string& filename, size_t fileSize);
-    void handleDCCAccept(Client* receiver, const std::string& sender, const std::string& filename);
-    void handleFileData(const std::string& sessionId, const char* data, size_t size);
-    void handleFileTransferComplete(const std::string& sessionId);
-    
-    // CTCP DCC message parsing
+    // CTCP DCC message detection and parsing
     bool isDCCMessage(const std::string& message);
     void processDCCMessage(Client* client, const std::string& target, const std::string& message);
+    
+    // DCC SEND command handling
+    void handleDCCSend(Client* sender, const std::string& target, const std::string& filename, const std::string& filepath = "");
+    
+    // DCC protocol message parsing
+    void parseDCCSend(Client* client, const std::string& target, const std::vector<std::string>& params);
+    void parseDCCAccept(Client* client, const std::vector<std::string>& params);
+    void parseDCCResume(Client* client, const std::vector<std::string>& params);
+    void parseDCCChat(Client* client, const std::string& target, const std::vector<std::string>& params);
+    
+    // Real file transfer implementation
+    int createDCCServer(uint16_t port);
+    bool connectDCCClient(uint32_t ip, uint16_t port, const std::string& sessionKey);
+    void handleDCCConnection(const std::string& sessionKey);
+    void transferFileData(const std::string& sessionKey);
+    void closeDCCSession(const std::string& sessionKey);
+    
+    // File operations
+    uint32_t getFileSize(const std::string& filepath);
+    bool fileExists(const std::string& filepath);
 };
 
 #endif

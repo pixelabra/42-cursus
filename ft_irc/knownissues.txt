@@ -4,7 +4,8 @@ check buffer etc
 \r\n ? getnextcmd
 	maybe necessary ackshually
 test max clients
-irssi sends MDOE on part
+	fully not 10
+irssi sends MDOE on part or sometimes join
 multiple eof
 
 q&a
@@ -17,6 +18,7 @@ colon beginning cmd
 
 notes
 max prvmsg sned char limit 4096 (4 x 1024)
+	changed to 512 chars max
 
 
 irssi -c 127.0.0.1 -p 6667 -w testpassword -n yournickname
