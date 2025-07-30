@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
-    std::signal(SIGTSTP, signalHandler);  // Handle Ctrl+Z
+    // std::signal(SIGTSTP, signalHandler);  // Handle Ctrl+Z
     std::signal(SIGQUIT, signalHandler);  // Handle Ctrl+backslash
 
     try {
