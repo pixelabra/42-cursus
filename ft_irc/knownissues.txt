@@ -1,4 +1,5 @@
 file transfer needs to be tested
+	or i need to kill myself
 test max memory
 check buffer etc
 \r\n ? getnextcmd
@@ -7,6 +8,7 @@ test max clients
 	fully not 10
 irssi sends MDOE on part or sometimes join
 multiple eof
+reformat
 
 q&a
 what even poll

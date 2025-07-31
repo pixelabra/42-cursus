@@ -155,6 +155,10 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
     Channel* channel = _server->getChannel(channelName);
     if (!channel) {
         channel = _server->createChannel(channelName, client);
+        if (!channel) {
+            _server->sendToClient(client->getFd(), ": Cannot create more channels (limit reached)");
+            return;
+        }
     } else {
         if (!channel->canJoin(client, key)) {
             if (channel->isInviteOnly() && !channel->isInvited(client)) {
@@ -634,6 +638,10 @@ bool Commands::isValidNickname(const std::string& nick) {
                 return false;
             }
         }
+    }
+
+    if (nick == "IRCBot") {
+        return false; // Reserved nickname for the bot
     }
 
     return true;

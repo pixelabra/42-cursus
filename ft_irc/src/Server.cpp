@@ -266,6 +266,8 @@ Channel* Server::getChannel(const std::string& name) {
 }
 
 Channel* Server::createChannel(const std::string& name, Client* creator) {
+    if (_channels.size() >= 10)
+        return NULL;
     Channel* channel = new Channel(name, creator);
     _channels[name] = channel;
     return channel;
