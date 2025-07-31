@@ -75,7 +75,7 @@ is it required for user paramaters to be 0 and *?
     }
 	wtf^?
 
-void Server::cleanupPollFds() {
+void Server::cleanupPollFds() s{
     for (std::vector<struct pollfd>::iterator it = _pollFds.begin(); it != _pollFds.end(); ) {
         if (it->fd != _serverSocket && _clients.find(it->fd) == _clients.end()) {
             it = _pollFds.erase(it);
