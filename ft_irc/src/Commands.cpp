@@ -1,14 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Commands.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:36:25 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:50:32 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Commands.hpp"
 #include "Server.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
-#include "IRCParser.hpp"
-#include "FileTransfer.hpp"
+#include "Parser.hpp"
 #include "Bot.hpp"
 #include "Colors.hpp"
-#include <iostream>
-#include <algorithm>
-#include <sstream>
 
 Commands::Commands(Server* server) : _server(server) {
 }
@@ -16,14 +24,13 @@ Commands::Commands(Server* server) : _server(server) {
 Commands::~Commands() {
 }
 
-void Commands::processCommand(Client* client, const IRCMessage& msg) {
+void Commands::processCommand(Client* client, const Message& msg) {
     if (msg.command.empty()) {
         return;
     }
     std::string command = msg.command;
     std::transform(command.begin(), command.end(), command.begin(), ::toupper);
 
-    // Authentication commands and pre-auth compatibility commands
     if (command == "PASS") {
         cmdPass(client, msg);
     } else if (command == "NICK") {
@@ -31,17 +38,12 @@ void Commands::processCommand(Client* client, const IRCMessage& msg) {
     } else if (command == "USER") {
         cmdUser(client, msg);
     } else if (command == "CAP") {
-        cmdCap(client, msg);  // Allow CAP before authentication for irssi compatibility
+        cmdCap(client, msg);
     } else if (command == "PONG") {
-        // PONG responses are acceptable, just ignore
         return;
-    }
-    // Commands requiring authentication
-    else if (!client->isAuthenticated()) {
+    } else if (!client->isAuthenticated()) {
         sendNumericReply(client, 451, "You have not registered");
-    }
-    // Channel and messaging commands
-    else if (command == "JOIN") {
+    } else if (command == "JOIN") {
         cmdJoin(client, msg);
     } else if (command == "PART") {
         cmdPart(client, msg);
@@ -68,7 +70,7 @@ void Commands::processCommand(Client* client, const IRCMessage& msg) {
     }
 }
 
-void Commands::cmdPass(Client* client, const IRCMessage& msg) {
+void Commands::cmdPass(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 461, std::string("PASS: ") + RED + "Not enough parameters" + RESET);
         return;
@@ -86,7 +88,7 @@ void Commands::cmdPass(Client* client, const IRCMessage& msg) {
     }
 }
 
-void Commands::cmdNick(Client* client, const IRCMessage& msg) {
+void Commands::cmdNick(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 431, std::string(": ") + RED + "No nickname given" + RESET);
         return;
@@ -118,7 +120,7 @@ void Commands::cmdNick(Client* client, const IRCMessage& msg) {
     }
 }
 
-void Commands::cmdUser(Client* client, const IRCMessage& msg) {
+void Commands::cmdUser(Client* client, const Message& msg) {
     if (msg.params.size() < 4) {
         sendNumericReply(client, 461, std::string("USER: ") + RED + "Not enough parameters" + RESET);
         return;
@@ -138,7 +140,7 @@ void Commands::cmdUser(Client* client, const IRCMessage& msg) {
     }
 }
 
-void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
+void Commands::cmdJoin(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 461, std::string("JOIN: ") + RED + "Not enough parameters" + RESET);
         return;
@@ -171,30 +173,26 @@ void Commands::cmdJoin(Client* client, const IRCMessage& msg) {
             return;
         }
         channel->addMember(client);
-        // Remove from invite list once joined (invite is used up)
         if (channel->isInvited(client)) {
             channel->removeFromInviteList(client);
         }
     }
 
-    // Send JOIN confirmation
     std::string joinMsg = std::string(":") + client->getPrefix() + " JOIN " + channelName;
     _server->sendToClient(client->getFd(), joinMsg);
     _server->broadcastToChannel(channelName, joinMsg, client);
 
-    // Send topic if exists (clean for irssi compatibility)
     if (!channel->getTopic().empty()) {
         sendNumericReply(client, 332, channelName + " :" + channel->getTopic());
     } else {
         sendNumericReply(client, 331, channelName + " :No topic is set");
     }
 
-    // Send names list
     sendNumericReply(client, 353, "= " + channelName + " :" + channel->getMembersList());
     sendNumericReply(client, 366, channelName + " :End of /NAMES list");
 }
 
-void Commands::cmdPart(Client* client, const IRCMessage& msg) {
+void Commands::cmdPart(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 461, std::string("PART: ") + RED + "Not enough parameters" + RESET);
         return;
@@ -220,7 +218,7 @@ void Commands::cmdPart(Client* client, const IRCMessage& msg) {
     channel->removeMember(client);
 }
 
-void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
+void Commands::cmdPrivmsg(Client* client, const Message& msg) {
     if (msg.params.size() < 2) {
         sendNumericReply(client, 461, std::string("PRIVMSG: ") + RED + "Not enough parameters" + RESET);
         return;
@@ -229,14 +227,7 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
     std::string target = msg.params[0];
     std::string message = msg.params[1];
 
-    // Check for DCC file transfer messages
-    if (_server->getFileTransfer()->isDCCMessage(message)) {
-        _server->getFileTransfer()->processDCCMessage(client, target, message);
-        return;
-    }
-
     if (target[0] == '#') {
-        // Channel message
         Channel* channel = _server->getChannel(target);
         if (!channel) {
             sendNumericReply(client, 403, target + ": " + RED + "No such channel" + RESET);
@@ -250,16 +241,12 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
 
         std::string privmsg = std::string(":") + client->getPrefix() + " PRIVMSG " + target + " :" + message;
 
-        // Broadcast to other channel members
         _server->broadcastToChannel(target, privmsg, client);
 
-        // Process bot commands in channel
         _server->getBot()->processMessage(client, target, message);
     } else {
-        // Private message
         Client* targetClient = _server->getClientByNick(target);
         if (!targetClient) {
-            // Check if it's a message to the bot
             if (target == _server->getBot()->getBotNick()) {
                 _server->getBot()->processMessage(client, client->getNickname(), message);
                 return;
@@ -273,9 +260,8 @@ void Commands::cmdPrivmsg(Client* client, const IRCMessage& msg) {
     }
 }
 
-void Commands::cmdNotice(Client* client, const IRCMessage& msg) {
+void Commands::cmdNotice(Client* client, const Message& msg) {
     if (msg.params.size() < 2) {
-        // NOTICE doesn't send error replies (RFC 2812 requirement)
         return;
     }
 
@@ -283,41 +269,32 @@ void Commands::cmdNotice(Client* client, const IRCMessage& msg) {
     std::string message = msg.params[1];
 
     if (target[0] == '#') {
-        // Channel notice
         Channel* channel = _server->getChannel(target);
         if (!channel) {
-            // No error reply for NOTICE (RFC 2812)
             return;
         }
 
         if (!channel->isMember(client)) {
-            // No error reply for NOTICE (RFC 2812)
             return;
         }
 
-        // Send NOTICE to channel (format: :nick!user@host NOTICE #channel :message)
         std::string notice = std::string(":") + client->getPrefix() + " NOTICE " + target + " :" + message;
         
-        // Send to sender (like PRIVMSG for echo)
         _server->sendToClient(client->getFd(), notice);
         
-        // Broadcast to other channel members
         _server->broadcastToChannel(target, notice, client);
     } else {
-        // Private notice
         Client* targetClient = _server->getClientByNick(target);
         if (!targetClient) {
-            // No error reply for NOTICE (RFC 2812)
             return;
         }
 
-        // Send NOTICE to target user (format: :nick!user@host NOTICE target :message)
         std::string notice = std::string(":") + client->getPrefix() + " NOTICE " + target + " :" + message;
         _server->sendToClient(targetClient->getFd(), notice);
     }
 }
 
-void Commands::cmdKick(Client* client, const IRCMessage& msg) {
+void Commands::cmdKick(Client* client, const Message& msg) {
     if (msg.params.size() < 2) {
         sendNumericReply(client, 461, std::string("KICK: ") + RED + "Not enough parameters. Usage: KICK <channel> <nickname> [reason]" + RESET);
         return;
@@ -351,7 +328,7 @@ void Commands::cmdKick(Client* client, const IRCMessage& msg) {
     channel->removeMember(targetClient);
 }
 
-void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
+void Commands::cmdInvite(Client* client, const Message& msg) {
     if (msg.params.size() < 2) {
         sendNumericReply(client, 461, std::string("INVITE: ") + RED + "Not enough parameters. Usage: INVITE <nickname> <channel>" + RESET);
         return;
@@ -387,22 +364,18 @@ void Commands::cmdInvite(Client* client, const IRCMessage& msg) {
         return;
     }
 
-    // Add to invite list
     channel->addToInviteList(targetClient);
 
-    // Send invite to target
     std::string inviteMsg = std::string(":") + BOLD + client->getPrefix() + " INVITE " + targetNick + ":" + RESET + " " + channelName;
     _server->sendToClient(targetClient->getFd(), inviteMsg);
 
-    // Confirm to sender
     sendNumericReply(client, 341, targetNick + " " + channelName);
 
-    // Add confirmation message
     std::string confirmMsg = std::string(":ircserv!server@ircserver PRIVMSG ") + client->getNickname() + ": " + GREEN + client->getNickname() + " invited " + targetNick + " to " + channelName + RESET;
     _server->sendToClient(client->getFd(), confirmMsg);
 }
 
-void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
+void Commands::cmdTopic(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 461, std::string("TOPIC: ") + RED + "Not enough parameters. Usage: TOPIC <channel> [topic]" + RESET);
         return;
@@ -422,14 +395,12 @@ void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
     }
 
     if (msg.params.size() == 1) {
-        // View topic - clean for irssi compatibility
         if (channel->getTopic().empty()) {
             sendNumericReply(client, 331, channelName + " :No topic is set");
         } else {
             sendNumericReply(client, 332, channelName + " :" + channel->getTopic());
         }
     } else {
-        // Set topic
         if (channel->isTopicRestricted() && !channel->isOperator(client)) {
             sendNumericReply(client, 482, channelName + " :You're not channel operator");
             return;
@@ -444,7 +415,7 @@ void Commands::cmdTopic(Client* client, const IRCMessage& msg) {
     }
 }
 
-void Commands::cmdMode(Client* client, const IRCMessage& msg) {
+void Commands::cmdMode(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 461, std::string("MODE: ") + RED + "Not enough parameters. Usage: MODE <channel> [+/-modes] [parameters]" + RESET);
         return;
@@ -452,13 +423,11 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
 
     std::string target = msg.params[0];
     
-    // Check if it's a user mode (MODE nickname +flags)
     if (target == client->getNickname()) {
         _server->sendToClient(client->getFd(), "User modes unavailable.");
         return;
     }
     
-    // Handle channel modes
     Channel* channel = _server->getChannel(target);
     if (!channel) {
         sendNumericReply(client, 403, target + ": " + RED + "No such channel" + RESET);
@@ -471,7 +440,6 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
     }
 
     if (msg.params.size() == 1) {
-        // View modes (simplified)
         std::string modes = "+";
         if (channel->isInviteOnly()) modes += "i";
         if (channel->isTopicRestricted()) modes += "t";
@@ -533,7 +501,7 @@ void Commands::cmdMode(Client* client, const IRCMessage& msg) {
     _server->broadcastToChannel(target, modeMsg, client);
 }
 
-void Commands::cmdWho(Client* client, const IRCMessage& msg) {
+void Commands::cmdWho(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 315, std::string("*: ") + YELLOW + "End of /WHO list" + RESET);
         return;
@@ -555,61 +523,44 @@ void Commands::cmdWho(Client* client, const IRCMessage& msg) {
     sendNumericReply(client, 315, target + ": " + YELLOW + "End of /WHO list" + RESET);
 }
 
-void Commands::cmdQuit(Client* client, const IRCMessage& msg) {
+void Commands::cmdQuit(Client* client, const Message& msg) {
     std::string reason = (msg.params.empty()) ? "Client Quit" : msg.params[0];
     std::string quitMsg = std::string(":") + client->getPrefix() + " QUIT :" + reason;
 
-    // Broadcast quit message to all channels the client is in
     _server->broadcastQuitMessage(client, quitMsg);
-
-    // Remove client from all channels - server will handle disconnect
     _server->removeClientFromChannels(client);
-    // Note: Client will be disconnected by the server after command processing
 }
 
-void Commands::cmdPing(Client* client, const IRCMessage& msg) {
+void Commands::cmdPing(Client* client, const Message& msg) {
     if (msg.params.empty()) {
         sendNumericReply(client, 461, std::string("PING: ") + RED + "Not enough parameters" + RESET);
         return;
     }
-
-    std::string pongMsg = std::string("PONG: ") + GREEN + msg.params[0] + RESET;
-    _server->sendToClient(client->getFd(), pongMsg);
 }
 
-void Commands::cmdCap(Client* client, const IRCMessage& msg) {
-    // Handle CAP (Client Capability Negotiation) - irssi compatibility
+void Commands::cmdCap(Client* client, const Message& msg) {
     if (msg.params.empty()) {
-        return; // Ignore malformed CAP commands
+        return;
     }
 
     std::string subCommand = msg.params[0];
     std::transform(subCommand.begin(), subCommand.end(), subCommand.begin(), ::toupper);
 
     if (subCommand == "LS") {
-        // List capabilities - we don't support any advanced capabilities
         std::string nickname = client->getNickname().empty() ? "*" : client->getNickname();
         std::string response = ":ircserv CAP " + nickname + " LS :\r\n";
         _server->sendToClient(client->getFd(), response);
     } else if (subCommand == "END") {
-        // End capability negotiation - client is ready to continue
-        // No response needed, client will proceed with normal registration
         return;
     }
-    // Ignore other CAP commands (REQ, ACK, etc.) for basic IRC compatibility
 }
 
 void Commands::sendWelcome(Client* client) {
-    // Send standard IRC welcome sequence (001-004 replies)
     sendNumericReply(client, 001, std::string(": Welcome to the Internet Relay Network " + client->getPrefix()));
     sendNumericReply(client, 002, std::string(": Your host is ircserv, running version 1.0"));
     sendNumericReply(client, 003, std::string(": This server was created today"));
     sendNumericReply(client, 004, std::string("ircserv 1.0 o itkol"));
-
-    // Send additional numeric replies that irssi expects
     sendNumericReply(client, 005, std::string("CHANTYPES=# PREFIX=(o)@ CHANLIMIT=#:10 CHANNELLEN=50 NICKLEN=9 NETWORK=ircserv : are supported by this server"));
-
-    // Send MOTD (Message of the Day) - Critical for irssi to recognize connection completion
     sendNumericReply(client, 375, std::string(": - ircserv Message of the day - "));
     sendNumericReply(client, 372, std::string(": - Welcome to the IRC server!"));
     sendNumericReply(client, 372, std::string(": - This server is ready for use."));
@@ -641,7 +592,7 @@ bool Commands::isValidNickname(const std::string& nick) {
     }
 
     if (nick == "IRCBot") {
-        return false; // Reserved nickname for the bot
+        return false;
     }
 
     return true;

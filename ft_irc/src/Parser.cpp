@@ -1,15 +1,23 @@
-#include "IRCParser.hpp"
-#include <sstream>
-#include <algorithm>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Parser.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:34:39 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:36:51 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-IRCParser::IRCParser() {
-}
+#include "Parser.hpp"
 
-IRCParser::~IRCParser() {
-}
+Parser::Parser() {}
 
-IRCMessage IRCParser::parseMessage(const std::string& rawMessage) {
-    IRCMessage message;
+Parser::~Parser() {}
+
+Message Parser::parseMessage(const std::string& rawMessage) {
+    Message message;
     std::string line = trim(rawMessage);
     
     if (line.empty()) {
@@ -18,7 +26,6 @@ IRCMessage IRCParser::parseMessage(const std::string& rawMessage) {
     
     size_t pos = 0;
     
-    // Check for prefix
     if (line[0] == ':') {
         size_t spacePos = line.find(' ');
         if (spacePos != std::string::npos) {
@@ -27,7 +34,6 @@ IRCMessage IRCParser::parseMessage(const std::string& rawMessage) {
         }
     }
     
-    // Extract command
     size_t nextSpace = line.find(' ', pos);
     if (nextSpace == std::string::npos) {
         message.command = line.substr(pos);
@@ -37,10 +43,8 @@ IRCMessage IRCParser::parseMessage(const std::string& rawMessage) {
     message.command = line.substr(pos, nextSpace - pos);
     pos = nextSpace + 1;
     
-    // Extract parameters
     while (pos < line.length()) {
         if (line[pos] == ':') {
-            // Trailing parameter
             message.params.push_back(line.substr(pos + 1));
             break;
         }
@@ -58,7 +62,7 @@ IRCMessage IRCParser::parseMessage(const std::string& rawMessage) {
     return message;
 }
 
-std::vector<std::string> IRCParser::split(const std::string& str, char delimiter) {
+std::vector<std::string> Parser::split(const std::string& str, char delimiter) {
     std::vector<std::string> result;
     std::stringstream ss(str);
     std::string item;
@@ -70,7 +74,7 @@ std::vector<std::string> IRCParser::split(const std::string& str, char delimiter
     return result;
 }
 
-std::string IRCParser::trim(const std::string& str) {
+std::string Parser::trim(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\r\n");
     if (first == std::string::npos) {
         return "";

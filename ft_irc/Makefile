@@ -6,7 +6,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 SRCDIR = src
 OBJDIR = obj
 
-SOURCES = main.cpp Server.cpp Client.cpp Channel.cpp Commands.cpp IRCParser.cpp FileTransfer.cpp Bot.cpp
+SOURCES = main.cpp Server.cpp Client.cpp Channel.cpp Commands.cpp Parser.cpp Bot.cpp
 SRCS = $(addprefix $(SRCDIR)/, $(SOURCES))
 OBJS = $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 

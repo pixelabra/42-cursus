@@ -1,35 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:30:51 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:44:27 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Server.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
-#include "IRCParser.hpp"
+#include "Parser.hpp"
 #include "Commands.hpp"
-#include "FileTransfer.hpp"
 #include "Bot.hpp"
 #include "Colors.hpp"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdexcept>
-#include <iostream>
-#include <cerrno>
-#include <cstring>
 
-Server::Server(int port, const std::string& password) : _serverSocket(-1), _port(port), _password(password), _parser(NULL), _commands(NULL), _fileTransfer(NULL), _bot(NULL), _running(false), _clientCounter(0) {
+Server::Server(int port, const std::string& password) : _serverSocket(-1), _port(port), _password(password), _parser(NULL), _commands(NULL), _bot(NULL), _running(false), _clientCounter(0) {
     try {
-        _parser = new IRCParser();
+        _parser = new Parser();
         _commands = new Commands(this);
-        _fileTransfer = new FileTransfer(this);
         _bot = new Bot(this);
         setupSocket();
     } catch (...) {
-        // Clean up any allocated objects if setupSocket fails
         delete _parser;
         delete _commands;
-        delete _fileTransfer;
         delete _bot;
-        throw; // Re-throw the exception
+        throw;
     }
 }
 
@@ -38,20 +37,16 @@ Server::~Server() {
         close(_serverSocket);
     }
     
-    // Clean up clients
     for (std::map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
         delete it->second;
     }
     
-    // Clean up channels
     for (std::map<std::string, Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
         delete it->second;
     }
     
-    // Safe delete (handles NULL pointers)
     delete _parser;
     delete _commands;
-    delete _fileTransfer;
     delete _bot;
 }
 
@@ -61,13 +56,11 @@ void Server::setupSocket() {
         throw std::runtime_error("Failed to create socket");
     }
 
-    // Set socket to non-blocking
     if (fcntl(_serverSocket, F_SETFL, O_NONBLOCK) == -1) {
         close(_serverSocket);
         throw std::runtime_error("Failed to set socket to non-blocking");
     }
 
-    // Set SO_REUSEADDR
     int opt = 1;
     if (setsockopt(_serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
         close(_serverSocket);
@@ -90,7 +83,6 @@ void Server::setupSocket() {
         throw std::runtime_error("Failed to listen on socket");
     }
 
-    // Add server socket to poll fds
     struct pollfd pfd;
     pfd.fd = _serverSocket;
     pfd.events = POLLIN;
@@ -103,9 +95,9 @@ void Server::setupSocket() {
 void Server::run() {
     _running = true;
     while (_running) {
-        int pollResult = poll(&_pollFds[0], _pollFds.size(), 100); // 100ms timeout
+        int pollResult = poll(&_pollFds[0], _pollFds.size(), 100);
         if (pollResult < 0) {
-            break; // Exit gracefully on error
+            break;
         }
 
         for (size_t i = 0; i < _pollFds.size() && _running; ++i) {
@@ -129,24 +121,27 @@ void Server::run() {
 void Server::acceptNewClient() {
     struct sockaddr_in clientAddr;
     socklen_t clientLen = sizeof(clientAddr);
-    
+
     int clientSocket = accept(_serverSocket, (struct sockaddr*)&clientAddr, &clientLen);
     if (clientSocket < 0) {
-        return; // Non-blocking, so this is normal
+        return;
     }
 
-    // Set client socket to non-blocking
+    if (_clients.size() >= 10) {
+        std::cout << "Connection refused: Max number of clients reached (10)" << std::endl;
+        close(clientSocket);
+        return;
+    }
+
     if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1) {
         close(clientSocket);
         return;
     }
 
-    // Create client object with incremented counter
     _clientCounter++;
     Client* newClient = new Client(clientSocket, inet_ntoa(clientAddr.sin_addr), _clientCounter);
     _clients[clientSocket] = newClient;
 
-    // Add to poll fds
     struct pollfd pfd;
     pfd.fd = clientSocket;
     pfd.events = POLLIN;
@@ -157,7 +152,7 @@ void Server::acceptNewClient() {
 }
 
 void Server::handleClientData(int clientFd) {
-    char buffer[512];  // IRC RFC 2812 standard: 512 bytes max per message
+    char buffer[512];
     ssize_t bytesRead = recv(clientFd, buffer, sizeof(buffer) - 1, 0);
     
     if (bytesRead <= 0) {
@@ -171,18 +166,13 @@ void Server::handleClientData(int clientFd) {
         return;
     }
 
-    // Add to client's buffer with length check
     std::string incomingData(buffer, bytesRead);
     
-    // If we're already ignoring oversized input, check if we've reached the end
     if (client->isIgnoringOversizedInput()) {
-        // Look for newline or carriage return to end the oversized message
         if (incomingData.find('\n') != std::string::npos || incomingData.find('\r') != std::string::npos) {
-            // End of oversized message, reset flag and continue normally with any remaining data after the newline
             client->setIgnoreOversizedInput(false);
             std::cout << "End of oversized input detected from client " << client->getClientNumber() << " - resuming normal processing" << std::endl;
             
-            // Process any data after the newline
             size_t newlinePos = std::max(incomingData.find('\n'), incomingData.find('\r'));
             if (newlinePos != std::string::npos && newlinePos + 1 < incomingData.length()) {
                 std::string remainingData = incomingData.substr(newlinePos + 1);
@@ -191,18 +181,14 @@ void Server::handleClientData(int clientFd) {
                 }
             }
         }
-        // Ignore all input until we find the end
         return;
     }
     
-    // Check for oversized messages immediately
     if (client->getBuffer().length() + incomingData.length() > 512) {
-        // Clear buffer and reject immediately
         client->clearBuffer();
         client->setIgnoreOversizedInput(true);
         std::cout << "Rejecting oversized message from client " << client->getClientNumber() << " - ignoring input until newline" << std::endl;
         
-        // Send error to client (only once)
         std::string errorMsg = ":ircserv 417 " + client->getNickname() + " :Input line was too long\r\n";
         send(clientFd, errorMsg.c_str(), errorMsg.length(), 0);
         return;
@@ -210,7 +196,6 @@ void Server::handleClientData(int clientFd) {
     
     client->addToBuffer(incomingData);
     
-    // Process complete commands
     std::string command;
     while (client->getNextCommand(command)) {
         if (client->getNickname().empty()) {
@@ -219,7 +204,7 @@ void Server::handleClientData(int clientFd) {
             std::cout << CYAN << "Client " << client->getClientNumber() << " " << client->getNickname() << RESET << " sent: " << BOLD << command << RESET << std::endl;
         }
         
-        IRCMessage msg = _parser->parseMessage(command);
+        Message msg = _parser->parseMessage(command);
         _commands->processCommand(client, msg);
     }
 }
@@ -276,7 +261,6 @@ void Server::sendToClient(int clientFd, const std::string& message) {
     std::string fullMessage = message + "\r\n";
     ssize_t result = send(clientFd, fullMessage.c_str(), fullMessage.length(), 0);
     if (result < 0) {
-        // Client might have disconnected, handle gracefully
         std::cout << "Failed to send message to client " << clientFd << std::endl;
     }
 }
@@ -296,7 +280,6 @@ void Server::broadcastToChannel(const std::string& channelName, const std::strin
 }
 
 void Server::broadcastQuitMessage(Client* client, const std::string& quitMsg) {
-    // Broadcast quit message to all channels the client is in
     for (std::map<std::string, Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
         Channel* channel = it->second;
         if (channel->isMember(client)) {
@@ -324,12 +307,10 @@ void Server::removeClientFromChannels(Client* client) {
 void Server::shutdown() {
     _running = false;
     
-    // Send QUIT messages to all clients and close their connections
     for (std::map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
         close(it->first);
     }
     
-    // Close server socket
     if (_serverSocket != -1) {
         close(_serverSocket);
         _serverSocket = -1;

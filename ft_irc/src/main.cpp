@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:29:41 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:29:49 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Server.hpp"
 #include <iostream>
 #include <cstdlib>
@@ -41,8 +53,8 @@ int main(int argc, char** argv) {
 
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
-    // std::signal(SIGTSTP, signalHandler);  // Handle Ctrl+Z
-    std::signal(SIGQUIT, signalHandler);  // Handle Ctrl+backslash
+    std::signal(SIGTSTP, signalHandler);
+    std::signal(SIGQUIT, signalHandler);
 
     try {
         Server* server = new Server(port, password);

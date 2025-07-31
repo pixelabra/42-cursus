@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bot.cpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:43:17 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:43:33 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Bot.hpp"
 #include "Server.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
-#include <iostream>
-#include <sstream>
-#include <algorithm>
-#include <ctime>
 
 Bot::Bot(Server* server) : _server(server), _botNick("IRCBot") {
     initializeResponses();
@@ -36,12 +44,10 @@ bool Bot::isBotCommand(const std::string& message) {
 
 void Bot::processMessage(Client* client, const std::string& target, const std::string& message) {
     if (!isBotCommand(message)) {
-        // Only respond to direct mentions or specific greetings to the bot
         std::string lowerMsg = message;
         std::transform(lowerMsg.begin(), lowerMsg.end(), lowerMsg.begin(), ::tolower);
         
-        // Respond to greetings in private messages OR when bot is mentioned in channels
-        if (target[0] != '#' || // Private message - respond to all greetings
+        if (target[0] != '#' ||
             lowerMsg.find(_botNick) != std::string::npos || 
             lowerMsg.find("ircbot") != std::string::npos) {
             
@@ -60,7 +66,6 @@ void Bot::processMessage(Client* client, const std::string& target, const std::s
         return;
     }
     
-    // Parse command
     std::istringstream iss(message);
     std::string command;
     iss >> command;
@@ -108,7 +113,6 @@ void Bot::handleHelpCommand(Client* client, const std::string& channel) {
 void Bot::handleTimeCommand(Client* client, const std::string& channel) {
     std::time_t now = std::time(0);
     std::string timeStr = std::ctime(&now);
-    // Remove trailing newline
     if (!timeStr.empty() && timeStr[timeStr.length()-1] == '\n') {
         timeStr.erase(timeStr.length()-1);
     }
