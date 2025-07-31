@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:34:37 by ppolinta          #+#    #+#             */
-/*   Updated: 2025/07/31 21:36:33 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:35:55 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ public:
     Message parseMessage(const std::string& rawMessage);
     
 private:
-    std::vector<std::string> split(const std::string& str, char delimiter);
     std::string trim(const std::string& str);
 };
 

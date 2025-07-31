@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:34:39 by ppolinta          #+#    #+#             */
-/*   Updated: 2025/07/31 21:36:51 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:36:01 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,6 @@ Message Parser::parseMessage(const std::string& rawMessage) {
     }
     
     return message;
-}
-
-std::vector<std::string> Parser::split(const std::string& str, char delimiter) {
-    std::vector<std::string> result;
-    std::stringstream ss(str);
-    std::string item;
-    
-    while (std::getline(ss, item, delimiter)) {
-        result.push_back(item);
-    }
-    
-    return result;
 }
 
 std::string Parser::trim(const std::string& str) {
