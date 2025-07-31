@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:36:25 by ppolinta          #+#    #+#             */
-/*   Updated: 2025/07/31 21:50:32 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/07/31 21:58:10 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 #include "Bot.hpp"
 #include "Colors.hpp"
 
-Commands::Commands(Server* server) : _server(server) {
-}
+Commands::Commands(Server* server) : _server(server) {}
 
-Commands::~Commands() {
-}
+Commands::~Commands() {}
 
 void Commands::processCommand(Client* client, const Message& msg) {
     if (msg.command.empty()) {

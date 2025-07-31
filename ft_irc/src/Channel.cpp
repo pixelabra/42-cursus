@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:42:37 by ppolinta          #+#    #+#             */
-/*   Updated: 2025/07/31 21:42:48 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/07/31 21:58:16 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ Channel::Channel(const std::string& name, Client* creator)
     addOperator(creator);
 }
 
-Channel::~Channel() {
-}
+Channel::~Channel() {}
 
 bool Channel::addMember(Client* client) {
     if (isMember(client)) {

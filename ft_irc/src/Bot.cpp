@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:43:17 by ppolinta          #+#    #+#             */
-/*   Updated: 2025/07/31 21:43:33 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/07/31 21:58:20 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ Bot::Bot(Server* server) : _server(server), _botNick("IRCBot") {
     initializeResponses();
 }
 
-Bot::~Bot() {
-}
+Bot::~Bot() {}
 
 void Bot::initializeResponses() {
     _responses["hello"] = "Hello there! How can I help you today?";

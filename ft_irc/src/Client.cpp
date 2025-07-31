@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:41:32 by ppolinta          #+#    #+#             */
-/*   Updated: 2025/07/31 21:41:52 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/07/31 21:58:13 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ Client::Client(int fd, const std::string& hostname, int clientNumber)
     : _fd(fd), _clientNumber(clientNumber), _hostname(hostname), _authenticated(false), _registered(false), _ignoreOversizedInput(false), _consecutiveZeroReads(0) {
 }
 
-Client::~Client() {
-}
+Client::~Client() {}
 
 void Client::addToBuffer(const std::string& data) {
     _buffer += data;
