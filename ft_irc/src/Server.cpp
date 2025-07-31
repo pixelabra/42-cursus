@@ -62,8 +62,7 @@ void Server::setupSocket() {
     }
 
     // Set socket to non-blocking
-    int flags = fcntl(_serverSocket, F_GETFL, 0);
-    if (flags == -1 || fcntl(_serverSocket, F_SETFL, flags | O_NONBLOCK) == -1) {
+    if (fcntl(_serverSocket, F_SETFL, O_NONBLOCK) == -1) {
         close(_serverSocket);
         throw std::runtime_error("Failed to set socket to non-blocking");
     }

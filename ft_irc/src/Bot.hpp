@@ -25,7 +25,6 @@ private:
     void handleJokeCommand(Client* client, const std::string& channel);
     void handleQuoteCommand(Client* client, const std::string& channel);
     void handleStatsCommand(Client* client, const std::string& channel);
-    void handleWeatherCommand(Client* client, const std::string& channel, const std::string& args);
     
 public:
     Bot(Server* server);
