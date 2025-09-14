@@ -1,18 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bot.cpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:43:17 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:58:20 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Bot.hpp"
 #include "Server.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
-#include <iostream>
-#include <sstream>
-#include <algorithm>
-#include <ctime>
 
 Bot::Bot(Server* server) : _server(server), _botNick("IRCBot") {
     initializeResponses();
 }
 
-Bot::~Bot() {
-}
+Bot::~Bot() {}
 
 void Bot::initializeResponses() {
     _responses["hello"] = "Hello there! How can I help you today?";
@@ -26,7 +33,6 @@ void Bot::initializeResponses() {
     _helpCommands.push_back("!joke - Tell a random joke");
     _helpCommands.push_back("!quote - Show an inspirational quote");
     _helpCommands.push_back("!stats - Show server statistics");
-    _helpCommands.push_back("!weather <city> - Get weather info (mock)");
 }
 
 bool Bot::isBotCommand(const std::string& message) {
@@ -37,12 +43,10 @@ bool Bot::isBotCommand(const std::string& message) {
 
 void Bot::processMessage(Client* client, const std::string& target, const std::string& message) {
     if (!isBotCommand(message)) {
-        // Only respond to direct mentions or specific greetings to the bot
         std::string lowerMsg = message;
         std::transform(lowerMsg.begin(), lowerMsg.end(), lowerMsg.begin(), ::tolower);
         
-        // Respond to greetings in private messages OR when bot is mentioned in channels
-        if (target[0] != '#' || // Private message - respond to all greetings
+        if (target[0] != '#' ||
             lowerMsg.find(_botNick) != std::string::npos || 
             lowerMsg.find("ircbot") != std::string::npos) {
             
@@ -61,7 +65,6 @@ void Bot::processMessage(Client* client, const std::string& target, const std::s
         return;
     }
     
-    // Parse command
     std::istringstream iss(message);
     std::string command;
     iss >> command;
@@ -78,10 +81,6 @@ void Bot::processMessage(Client* client, const std::string& target, const std::s
         handleQuoteCommand(client, target);
     } else if (command == "!stats") {
         handleStatsCommand(client, target);
-    } else if (command == "!weather") {
-        std::string args;
-        std::getline(iss, args);
-        handleWeatherCommand(client, target, args);
     } else if (message.find(_botNick) != std::string::npos || message.find("bot") != std::string::npos) {
         std::string response = "Hello " + client->getNickname() + "! I'm " + _botNick + ". Type !help for available commands.";
         if (target[0] == '#') {
@@ -113,7 +112,6 @@ void Bot::handleHelpCommand(Client* client, const std::string& channel) {
 void Bot::handleTimeCommand(Client* client, const std::string& channel) {
     std::time_t now = std::time(0);
     std::string timeStr = std::ctime(&now);
-    // Remove trailing newline
     if (!timeStr.empty() && timeStr[timeStr.length()-1] == '\n') {
         timeStr.erase(timeStr.length()-1);
     }
@@ -175,51 +173,6 @@ void Bot::handleStatsCommand(Client* client, const std::string& channel) {
         sendBotMessage(channel, client->getNickname() + ": " + stats.str());
     } else {
         sendBotMessage(client, stats.str());
-    }
-}
-
-void Bot::handleWeatherCommand(Client* client, const std::string& channel, const std::string& args) {
-    std::string city = args;
-    // Remove leading/trailing whitespace
-    size_t start = city.find_first_not_of(" \t");
-    if (start != std::string::npos) {
-        city = city.substr(start);
-        size_t end = city.find_last_not_of(" \t");
-        if (end != std::string::npos) {
-            city = city.substr(0, end + 1);
-        }
-    }
-    
-    if (city.empty()) {
-        std::string response = "Usage: !weather <city>";
-        if (channel[0] == '#') {
-            sendBotMessage(channel, client->getNickname() + ": " + response);
-        } else {
-            sendBotMessage(client, response);
-        }
-        return;
-    }
-    
-    // Mock weather response
-    std::vector<std::string> conditions;
-    conditions.push_back("sunny");
-    conditions.push_back("cloudy");
-    conditions.push_back("rainy");
-    conditions.push_back("snowy");
-    conditions.push_back("partly cloudy");
-    
-    srand(static_cast<unsigned int>(std::time(0)));
-    std::string condition = conditions[rand() % conditions.size()];
-    int temperature = (rand() % 40) - 5; // -5 to 35 degrees
-    
-    std::ostringstream weather;
-    weather << "Weather in " << city << ": " << condition << ", " << temperature << "°C";
-    weather << " (Note: This is mock data for demonstration)";
-    
-    if (channel[0] == '#') {
-        sendBotMessage(channel, client->getNickname() + ": " + weather.str());
-    } else {
-        sendBotMessage(client, weather.str());
     }
 }
 

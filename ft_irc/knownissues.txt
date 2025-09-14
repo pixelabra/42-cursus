@@ -1,11 +1,5 @@
 file transfer needs to be tested
 	or i need to kill myself
-test max memory
-check buffer etc
-\r\n ? getnextcmd
-	maybe necessary ackshually
-test max clients
-	fully not 10
 irssi sends MDOE on part or sometimes join
 multiple eof
 reformat
@@ -24,3 +18,70 @@ max prvmsg sned char limit 4096 (4 x 1024)
 
 
 irssi -c 127.0.0.1 -p 6667 -w testpassword -n yournickname
+
+q&a2
+what is poll actually doing?
+what do the poll flags mean (POLLIN, POLLHUP, POLLERR, POLLOUT)?
+why do we use bitrate operators with the flags?
+what is INADDR_ANY? sockaddr_in params
+what does the timeout in poll do?
+what happens when poll returns 0?
+what can cause poll to return -1?
+how does setting a file to nonblocking using fcntl work?
+explain socket(), bind(), and listen()
+when you close client fd does the pollfd die?
+is it required for user paramaters to be 0 and *?
+
+    std::string incomingData(buffer, bytesRead);
+    
+    if (client->isIgnoringOversizedInput()) {
+        if (incomingData.find('\n') != std::string::npos || incomingData.find('\r') != std::string::npos) {
+            client->setIgnoreOversizedInput(false);
+            std::cout << "End of oversized input detected from client " << client->getClientNumber() << " - resuming normal processing" << std::endl;
+            
+            size_t newlinePos = std::max(incomingData.find('\n'), incomingData.find('\r'));
+            if (newlinePos != std::string::npos && newlinePos + 1 < incomingData.length()) {
+                std::string remainingData = incomingData.substr(newlinePos + 1);
+                if (!remainingData.empty()) {
+                    client->addToBuffer(remainingData);
+                }
+            }
+        }
+        return;
+    }
+    
+    if (client->getBuffer().length() + incomingData.length() > 512) {
+        client->clearBuffer();
+        client->setIgnoreOversizedInput(true);
+        std::cout << "Rejecting oversized message from client " << client->getClientNumber() << " - ignoring input until newline" << std::endl;
+        
+        std::string errorMsg = ":ircserv 417 " + client->getNickname() + " :Input line was too long\r\n";
+        send(clientFd, errorMsg.c_str(), errorMsg.length(), 0);
+        return;
+    }
+    
+    client->addToBuffer(incomingData);
+    
+    std::string command;
+    while (client->getNextCommand(command)) {
+        if (client->getNickname().empty()) {
+            std::cout << CYAN << "Client " << client->getClientNumber() << RESET << " sent: " << BOLD << command << RESET << std::endl;
+        } else {
+            std::cout << CYAN << "Client " << client->getClientNumber() << " " << client->getNickname() << RESET << " sent: " << BOLD << command << RESET << std::endl;
+        }
+        
+        Message msg = _parser->parseMessage(command);
+        _commands->processCommand(client, msg);
+    }
+	wtf^?
+
+void Server::cleanupPollFds() s{
+    for (std::vector<struct pollfd>::iterator it = _pollFds.begin(); it != _pollFds.end(); ) {
+        if (it->fd != _serverSocket && _clients.find(it->fd) == _clients.end()) {
+            it = _pollFds.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+what this do

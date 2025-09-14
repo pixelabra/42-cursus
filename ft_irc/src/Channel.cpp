@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Channel.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:42:37 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:58:16 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Channel.hpp"
 #include "Client.hpp"
-#include <algorithm>
-#include <sstream>
 
 Channel::Channel(const std::string& name, Client* creator) 
     : _name(name), _inviteOnly(false), _topicRestricted(true), _userLimit(0) {
@@ -9,8 +19,7 @@ Channel::Channel(const std::string& name, Client* creator)
     addOperator(creator);
 }
 
-Channel::~Channel() {
-}
+Channel::~Channel() {}
 
 bool Channel::addMember(Client* client) {
     if (isMember(client)) {
@@ -32,7 +41,7 @@ void Channel::removeMember(Client* client) {
     }
     removeOperator(client);
     removeFromInviteList(client);
-    removeFromInviteList(client);  // Clean up invite list when member leaves
+    removeFromInviteList(client);
 }
 
 bool Channel::isMember(Client* client) const {

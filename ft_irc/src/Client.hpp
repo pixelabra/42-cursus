@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Client.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 21:40:55 by ppolinta          #+#    #+#             */
+/*   Updated: 2025/07/31 21:41:38 by ppolinta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 class Client {
 private:
@@ -22,7 +35,7 @@ public:
     Client(int fd, const std::string& hostname, int clientNumber);
     ~Client();
 
-    // Getters
+    // getters
     int getFd() const { return _fd; }
     int getClientNumber() const { return _clientNumber; }
     const std::string& getHostname() const { return _hostname; }
@@ -32,29 +45,29 @@ public:
     bool isAuthenticated() const { return _authenticated; }
     bool isRegistered() const { return _registered; }
 
-    // Setters
+    // setters
     void setNickname(const std::string& nick) { _nickname = nick; }
     void setUsername(const std::string& user) { _username = user; }
     void setRealname(const std::string& real) { _realname = real; }
     void setAuthenticated(bool auth) { _authenticated = auth; }
     void setRegistered(bool reg) { _registered = reg; }
 
-    // Buffer management
+    // buffer management
     void addToBuffer(const std::string& data);
     bool getNextCommand(std::string& command);
     const std::string& getBuffer() const { return _buffer; }
     void clearBuffer() { _buffer.clear(); }
     
-    // Oversized message handling
+    // oversized message handling
     bool isIgnoringOversizedInput() const { return _ignoreOversizedInput; }
     void setIgnoreOversizedInput(bool ignore) { _ignoreOversizedInput = ignore; }
     
-    // Zero-read tracking for Ctrl+D handling
+    // zero-read tracking for ctrl-d handling
     int getConsecutiveZeroReads() const { return _consecutiveZeroReads; }
     void incrementZeroReads() { _consecutiveZeroReads++; }
     void resetZeroReads() { _consecutiveZeroReads = 0; }
 
-    // Utility functions
+    // util functions
     std::string getPrefix() const;
 };
 
