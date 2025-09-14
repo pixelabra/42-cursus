@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:16:10 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/09/14 15:46:57 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/09/14 15:57:31 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,17 @@ bool	BitcoinExchange::isValidDate(const std::string& date) {
 }
 
 bool	BitcoinExchange::isValidValue(const std::string& value) {
-	std::stringstream	ss(value);
+	std::stringstream	ss1(value);
+	std::stringstream	ss2(value);
 	int					val1;
 	float				val2;
 
-	ss >> val1;
-	if (ss.get() != -1)
+	ss1 >> val1;
+	if (ss1.get() != -1)
 		std::cout << "This is not an int" << std::endl;
-	ss >> val2;
-	if (ss.get() != -1)
-		std::cout << "This is a float" << std::endl;
+	ss2 >> val2;
+	std::cout << val2 << std::endl;
+	// if (ss2.get() != -1)
+	// 	std::cout << "This is not a float" << std::endl;
 	return true;
 }
