@@ -14,30 +14,35 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <fstream>
 # include <sstream>
+# include <map>
+# include <cstdlib>
+# include <exception>
+
+# define WR_DB_FILE			"Database non-existent"
+# define WR_DB_ROW_FORMAT	"Database input row required format: <yyyy-mm-dd>,<int/float>"
+# define WR_INF_ROW_FORMAT	"Database input row required format: <yyyy-mm-dd> | <int/float>"
 
 class BitcoinExchange
 {
 	private:
-		std::string	_date;
-		float		_value;
-	public:
+		std::map<std::string, float>	registry;
+		std::string						fileName;
+
 		BitcoinExchange();
-		BitcoinExchange(std::string date, float value);
+	public:
+		BitcoinExchange(const std::string& fileName);
 		BitcoinExchange(const BitcoinExchange& src);
 		~BitcoinExchange();
 		BitcoinExchange& operator=(const BitcoinExchange& src);
 		
-		const std::string&	getDate() const;
-		const float&		getValue() const;
-		void		setDate(const std::string& date);
-		void		setValue(const float& value);
-		bool		isValidDate(const std::string& date);
-		bool		isValidValue(const std::string& value);
-
+		float			getValue(const std::string& date) const;
+		void			fillRegistry();
+		bool			isValidDate(const std::string& date) const;
+		bool			isValidValue(const std::string& value)const;
+		void			evaluateInput() const;
+		float			findClosestPrice(const std::string& date) const;
 };
-
-void	readInput(char *fileName);
-void	checkArguments();
 
 #endif

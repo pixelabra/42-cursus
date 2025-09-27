@@ -12,10 +12,16 @@
 
 #include "BitcoinExchange.hpp"
 
-int	main() {
+int	main(int ac, char **av) {
+	try {
+		BitcoinExchange	btc(av[1]);
 
-	BitcoinExchange	bitcoin("2022-12-12", 50000.0);
-
-	std::cout << bitcoin.isValidValue("5000.0f") << std::endl;
+		btc.evaluateInput();
+	} catch (std::exception& e) {
+		std::cerr << e.what();
+	} catch (...) {
+		std::cerr << "Unforeseen problem encountered" << std::endl;
+	}
+	(void)ac;
 	return (0);
 }
