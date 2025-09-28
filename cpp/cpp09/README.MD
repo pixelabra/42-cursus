@@ -91,3 +91,18 @@ map, multimap, unordered maps and unordered multimaps can use std::pars to inser
 - How does >> know how to populate a data type from a stringstream?
 C++ defines operator>> for all the fundamental types (int, float, bool, std::string, etc.). It reads characters from the stream until it finds something that isn’t part of an integer (digits).
 
+
+### QUESTION 01
+RPN: 3 + 4 becomes 3 4 +
+LIFO construct for left to right 
+push 3, push 4. subtraction removes the top two items from the stack and puts the result onto the stack.
+
+(3 + 4) * (5 + 6) becomes 3 4 + 5 6 + *
+
+smaller nmber of keystrokes, coudl be faster, more difficutl for those who learned algebraic notation
+
+operand encountered: two items opped off the stack, operation performed result pushed on the stack
+
+RPN ideal for interpreters
+
+Brackets are not allowed nput should be proper.

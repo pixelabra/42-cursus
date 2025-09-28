@@ -13,6 +13,11 @@
 #include "BitcoinExchange.hpp"
 
 int	main(int ac, char **av) {
+	
+	if (ac != 2) {
+		std::cerr << "Incompetence shall not be tolerated. file name required." << std::endl;
+		return (1);
+	}
 	try {
 		BitcoinExchange	btc(av[1]);
 
@@ -22,6 +27,5 @@ int	main(int ac, char **av) {
 	} catch (...) {
 		std::cerr << "Unforeseen problem encountered" << std::endl;
 	}
-	(void)ac;
 	return (0);
 }
