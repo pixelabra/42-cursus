@@ -1,5 +1,5 @@
 NAME		:= RPN
-SRCS		:= main.cpp BitcoinExchange.cpp
+SRCS		:= main.cpp RPN.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 CC			:= c++
 CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98
