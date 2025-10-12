@@ -106,3 +106,12 @@ operand encountered: two items opped off the stack, operation performed result p
 RPN ideal for interpreters
 
 Brackets are not allowed nput should be proper.
+
+### QUESTION 02
+merge-insert sort algorithm
+
+parse the arguments
+- positive integers
+- isdigit
+
+duplicates: st
