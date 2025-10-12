@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 15:14:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/10/13 00:01:55 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/10/13 00:10:08 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,16 +129,27 @@ void	PmergeMe::handlePairing(const T& container) {
 				pair.push_back(std::make_pair(container[i + 1], conatiner[i]));
 		}
 	}
+	for (size_t i = 0; i < pairs.size(); i++) {
+		for (size_t j = i + 1; j < pairs.size(); j++) {
+			if (pairs[i].first < pairs[i + 1].first) {
+				std::pair<int, int>	temp = pairs[i];
+				pairs[i] = pairs[j];
+				pairs[j] = temp;
+			}
+		}
+	}
 }
 
 void	PmergeMe::sortVector() {
-	double startTime, endTime;
-	
 	if (vect.size() <= 1 || isSorted(vect)) {
 		std::cout << "Vector already sorted!" << std::endl;
 		return ;
 	}
-	startTime = getTimeInMicroseconds();
+	double startTime = getTimeInMicroseconds();
+	handlePairing(vect);
+
+	std::vector<int>	main;
+	std::vector<int>	pend;
 	
 	
 }
