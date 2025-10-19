@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:14:42 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/09/14 15:39:00 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/10/20 00:08:52 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ class BitcoinExchange
 		BitcoinExchange(const BitcoinExchange& src);
 		~BitcoinExchange();
 		BitcoinExchange& operator=(const BitcoinExchange& src);
-		
-		float			getValue(const std::string& date) const;
+
 		void			fillRegistry();
 		bool			isValidDate(const std::string& date) const;
 		bool			isValidValue(const std::string& value)const;

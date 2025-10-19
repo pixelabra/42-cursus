@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:16:10 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/09/14 15:57:31 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/10/20 00:22:02 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,6 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) {
 		registry = other.registry;
 	}
 	return *this;
-}
-
-float	BitcoinExchange::getValue(const std::string& date) const {
-	// std::map<std::string, float>::iterator it = this->registry.find(date);
-	// if (it != this->registry.end())
-	// 	return it->second;
-	// return (-1);
-	(void)date;
-	return (-1);
 }
 
 void	BitcoinExchange::fillRegistry() {
@@ -112,7 +103,6 @@ float	BitcoinExchange::findClosestPrice(const std::string& date) const {
 		it--;
 	}
 	return (it->second);
-	// return ((registry.end() - 1)->second);
 }
 
 void	BitcoinExchange::evaluateInput() const {
@@ -123,7 +113,7 @@ void	BitcoinExchange::evaluateInput() const {
 	float			tknQ;
 	float			price;
 
-	file.open(this->fileName);
+	file.open(this->fileName.c_str());
 	if (!file.is_open())
 		throw std::exception();
 	if (!getline(file,line) || line != "date | value") {
