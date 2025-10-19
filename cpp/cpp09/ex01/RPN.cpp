@@ -28,8 +28,7 @@ void    RPN::executeOperation(char op) {
 	t_pair	operand;
 
 	if (_operands.size() < 2) {
-		std::cerr <<  "Not enough operands for operations" << std::endl;
-		throw std::exception();
+		throw std::runtime_error("Not enough operands for operations");
 	}
 	switch(op) {
 		case '+':
@@ -47,14 +46,12 @@ void    RPN::executeOperation(char op) {
 		case '/':
 			populateOperands(operand, _operands);
 			if (operand.second == 0) {
-				std::cerr << "Error: division by zero." << std::endl;
-				throw std::exception();
+				throw std::runtime_error("Error: division by zero.");
 			}
 			_operands.push(operand.first / operand.second);
 			break;
 		default:
-			std::cerr << "Error: invalid operator '" << op << "'." << std::endl;
-			throw std::exception();
+			throw std::runtime_error("Error: invalid operator '");
 		}
 }
 
@@ -66,21 +63,20 @@ void    RPN::fillStack() {
 		if (isdigit(token[0])) {
 			if (token.find_first_not_of("0123456789") == std::string::npos) {
 				if (std::atoi(token.c_str()) > 9) {
-					std::cerr << "Error: numbers must be single digit." << std::endl;
-					throw std::exception();
+					throw std::runtime_error("Error: numbers must be single digit.");
 				}
 				_operands.push(std::atof(token.c_str()));
 			} else {
-				std::cerr << "Error: invalid token '" << token << "' in expression." << std::endl;
-				throw std::exception();
+				throw std::runtime_error("Error: invalid token " + token + "' in expression.");
 			}
 		} else {
 			if (token.length() > 1 || token.find_first_not_of("+-*/") != std::string::npos) {
-                std::cerr << "Error: invalid token '" << token << "' in expression." << std::endl;
-                throw std::exception();
+				throw std::runtime_error("Error: invalid token " + token + "' in expression.");
             }
             executeOperation(token[0]);
 		}
 	}
+	if (_operands.size() != 1)
+		throw std::runtime_error("Error: not enough operators.");
 	std::cout << "Result: " << _operands.top() << std::endl;
 }

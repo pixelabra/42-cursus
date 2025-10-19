@@ -21,7 +21,7 @@ int main(int ac, char **av) {
 
 		calculator.fillStack();
 	} catch (std::exception& e) {
-		std::cerr << e.what();
+		std::cerr << e.what() << std::endl;
 	} catch (...) {
 		std::cerr << "Unforeseen problem encountered." << std::endl;
 	}
