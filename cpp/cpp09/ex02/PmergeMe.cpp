@@ -6,7 +6,7 @@
 /*   By: agodeanu <agodeanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 15:14:14 by agodeanu          #+#    #+#             */
-/*   Updated: 2025/10/19 23:33:09 by agodeanu         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:47:29 by agodeanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	PmergeMe::checkDuplicates(char **av) {
 		if (it != set.end()) {
 			throw std::invalid_argument("No duplicates allowed");
 		}
+		set.insert(numb);
 	}
 }
 
